@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BASE } from "./base";
 
 const filters = ["전체", "공장", "물류", "증축"];
@@ -11,7 +12,8 @@ const works = [
   { cat: "증축", img: "pile", name: "천안 전자부품 공장 증축", place: "천안 3산단", size: "900평", cost: "31억", period: "2026.03 – 2026.11", ongoing: true },
 ];
 
-export function Works() {
+export function Works({ summary = false }: { summary?: boolean }) {
+  const list = summary ? works.slice(0, 3) : works;
   return (
     <section className="sec" id="works">
       <div className="wrap">
@@ -20,14 +22,18 @@ export function Works() {
             <span className="kicker rv">시공 실적</span>
             <h2 className="h2 rv">충남 산업단지 주요 현장</h2>
           </div>
-          <div className="tabs rv" role="group" aria-label="실적 분류">
-            {filters.map((f, i) => (
-              <button type="button" className={i === 0 ? "on" : undefined} aria-pressed={i === 0} data-f={f} key={f}>{f}</button>
-            ))}
-          </div>
+          {summary ? (
+            <Link className="link rv" href="/projects">시공 실적 전체 보기</Link>
+          ) : (
+            <div className="tabs rv" role="group" aria-label="실적 분류">
+              {filters.map((f, i) => (
+                <button type="button" className={i === 0 ? "on" : undefined} aria-pressed={i === 0} data-f={f} key={f}>{f}</button>
+              ))}
+            </div>
+          )}
         </div>
         <div className="pf">
-          {works.map((w) => (
+          {list.map((w) => (
             <article className="rv" data-cat={w.cat} key={w.name}>
               <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/img/${w.img}.jpg)` }}>
                 <span className={w.ongoing ? "tag on" : "tag"}>{w.ongoing ? "시공 중" : "준공"}</span>
@@ -44,7 +50,7 @@ export function Works() {
             </article>
           ))}
         </div>
-        <div className="more"><a className="btn line" href="#contact">전체 실적 자료 요청</a></div>
+        {!summary && <div className="more"><Link className="btn line" href="/contact">전체 실적 자료 요청</Link></div>}
       </div>
     </section>
   );

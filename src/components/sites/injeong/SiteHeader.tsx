@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { BASE } from "./base";
+import { NavLinks } from "./NavLinks";
 
 export const menu = [
-  { href: "#business", label: "사업 분야" },
-  { href: "#now", label: "진행 현장" },
-  { href: "#works", label: "시공 실적" },
-  { href: "#process", label: "진행 순서" },
-  { href: "#notes", label: "현장 노트" },
-  { href: "#contact", label: "상담 문의" },
+  { href: "/about", label: "회사소개" },
+  { href: "/business", label: "사업 분야" },
+  { href: "/projects", label: "시공 실적" },
+  { href: "/notes", label: "현장 노트" },
+  { href: "/contact", label: "상담 문의" },
 ];
 
 export function Logo({ light = false }: { light?: boolean }) {
@@ -25,18 +25,18 @@ export function SiteHeader() {
       <div className="wrap bar">
         <Logo />
         <nav aria-label="주 메뉴">
-          {menu.map((m) => <a href={m.href} key={m.href}>{m.label}</a>)}
+          <NavLinks items={menu} />
         </nav>
         <div className="act">
           <a className="tel num" href="tel:041-633-9942">041-633-9942</a>
-          <a className="btn cta" href="#contact">견적 상담</a>
+          <Link className="btn cta" href="/contact">견적 상담</Link>
         </div>
         <button className="mb" type="button" aria-label="메뉴 열기" aria-expanded="false"><i /><i /><i /></button>
       </div>
       <div className="mnav">
-        {menu.map((m) => <a href={m.href} key={m.href}>{m.label}</a>)}
+        <NavLinks items={menu} />
         <a href="tel:041-633-9942">전화 041-633-9942</a>
-        <a className="btn cta" href="#contact">견적 상담 신청</a>
+        <Link className="btn cta" href="/contact">견적 상담 신청</Link>
       </div>
     </header>
   );

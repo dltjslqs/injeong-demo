@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Logo, menu } from "./SiteHeader";
 
 export function SiteFooter() {
@@ -15,7 +16,7 @@ export function SiteFooter() {
           </div>
           <div>
             <h4>바로 가기</h4>
-            <nav aria-label="바닥글 메뉴">{menu.map((m) => <a href={m.href} key={m.href}>{m.label}</a>)}</nav>
+            <nav aria-label="바닥글 메뉴">{menu.map((m) => <Link href={m.href} key={m.href}>{m.label}</Link>)}</nav>
           </div>
           <div>
             <h4>연락처</h4>

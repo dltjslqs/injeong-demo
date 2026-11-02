@@ -1,9 +1,11 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-/** Page-wide behavior: mobile menu, header shadow, works filter, inquiry form, reveal and count-up. */
+/** Site-wide behavior, re-bound on every page: mobile menu, header shadow, works filter, inquiry form, reveal and count-up. */
 export function Behaviors() {
+  const pathname = usePathname();
   useEffect(() => {
     const root = document.getElementById("ij");
     if (!root) return;
@@ -22,6 +24,7 @@ export function Behaviors() {
         mb.setAttribute("aria-expanded", String(open));
         mb.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
       };
+      setOpen(false);
       on(mb, "click", () => setOpen(!hd.classList.contains("open")));
       hd.querySelectorAll(".mnav a").forEach((a) => on(a, "click", () => setOpen(false)));
       const shadow = () => hd.classList.toggle("sh", window.scrollY > 10);
@@ -142,7 +145,7 @@ export function Behaviors() {
       reveal.disconnect();
       count.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

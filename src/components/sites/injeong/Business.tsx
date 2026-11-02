@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { BASE } from "./base";
 
 const fields = [
@@ -21,7 +22,7 @@ const fields = [
   },
 ];
 
-export function Business() {
+export function Business({ summary = false }: { summary?: boolean }) {
   return (
     <section className="sec" id="business">
       <div className="wrap">
@@ -31,6 +32,7 @@ export function Business() {
             <h2 className="h2 rv">인정건설이 짓는 세 가지 시설</h2>
             <p className="lede rv">용도마다 먼저 확인할 것이 다릅니다. 시설별로 저희가 챙기는 항목입니다.</p>
           </div>
+          {summary && <Link className="link rv" href="/business">사업 분야 자세히</Link>}
         </div>
         <div className="svc">
           {fields.map((f, i) => (
@@ -41,7 +43,7 @@ export function Business() {
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
                 <ul>{f.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                <a className="link" href="#works">관련 실적 보기</a>
+                <Link className="link" href="/projects">관련 실적 보기</Link>
               </div>
             </article>
           ))}
