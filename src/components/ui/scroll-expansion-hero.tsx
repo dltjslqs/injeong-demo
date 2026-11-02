@@ -48,11 +48,14 @@ const ScrollExpandMedia = ({
 
   useEffect(() => {
     // Visitors who ask for less motion, or who land below the top (a #link, a reload), get the expanded state at once.
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const expandNow = reduce || window.scrollY > 5 || window.location.hash.length > 1;
-    setScrollProgress(expandNow ? 1 : 0);
-    setShowContent(expandNow);
-    setMediaFullyExpanded(expandNow);
+    const frame = requestAnimationFrame(() => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const expandNow = reduce || window.scrollY > 5 || window.location.hash.length > 1;
+      setScrollProgress(expandNow ? 1 : 0);
+      setShowContent(expandNow);
+      setMediaFullyExpanded(expandNow);
+    });
+    return () => cancelAnimationFrame(frame);
   }, [mediaType]);
 
   useEffect(() => {
