@@ -78,13 +78,17 @@
 .ij .mnav { display: none; }
 
 /* hero: four finished buildings full screen, slowly drawing closer, the headline set over them */
-.ij .hv { position: relative; display: flex; min-height: min(calc(100svh - var(--bnr-h) - var(--bar-h)), 880px); color: var(--color-field-ink); background: var(--color-field); overflow: clip; isolation: isolate; }
+.ij .hv { position: relative; display: flex; min-height: max(640px, calc(100svh - var(--bnr-h) - var(--bar-h))); color: var(--color-field-ink); background: var(--color-field); overflow: clip; isolation: isolate; }
 .ij .hv-pics { position: absolute; inset: 0; z-index: -1; }
 .ij .hv-pics::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, var(--color-scrim) 100%), linear-gradient(90deg, var(--color-scrim) 0%, var(--color-scrim) 25%, transparent 70%); }
-.ij .hv-pic { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease-out), transform 9s linear; }
-.ij .hv-pic.on { opacity: 1; transform: scale(1.1); }
+.ij .hv-pic { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s var(--ease-out); }
+/* a keyframe, not a transition: it restarts every time a photo comes on, the first one on load included */
+.ij .hv-pic.on, .ij .hv-pic.out { animation: hv-zoom 8s linear both; }
+.ij .hv-pic.on { opacity: 1; }
+/* the photo going out keeps the same running zoom while it fades, so it never snaps back */
+@keyframes hv-zoom { from { transform: scale(1); } to { transform: scale(1.12); } }
 .ij .hv-in { display: flex; flex-direction: column; justify-content: flex-end; width: 100%; padding-block: var(--space-3xl) var(--space-xl); }
-.ij .hv h1 { max-width: none; font-size: var(--text-display); line-height: 1.04; color: var(--color-field-ink); }
+.ij .hv h1 { max-width: none; font-size: clamp(3rem, 6vw + 1rem, 7rem); line-height: 1.02; color: var(--color-field-ink); }
 .ij .hv .lead { color: var(--color-field-ink); max-width: 34ch; }
 .ij .acts { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-lg); }
 .ij .hv-foot { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg) var(--gap-columns); margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-field-muted); }
@@ -338,6 +342,35 @@
 .ij .ct aside dd { font-weight: 700; }
 .ij .ct aside .note { margin-top: auto; padding-top: var(--space-xl); color: var(--color-field-muted); }
 
+/* a column: one reading measure, tables that scroll on their own on a phone */
+.ij .nfeat-pic { display: block; }
+.ij .nfeat h2 a:hover { color: var(--color-accent); }
+.ij .art-hd { padding-block: var(--space-2xl) var(--space-3xl); background: var(--color-paper-2); }
+.ij .art-hd .crumb { display: flex; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-muted); }
+.ij .art-hd .crumb a:hover { color: var(--color-accent); }
+.ij .art-hd h1 { margin-top: var(--space-xl); max-width: 24ch; font-size: var(--text-section); line-height: 1.25; overflow-wrap: break-word; min-width: 0; }
+.ij .art-sub { margin-top: var(--space-md); font-size: var(--text-lead); color: var(--color-ink-2); }
+.ij .art-hd .meta { margin-top: var(--space-lg); }
+.ij .art-body, .ij .art-hd .container { max-width: calc(46rem + 2 * var(--gutter)); }
+.ij .art-body { padding-block: var(--space-3xl) var(--section-gap-s); font-size: 1.0625rem; line-height: 1.85; }
+.ij .art-body > p + p { margin-top: var(--space-md); }
+.ij .art-body h2 { margin-top: var(--space-3xl); font-size: var(--text-2xl); line-height: 1.4; }
+.ij .art-body h2 + p { margin-top: var(--space-md); }
+.ij .art-q { margin-block: var(--space-lg); font-size: var(--text-xl); font-weight: 700; line-height: 1.5; }
+.ij .art-end { margin-top: var(--space-xl); padding-left: var(--space-md); border-left: 3px solid var(--color-accent); font-weight: 700; }
+.ij .art-pic { margin-block: var(--space-2xl); }
+.ij .art-pic img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-card); }
+.ij .art-pic figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.ij .art-tbl { margin-block: var(--space-lg); overflow-x: auto; border-top: 2px solid var(--color-field); }
+.ij .art-tbl table { width: 100%; min-width: 34rem; border-collapse: collapse; font-size: var(--text-sm); line-height: 1.6; }
+.ij .art-tbl th, .ij .art-tbl td { padding: var(--space-sm) var(--space-sm); border-bottom: 1px solid var(--color-rule); text-align: left; vertical-align: top; }
+.ij .art-tbl thead th { background: var(--color-paper-2); }
+.ij .art-tbl tbody th { font-weight: 700; white-space: nowrap; }
+.ij .art-ask { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-md); margin-block: var(--space-2xl); padding: var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper-2); line-height: 1.6; }
+.ij .art-ask p { font-weight: 700; }
+.ij .art-ask .btns { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+.ij .art-back { margin-top: var(--space-xl); }
+
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }
 /* a navy panel on paper, so white always separates it from the section above and from the navy footer below */
@@ -354,7 +387,8 @@
   .js.ij .rv { opacity: 1; transform: none; transition: none; }
   .js.ij .bars .track i { transform: scaleX(1); transition: none; }
   .ij .hd { transition: none; }
-  .ij .hv-pic.on { transform: none; transition: opacity var(--dur-short) linear; }
+  .ij .hv-pic.on, .ij .hv-pic.out { animation: none; transform: none; }
+  .ij .hv-pic { transition: opacity var(--dur-short) linear; }
 }
 
 @media (max-width: 60rem) {

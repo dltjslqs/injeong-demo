@@ -49,8 +49,14 @@ export function Behaviors() {
       let at = 0;
       let timer: number | undefined;
       const show = (i: number) => {
+        const was = at;
         at = (i + pics.length) % pics.length;
-        pics.forEach((p, j) => p.classList.toggle("on", j === at));
+        if (was === at) return;
+        // the outgoing photo holds its zoom while it fades out
+        pics.forEach((p, j) => {
+          p.classList.toggle("out", j === was);
+          p.classList.toggle("on", j === at);
+        });
         nums.forEach((b, j) => {
           b.classList.toggle("on", j === at);
           b.setAttribute("aria-pressed", String(j === at));
