@@ -41,7 +41,7 @@ export async function Works({ summary = false }: { summary?: boolean }) {
                 <dl>
                   <dt>분류</dt><dd>{categories.find((c) => c.key === w.cat)!.label}</dd>
                   <dt>발주처</dt><dd title={w.client}>{w.client}</dd>
-                  <dt>용도</dt><dd title={w.use}>{w.use}</dd>
+                  <dt>용도</dt><dd title={w.use}>{w.use || "—"}</dd>
                   <dt>연면적</dt><dd className="num">{w.area ?? "—"}</dd>
                   <dt>공사비</dt><dd className="num">{w.cost ?? "—"}</dd>
                   <dt>준공</dt><dd className="num">{w.done}</dd>
