@@ -6,11 +6,15 @@ import { NotesSummary } from "@/components/sites/injeong/Notes";
 import { Team } from "@/components/sites/injeong/Team";
 import { Trust } from "@/components/sites/injeong/Trust";
 import { Where } from "@/components/sites/injeong/Where";
+import { PopupModal } from "@/components/sites/injeong/PopupModal";
+import { activePopup } from "@/lib/injeong/content";
 
 // 실적 → 자격과 감사패 → 칼럼, then what the company builds and where
-export default function Home() {
+export default async function Home() {
+  const popup = await activePopup();
   return (
     <>
+      {popup && <PopupModal popup={popup} />}
       <HeroIndex />
       <RecentList />
       <Trust />

@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { BASE } from "./base";
-import { categories, projects } from "./data";
+import { getProjects } from "@/lib/injeong/content";
+import { categories, projectImg } from "./data";
 
 // Home picks one recent completed project from different client types.
 const homePicks = ["p18", "p17", "p12"];
 
-export function Works({ summary = false }: { summary?: boolean }) {
+export async function Works({ summary = false }: { summary?: boolean }) {
+  const projects = await getProjects();
   const list = summary
-    ? homePicks.map((id) => projects.find((p) => p.id === id)!)
+    ? homePicks.map((id) => projects.find((p) => p.id === id)).filter((p) => p !== undefined)
     : projects.filter((p) => !p.ongoing);
   return (
     <section className="sec" id="works">
@@ -32,7 +33,7 @@ export function Works({ summary = false }: { summary?: boolean }) {
         <div className="pf">
           {list.map((w) => (
             <article className="rv" data-cat={w.cat} key={w.id}>
-              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${w.img}.jpg)` }}>
+              <div className="im" style={projectImg(w) ? { backgroundImage: `url(${projectImg(w)})` } : undefined}>
               </div>
               <div className="bd">
                 <h3>{w.name}</h3>

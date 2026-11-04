@@ -58,3 +58,6 @@ temp/
 # 견적 문의 첨부 파일(로컬 저장)
 /.uploads/
 /.hallmark/
+
+# admin content and uploads (local storage)
+/.data/

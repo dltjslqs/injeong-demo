@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { BASE } from "./base";
-import { projects } from "./data";
+import { getProjects } from "@/lib/injeong/content";
 
 // One client opened as a case: ㈜동신포리마, four projects in a row (data.ts).
-const runs = projects.filter((p) => p.client === "㈜동신포리마").reverse();
 
-export function Case() {
+export async function Case() {
+  const runs = (await getProjects()).filter((p) => p.client === "㈜동신포리마" && !p.ongoing).reverse();
   return (
     <section className="case">
       <div className="container">

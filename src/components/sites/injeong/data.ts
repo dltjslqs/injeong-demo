@@ -1,3 +1,5 @@
+import { BASE } from "./base";
+
 // 인정건설 제출 자료(2026.11.03): 기초자료 작성표 + 03. 시공 실적 폴더의 공사개요
 // 금액은 VAT 포함, 억 원 단위로 반올림. 공동도급은 총액과 당사 지분을 함께 적는다.
 
@@ -53,6 +55,8 @@ export type Project = {
   period: string;
   done: string;
   img?: string;
+  /** a photo uploaded in the admin (takes the place of img) */
+  imgUrl?: string;
   imgNote?: string;
   ongoing?: boolean;
 };
@@ -89,3 +93,7 @@ export const projects: Project[] = [
   { id: "p01", cat: "교육", name: "신창중학교 교실개축 및 기타공사", client: "충청남도 아산교육지원청", use: "중학교", scale: "지상 2층", area: "2,592㎡", cost: "17.1억", period: "2014.01 – 2014.09", done: "2014.09", img: "p01", imgNote: "투시도" },
   { id: "p00", cat: "교육", name: "광덕초등학교 다목적강당 증축공사", client: "충청남도 천안교육지원청", use: "초등학교", scale: "지상 1층", area: "623㎡", cost: "6.1억", period: "2009.05 – 2009.12", done: "2009.12", img: "p00" },
 ];
+
+
+/** A project's photo: the admin's upload if there is one, else the shipped file. */
+export const projectImg = (p: Project) => p.imgUrl ?? (p.img ? `${BASE}/sites/injeong/works/${p.img}.jpg` : undefined);

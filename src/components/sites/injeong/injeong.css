@@ -511,6 +511,21 @@
 .ij .hist.stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); }
 .ij .hist.stack .lede { max-width: 52ch; }
 
+/* the admin's notice popup */
+.pop-bg { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: var(--space-md); background: var(--color-scrim); animation: pop-in var(--dur-short) var(--ease-out); }
+.ij .pop { width: min(440px, 100%); max-height: calc(100svh - 2 * var(--space-md)); overflow: auto; border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink); box-shadow: 0 24px 48px var(--color-cast); }
+.ij .pop-img { display: block; width: 100%; height: auto; }
+.ij .pop-bd { padding: var(--space-lg); }
+.ij .pop-bd h2 { font-size: var(--text-xl); line-height: 1.35; }
+.ij .pop-bd p { margin-top: var(--space-sm); color: var(--color-ink-2); white-space: pre-line; }
+.ij .pop-bd .btn { margin-top: var(--space-lg); }
+.ij .pop-ft { display: flex; justify-content: space-between; border-top: 1px solid var(--color-rule); }
+.ij .pop-ft button { min-height: 48px; padding-inline: var(--space-lg); border: 0; background: none; color: var(--color-ink-2); font: inherit; font-size: var(--text-sm); cursor: pointer; }
+.ij .pop-ft button:hover { color: var(--color-accent); }
+.ij .pop-ft button:last-child { font-weight: 700; color: var(--color-ink); }
+@keyframes pop-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .pop-bg { animation: none; } }
+
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }
 /* a navy panel on paper, so white always separates it from the section above and from the navy footer below */

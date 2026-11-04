@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { BASE } from "./base";
-import { projects, recordCount, type Category } from "./data";
+import { doneCount, getProjects } from "@/lib/injeong/content";
+import type { Category } from "./data";
 
-const count = (cat: Category) => recordCount(projects.filter((p) => p.cat === cat).length);
 
 // What the company builds, as a bento of mixed spans: two photographs, three set in type.
-export function Areas() {
+export async function Areas() {
+  const list = await getProjects();
+  const count = (cat: Category) => doneCount(list, cat);
   return (
     <section className="areas">
       <div className="container">

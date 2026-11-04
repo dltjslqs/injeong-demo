@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { BASE } from "./base";
-import { categories, company, projects, recordCount } from "./data";
+import { doneCount, getProjects } from "@/lib/injeong/content";
+import { categories, company, projectImg } from "./data";
 
-const done = recordCount(projects.filter((p) => !p.ongoing).length);
-
-// The record: what is being built now, then the latest completed projects.
-const ongoing = projects.filter((p) => p.ongoing);
-const rows = [...ongoing, ...projects.filter((p) => !p.ongoing && p.img && !p.imgNote).slice(0, 6 - ongoing.length)];
 const label = (cat: string) => categories.find((c) => c.key === cat)?.label ?? cat;
-const caption = (p: (typeof projects)[number]) => `${p.name}, ${p.done.slice(0, 4)}년 준공`;
 
-export function HeroIndex() {
+export async function HeroIndex() {
+  const done = doneCount(await getProjects());
   const v = `${BASE}/sites/injeong`;
   return (
     <section className="hv" aria-label="인정건설 소개">
@@ -41,7 +37,12 @@ export function HeroIndex() {
   );
 }
 
-export function RecentList() {
+export async function RecentList() {
+  // the record: what is being built now, then the latest completed projects with a photo
+  const all = await getProjects();
+  const done = doneCount(all);
+  const ongoing = all.filter((p) => p.ongoing);
+  const rows = [...ongoing, ...all.filter((p) => !p.ongoing && projectImg(p) && !p.imgNote)].slice(0, 6);
   return (
     <section className="recent">
       <div className="container">
@@ -57,8 +58,8 @@ export function RecentList() {
             <li key={p.id}>
               <Link href="/projects" className="rc">
                 <span className="rc-pic">
-                  {p.img ? (
-                    <img src={`${BASE}/sites/injeong/works/${p.img}.jpg`} alt="" width={800} height={600} loading="lazy" />
+                  {projectImg(p) ? (
+                    <img src={projectImg(p)} alt="" width={800} height={600} loading="lazy" />
                   ) : (
                     <span className="rc-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
                   )}

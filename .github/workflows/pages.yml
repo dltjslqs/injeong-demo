@@ -24,8 +24,10 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      # Pages has no server: drop the inquiry API route before the static export
-      - run: rm -rf src/app/api
+      # Pages has no server: drop the API routes and the admin before the static export,
+      # and pin the column route to the columns that exist at build time
+      - run: rm -rf src/app/api src/app/admin
+      - run: sed -i 's/export const dynamicParams = true;/export const dynamicParams = false;/' "src/app/(site)/notes/[slug]/page.tsx"
       - run: npm run build
         env:
           STATIC_EXPORT: "1"

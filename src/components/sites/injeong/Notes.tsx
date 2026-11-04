@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { COLUMN_DATE, coverOf } from "./ColumnArticle";
-import { type Column, columns } from "./columns";
+import { getColumns } from "@/lib/injeong/content";
+import type { Column } from "./columns";
 
-const series = columns.filter((c) => c.series);
-const others = columns.filter((c) => !c.series);
 
 // 기초자료 작성표 5번 「건축 칼럼 주제」에서 인정건설이 고른 주제, 아직 쓰지 않은 글
 const planned = [
@@ -36,7 +35,9 @@ function SeriesCards({ items }: { items: Column[] }) {
 }
 
 /** Home: the five-part series on how to tell a good builder. */
-export function NotesSummary() {
+export async function NotesSummary() {
+  const columns = await getColumns();
+  const series = columns.filter((c) => c.series);
   return (
     <section className="notes">
       <div className="container">
@@ -55,7 +56,10 @@ export function NotesSummary() {
 }
 
 /** /notes: the series first, then every other column as a row, then the planned topics. */
-export function NotesList() {
+export async function NotesList() {
+  const columns = await getColumns();
+  const series = columns.filter((c) => c.series);
+  const others = columns.filter((c) => !c.series);
   return (
     <section className="sec">
       <div className="container">
@@ -67,7 +71,7 @@ export function NotesList() {
             <li key={n.slug}>
               <h3><Link href={`/notes/${n.slug}`}>{n.title}</Link></h3>
               <p>{n.sub}</p>
-              <Meta cat={n.cat} date={COLUMN_DATE} />
+              <Meta cat={n.cat} date={n.date ?? COLUMN_DATE} />
             </li>
           ))}
         </ul>
