@@ -467,7 +467,7 @@
 @media (max-width: 40rem) { .ij .pq-row { grid-auto-columns: 84%; } .ij .pq-ctl .pq-count { display: none; } }
 /* the team, one photograph set big under a left-aligned head */
 .ij .team { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
-.ij .team-pic img { width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: center 35%; border-radius: var(--radius-card); }
+.ij .team-pic img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: center; border-radius: var(--radius-card); }
 .ij .team-pic figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 
 /* the series: one lead card, four beside it, every card the same photo ratio */
