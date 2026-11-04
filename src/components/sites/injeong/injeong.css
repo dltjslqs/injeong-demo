@@ -426,7 +426,7 @@
 .ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
 /* the plaques: one studio set, the same backdrop and frame, so they read as a row of cards */
-.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-lg); }
+.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-2xl); }
 .ij .plaques li { display: grid; gap: var(--space-sm); }
 .ij .plq { display: block; aspect-ratio: 4 / 5; overflow: clip; border-radius: var(--radius-card); background: var(--color-field-2); }
 .ij .plq img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
