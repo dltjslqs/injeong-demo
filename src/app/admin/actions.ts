@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import type { Column } from "@/components/sites/injeong/columns";
 import { type Category, categories, type Project } from "@/components/sites/injeong/data";
 import { endSession, passwordMatches, requireAdmin, startSession } from "@/lib/injeong/auth";
-import { mdToBlocks } from "@/lib/injeong/colmd";
+import { sanitizeBlocks } from "@/lib/injeong/coldoc";
 import { isBuiltinColumn, isBuiltinProject, type Popup, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
@@ -54,10 +54,14 @@ export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormS
 export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin();
   const title = str(fd, "title");
-  const md = str(fd, "md");
   if (!title) return { message: "제목을 적어 주세요." };
-  if (!md) return { message: "본문을 적어 주세요." };
-  const blocks = mdToBlocks(md);
+  let blocks: ReturnType<typeof sanitizeBlocks> = [];
+  try {
+    blocks = sanitizeBlocks(JSON.parse(str(fd, "blocks") || "[]"));
+  } catch {
+    return { message: "본문을 읽지 못했습니다. 다시 저장해 주세요." };
+  }
+  if (!blocks.some((b) => b.t === "p" || b.t === "h2")) return { message: "본문을 적어 주세요." };
   const lede = blocks.find((b) => b.t === "p") as { x: string } | undefined;
   try {
     const o = await readColumns();
@@ -75,7 +79,7 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
       date: str(fd, "date") || today().slice(0, 7).replace("-", "."),
       title,
       sub: str(fd, "sub"),
-      lede: lede?.x ?? str(fd, "sub"),
+      lede: (lede?.x ?? str(fd, "sub")).replace(/\*\*/g, ""),
       blocks,
     };
     o.items = [...o.items.filter((c) => c.slug !== slug), col];

@@ -133,3 +133,42 @@
   .ad-sticky { margin: 0 -18px -18px; padding: 12px 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .ad * { transition: none !important; } }
+
+/* the column editor: a toolbar on top, the page below set like the published article */
+.ed { display: grid; gap: 8px; }
+.ed-bar { position: sticky; top: 60px; z-index: 5; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; padding: 8px 10px; border: 1px solid var(--ad-rule); border-radius: 8px; background: var(--ad-card); box-shadow: 0 2px 8px oklch(22% 0.04 259 / 0.06); }
+.ed-sub { position: static; top: auto; box-shadow: none; background: var(--ad-blue-soft); border-color: transparent; font-size: 13px; }
+.ed-sub > span { font-weight: 800; color: var(--ad-blue); margin-right: 4px; }
+.ed-grp { display: flex; gap: 4px; padding-right: 14px; border-right: 1px solid var(--ad-rule); }
+.ed-grp:last-of-type, .ed-end { border-right: 0; padding-right: 0; }
+.ed-end { margin-left: auto; }
+.ed-b { min-height: 34px; padding: 0 10px; border: 1px solid transparent; border-radius: 6px; background: none; color: var(--ad-ink); font: inherit; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; }
+.ed-b:hover:not(:disabled) { background: var(--ad-bg); border-color: var(--ad-rule); }
+.ed-b.on { background: var(--ad-blue); color: oklch(100% 0 0); }
+.ed-b:disabled { opacity: 0.4; cursor: default; }
+.ed-loading { padding: 40px; text-align: center; color: var(--ad-muted); border: 1px solid var(--ad-rule); border-radius: 8px; }
+
+.ed-doc { min-height: 520px; padding: 40px max(24px, calc((100% - 46rem) / 2)); border: 1px solid var(--ad-rule); border-radius: 8px; background: var(--ad-card); font-size: 17px; line-height: 1.85; outline: none; }
+.ed-doc:focus { border-color: var(--ad-blue); box-shadow: 0 0 0 3px var(--ad-blue-soft); }
+.ed-doc > * + * { margin-top: 14px; }
+.ed-doc p { margin: 0; }
+.ed-doc > p + p { margin-top: 16px; }
+.ed-doc h2 { margin: 40px 0 0; font-size: 26px; font-weight: 800; line-height: 1.4; }
+.ed-doc h3 { margin: 28px 0 0; font-size: 20px; font-weight: 800; line-height: 1.5; }
+.ed-doc strong { font-weight: 800; }
+.ed-doc blockquote { margin: 20px 0; padding: 0; border: 0; font-size: 22px; font-weight: 700; line-height: 1.5; }
+.ed-doc blockquote::before { content: "강조 질문"; display: block; font-size: 12px; font-weight: 700; color: var(--ad-blue); }
+.ed-doc ul, .ed-doc ol { margin: 14px 0; padding-left: 1.4em; }
+.ed-doc li p { margin: 0; }
+.ed-doc li::marker { color: var(--ad-blue); }
+.ed-doc table { width: 100%; margin: 20px 0; border-collapse: collapse; table-layout: fixed; border-top: 2px solid var(--ad-navy); font-size: 15px; line-height: 1.6; }
+.ed-doc th, .ed-doc td { position: relative; padding: 10px 14px; border-bottom: 1px solid var(--ad-rule); border-right: 1px dashed var(--ad-rule); text-align: left; vertical-align: middle; }
+.ed-doc th:last-child, .ed-doc td:last-child { border-right: 0; }
+.ed-doc th { background: var(--ad-bg); font-weight: 700; }
+.ed-doc .selectedCell::after { content: ""; position: absolute; inset: 0; background: oklch(47.2% 0.136 257 / 0.12); pointer-events: none; }
+.ed-doc img { display: block; width: 100%; height: auto; margin: 28px 0; border-radius: 8px; }
+.ed-doc img.ProseMirror-selectednode { outline: 3px solid var(--ad-blue); outline-offset: 3px; }
+.ed-doc .ed-ask { margin: 28px 0; padding: 18px 20px; border: 1px solid var(--ad-rule); border-radius: 8px; background: var(--ad-bg); font-weight: 700; }
+.ed-doc .ed-ask::before { content: "견적 문의 상자, 이 문장 뒤에 「인정건설에 연락 주세요」와 버튼이 붙습니다"; display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: var(--ad-red); }
+.ed-doc p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; height: 0; color: var(--ad-muted); pointer-events: none; }
+@media (max-width: 860px) { .ed-bar { top: 0; } .ed-end { margin-left: 0; } .ed-doc { padding: 24px 16px; } }

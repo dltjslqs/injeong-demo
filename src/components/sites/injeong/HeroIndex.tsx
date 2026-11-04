@@ -18,7 +18,7 @@ export async function HeroIndex() {
         </video>
       </div>
       <div className="container hv-in">
-        <h1><span>37년 무사고 책임준공,</span><br /><span className="h1-sub">1989년부터 증명해 온 건축주의 파트너</span></h1>
+        <h1><span>무사고 책임준공,</span><br /><span className="h1-sub">2003년부터 증명해 온 건축주의 파트너</span></h1>
         <p className="lead">깐깐한 교육청 시설부터 스마트 산업공장까지. 건축주의 눈높이에서 도면 너머 현장의 디테일까지 책임집니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">견적 문의</Link>
@@ -26,7 +26,7 @@ export async function HeroIndex() {
         </div>
         <div className="hv-foot">
           <dl className="hv-facts">
-            <div><dt>건설업</dt><dd className="num">{company.since}년부터</dd></div>
+            <div><dt>설립</dt><dd className="num">{company.since}년</dd></div>
             <div><dt>{company.capacity.year} 시공능력평가</dt><dd className="num">{company.capacity.amount}</dd></div>
             <div><dt>준공 실적</dt><dd className="num">{done}건</dd></div>
           </dl>

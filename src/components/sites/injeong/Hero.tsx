@@ -9,7 +9,7 @@ export function Hero() {
         mediaType="image"
         mediaSrc={`${BASE}/sites/injeong/works/p12.jpg`}
         bgImageSrc={`${BASE}/sites/injeong/works/p16.jpg`}
-        title="1989년부터 | 충남을 짓습니다"
+        title="2003년부터 | 충남을 짓습니다"
         date="학교 · 관공서 · 군 시설 · 공장"
         scrollToExpand="스크롤하면 현장이 펼쳐집니다"
       >

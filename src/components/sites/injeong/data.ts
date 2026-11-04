@@ -9,7 +9,7 @@ export const company = {
   ceo: "김석구",
   bizNo: "126-81-72450",
   founded: "2003년 6월 19일",
-  since: 1989,
+  since: 2003,
   address: "충남 홍성군 홍성읍 충절로938번길 16",
   tel: "041-633-9942",
   fax: "041-633-9945",

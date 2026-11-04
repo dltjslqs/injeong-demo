@@ -27,6 +27,12 @@ function Pic({ id, projects }: { id: string; projects: Project[] }) {
   );
 }
 
+/** Text with **bold** runs from the editor. */
+function Rich({ x }: { x: string }) {
+  const parts = x.split(/(\*\*[^*]+\*\*)/);
+  return <>{parts.map((t, i) => (/^\*\*[^*]+\*\*$/.test(t) ? <strong key={i}>{t.slice(2, -2)}</strong> : t))}</>;
+}
+
 function Ask({ lead }: { lead: string }) {
   return (
     <aside className="art-ask">
@@ -44,7 +50,7 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
     <div className="art-tbl" role="region" aria-label={head.join(", ")} tabIndex={0}>
       <table>
         <thead><tr>{head.map((h) => <th key={h} scope="col">{h}</th>)}</tr></thead>
-        <tbody>{rows.map((r) => <tr key={r[0]}>{r.map((c, i) => (i === 0 ? <th key={i} scope="row">{c}</th> : <td key={i}>{c}</td>))}</tr>)}</tbody>
+        <tbody>{rows.map((r) => <tr key={r[0]}>{r.map((c, i) => (i === 0 ? <th key={i} scope="row"><Rich x={c} /></th> : <td key={i}><Rich x={c} /></td>))}</tr>)}</tbody>
       </table>
     </div>
   );
@@ -52,16 +58,16 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
 
 function Part({ b, last, projects }: { b: Block; last: boolean; projects: Project[] }) {
   switch (b.t) {
-    case "p": return <p className={last ? "art-end" : undefined}>{b.x}</p>;
-    case "q": return <p className="art-q">{b.x}</p>;
+    case "p": return <p className={last ? "art-end" : undefined}><Rich x={b.x} /></p>;
+    case "q": return <p className="art-q"><Rich x={b.x} /></p>;
     case "h2": return <h2>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
     case "img": return <Pic id={b.id} projects={projects} />;
     case "pic": return <figure className="art-pic"><img src={b.src} alt={b.cap ?? ""} loading="lazy" />{b.cap && <figcaption>{b.cap}</figcaption>}</figure>;
     case "cover": return <figure className="art-pic"><img src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt="" width={1536} height={864} /></figure>;
     case "h3": return <h3>{b.x}</h3>;
-    case "ul": return <ul className="art-list">{b.items.map((x) => <li key={x}>{x}</li>)}</ul>;
-    case "ol": return <ol className="art-list num-list">{b.items.map((x) => <li key={x}>{x}</li>)}</ol>;
+    case "ul": return <ul className="art-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ul>;
+    case "ol": return <ol className="art-list num-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ol>;
     case "table": return <Table head={b.head} rows={b.rows} />;
   }
 }
