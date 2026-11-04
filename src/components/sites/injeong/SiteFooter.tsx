@@ -10,7 +10,7 @@ export function SiteFooter() {
         <p className="ft-stmt">약속한 날, 약속한 품질로 넘겨 드립니다.</p>
         <div className="ft-grid">
           <div>
-            <Logo />
+            <Logo dark />
             <p className="ft-info">
               {company.name}, 대표이사 {company.ceo}<br />
               사업자등록번호 {company.bizNo}<br />

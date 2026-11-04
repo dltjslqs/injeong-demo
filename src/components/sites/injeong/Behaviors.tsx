@@ -38,6 +38,48 @@ export function Behaviors() {
       on(window, "scroll", shadow, { passive: true });
     }
 
+    // home hero: crossfade through the project photos, with numbered buttons and a pause
+    const hv = root.querySelector<HTMLElement>(".hv");
+    if (hv) {
+      const pics = Array.from(hv.querySelectorAll<HTMLImageElement>(".hv-pic"));
+      const nums = Array.from(hv.querySelectorAll<HTMLButtonElement>(".hv-nums button:not(.hv-pause)"));
+      const pause = hv.querySelector<HTMLButtonElement>(".hv-pause");
+      const cap = hv.querySelector<HTMLElement>(".hv-cap");
+      const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let at = 0;
+      let timer: number | undefined;
+      const show = (i: number) => {
+        at = (i + pics.length) % pics.length;
+        pics.forEach((p, j) => p.classList.toggle("on", j === at));
+        nums.forEach((b, j) => {
+          b.classList.toggle("on", j === at);
+          b.setAttribute("aria-pressed", String(j === at));
+        });
+        if (cap) cap.textContent = pics[at].dataset.cap ?? "";
+      };
+      const stop = () => {
+        window.clearInterval(timer);
+        timer = undefined;
+        if (pause) {
+          pause.textContent = "재생";
+          pause.setAttribute("aria-label", "사진 넘기기 다시 시작");
+        }
+      };
+      const play = () => {
+        window.clearInterval(timer);
+        timer = window.setInterval(() => show(at + 1), 6000);
+        if (pause) {
+          pause.textContent = "멈춤";
+          pause.setAttribute("aria-label", "사진 넘기기 멈춤");
+        }
+      };
+      nums.forEach((b, j) => on(b, "click", () => { show(j); stop(); }));
+      if (pause) on(pause, "click", () => (timer === undefined ? play() : stop()));
+      if (still) stop();
+      else play();
+      off.push(() => window.clearInterval(timer));
+    }
+
     // works filter
     const tabs = root.querySelectorAll<HTMLButtonElement>(".tabs button");
     const cards = root.querySelectorAll<HTMLElement>(".pf article");

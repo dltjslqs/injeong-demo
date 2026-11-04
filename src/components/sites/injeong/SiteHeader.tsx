@@ -11,11 +11,11 @@ export const menu = [
   { href: "/contact", label: "견적 문의" },
 ];
 
-export function Logo() {
+// the company's own horizontal lockup (mark and name), transparent; the dark-background cut sits on the navy footer
+export function Logo({ dark = false }: { dark?: boolean }) {
   return (
-    <Link className="logo" href="/" aria-label="인정건설 첫 화면">
-      <img src={`${BASE}/sites/injeong/symbol.png`} alt="" width={500} height={341} />
-      <span className="w"><b>{company.name}</b></span>
+    <Link className="logo" href="/" aria-label={`${company.name} 첫 화면`}>
+      <img src={`${BASE}/sites/injeong/${dark ? "logo-h-dark" : "logo-h"}.png`} alt={company.name} width={746} height={160} />
     </Link>
   );
 }
