@@ -18,7 +18,7 @@ export async function Case() {
         <div className="case-head">
           <div>
             <h2>건축주가 4번 연속 인정건설을 찾은 이유</h2>
-            <p className="lede">설계 오류는 착공 전에 먼저 찾고, 예산을 줄일 시공법은 먼저 제안했습니다. 그래서 공사가 끝날 때마다 다음 현장을 맡겨 주셨습니다.</p>
+            <p className="lede">설계 오류를 찾아내고, 예산을 줄일 방법을 먼저 제안드렸습니다.</p>
           </div>
         </div>
         <div className="case-in">

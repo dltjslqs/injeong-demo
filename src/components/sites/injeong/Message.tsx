@@ -13,7 +13,7 @@ export function Message() {
           <div className="sig rv">{company.name} 대표이사<b>{company.ceo}</b></div>
         </div>
         <figure className="gr-pic rv">
-          <img src={`${BASE}/sites/injeong/works/p03-2.jpg`} alt="인정건설이 시공한 현장" loading="lazy" />
+          <img src={`${BASE}/sites/injeong/works/case-2.jpg`} alt="인정건설이 네 번 연속 시공한 ㈜동신포리마 공장" loading="lazy" />
         </figure>
       </div>
     </section>
