@@ -27,7 +27,6 @@ export function SiteFooter() {
         </div>
         <div className="ft-bot">
           <span>© {company.name}</span>
-          <span>홈페이지 시안입니다. 대표 인사말 문구는 회사 확인 전 초안입니다.</span>
         </div>
       </div>
     </footer>
