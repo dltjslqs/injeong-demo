@@ -425,24 +425,20 @@
 .ij .creds-grid dd span { font-size: var(--text-sm); color: var(--color-field-ink); }
 .ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
-/* the plaques stand on a lit shelf: cut out, bottom-aligned, a soft pool of light behind each */
-.ij .plaques { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-lg); align-items: end; margin-top: var(--space-xl); padding-inline: var(--space-md); }
-.ij .plaques::after { content: ""; position: absolute; left: 0; right: 0; bottom: calc(2.25rem + var(--space-md) - 1px); height: 1px; background: linear-gradient(90deg, transparent, var(--color-field-muted) 15%, var(--color-field-muted) 85%, transparent); opacity: 0.6; }
-.ij .plaques li { display: grid; justify-items: center; gap: var(--space-md); }
-.ij .plq { position: relative; display: flex; align-items: flex-end; justify-content: center; width: 100%; height: clamp(11rem, 19vw, 17rem); }
-.ij .plq::before { content: ""; position: absolute; inset: 10% -10% 0; background: radial-gradient(closest-side, var(--color-glow), transparent); }
-/* a short contact shadow on the shelf, so every plaque sits on the same line */
-.ij .plq::after { content: ""; position: absolute; bottom: -4px; left: 15%; right: 15%; height: 10px; border-radius: 50%; background: radial-gradient(closest-side, var(--color-cast), transparent); }
-.ij .plq img { position: relative; z-index: 1; display: block; width: auto; max-width: 100%; height: var(--h, 86%); object-fit: contain; object-position: bottom; transition: transform var(--dur-long) var(--ease-out); }
-.ij .plaques li:hover .plq img { transform: translateY(-4px); }
-.ij .plaques p { height: 2.25rem; font-weight: 700; text-align: center; }
+/* the plaques: one studio set, the same backdrop and frame, so they read as a row of cards */
+.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-lg); }
+.ij .plaques li { display: grid; gap: var(--space-sm); }
+.ij .plq { display: block; aspect-ratio: 4 / 5; overflow: clip; border-radius: var(--radius-card); background: var(--color-field-2); }
+.ij .plq img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
+.ij .plaques li:hover .plq img { transform: scale(1.04); }
+.ij .plaques p { font-weight: 700; }
 .ij .plaques-note { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .trust :focus-visible { outline-color: var(--color-sky); }
 @media (max-width: 60rem) {
   .ij .creds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ij .plaques { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
-@media (max-width: 40rem) { .ij .plaques { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ij .plaques::after { display: none; } }
+@media (max-width: 40rem) { .ij .plaques { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* the team, one photograph set big under a left-aligned head */
 .ij .team { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
 .ij .team-pic { margin-top: var(--space-xl); }

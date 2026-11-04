@@ -2,8 +2,6 @@ import { BASE } from "./base";
 import { company } from "./data";
 
 // What the company holds and what its clients said: registrations, ratings, then the plaques.
-const SCALE = ["84%", "100%", "80%", "84%", "96%"];
-
 // The plaque photographs are generated samples until the real ones are shot (see the caption).
 const creds = [
   { k: "건축공사업", v: "등록 10-1210호" },
@@ -33,7 +31,7 @@ export function Trust() {
         <ul className="plaques">
           {company.awards.map((a, i) => (
             <li key={a}>
-              <span className="plq"><img style={{ ["--h" as string]: SCALE[i] }} src={`${BASE}/sites/injeong/awards/c${i + 1}.webp`} alt="" width={482} height={640} loading="lazy" /></span>
+              <span className="plq"><img src={`${BASE}/sites/injeong/awards/k${i + 1}.jpg`} alt="" width={640} height={800} loading="lazy" /></span>
               <p>{a.replace(" 감사패", "")}</p>
             </li>
           ))}
