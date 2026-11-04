@@ -36,14 +36,14 @@ export function Works({ summary = false }: { summary?: boolean }) {
               </div>
               <div className="bd">
                 <h3>{w.name}</h3>
+                {/* every card carries the same six rows, so the cards line up */}
                 <dl>
                   <dt>분류</dt><dd>{categories.find((c) => c.key === w.cat)!.label}</dd>
-                  <dt>발주처</dt><dd>{w.client}</dd>
-                  <dt>용도</dt><dd>{w.use}</dd>
-                  {w.area && <><dt>연면적</dt><dd className="num">{w.area}</dd></>}
-                  {w.cost && <><dt>공사비</dt><dd className="num">{w.cost}</dd></>}
+                  <dt>발주처</dt><dd title={w.client}>{w.client}</dd>
+                  <dt>용도</dt><dd title={w.use}>{w.use}</dd>
+                  <dt>연면적</dt><dd className="num">{w.area ?? "—"}</dd>
+                  <dt>공사비</dt><dd className="num">{w.cost ?? "—"}</dd>
                   <dt>준공</dt><dd className="num">{w.done}</dd>
-                  {w.imgNote && <><dt>사진</dt><dd>{w.imgNote}</dd></>}
                 </dl>
               </div>
             </article>

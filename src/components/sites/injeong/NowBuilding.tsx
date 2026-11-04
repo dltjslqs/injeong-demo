@@ -19,7 +19,7 @@ export function NowBuilding() {
                 {!p.img && <span className="ph-note">현장 사진 준비 중</span>}
               </div>
               <div className="bd">
-                <p className="st">시공 중, <span className="num">{p.period}</span>{p.imgNote ? `, 이미지는 ${p.imgNote}` : ""}</p>
+                <p className="st">시공 중, <span className="num">{p.period}</span></p>
                 <h3>{p.name}</h3>
                 <dl>
                   <dt>발주처</dt><dd>{p.client}</dd>
