@@ -16,8 +16,8 @@ export function Trust() {
     <section className="trust">
       <div className="container">
         <div className="trust-head">
-          <h2>면허와 평가, 그리고 발주처의 감사패</h2>
-          <p className="lede">1989년부터 쌓은 자격과 평가, 공사를 마친 발주처가 보내 온 감사패입니다.</p>
+          <h2>말이 아닌 지표와 감사패로 증명하는 시공 역량</h2>
+          <p className="lede">종합건설 면허, 탄탄한 기업신용등급, 그리고 완공 후 건축주가 직접 전해준 감사패가 인정건설의 실력을 말해줍니다.</p>
         </div>
         <dl className="creds-grid">
           {creds.map((c) => (
@@ -31,7 +31,7 @@ export function Trust() {
         <ul className="plaques">
           {company.awards.map((a, i) => (
             <li key={a}>
-              <img src={`${BASE}/sites/injeong/awards/a${i + 1}.jpg`} alt="" width={600} height={796} loading="lazy" />
+              <span className="plq"><img src={`${BASE}/sites/injeong/awards/c${i + 1}.webp`} alt="" width={482} height={640} loading="lazy" /></span>
               <p>{a.replace(" 감사패", "")}</p>
             </li>
           ))}

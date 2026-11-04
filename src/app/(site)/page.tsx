@@ -3,6 +3,7 @@ import { Case } from "@/components/sites/injeong/Case";
 import { Close } from "@/components/sites/injeong/Close";
 import { HeroIndex, RecentList } from "@/components/sites/injeong/HeroIndex";
 import { NotesSummary } from "@/components/sites/injeong/Notes";
+import { Team } from "@/components/sites/injeong/Team";
 import { Trust } from "@/components/sites/injeong/Trust";
 import { Where } from "@/components/sites/injeong/Where";
 
@@ -17,6 +18,7 @@ export default function Home() {
       <Areas />
       <Case />
       <Where />
+      <Team />
       <Close />
     </>
   );

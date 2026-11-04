@@ -39,6 +39,10 @@
   --color-seal-ink: oklch(98% 0.005 250);
   --color-sky: oklch(81.1% 0.06 254);
   --color-scrim: oklch(16% 0.045 259 / 0.62);
+  --color-glow: oklch(100% 0 0 / 0.16);
+  --color-reflect: oklch(100% 0 0 / 0.14);
+  --color-cast: oklch(0% 0 0 / 0.45);
+  --color-hairline-light: oklch(100% 0 0 / 0.18);
   --radius-card: 6px;
   --radius-pill: 999px;
   --shadow-card: none;

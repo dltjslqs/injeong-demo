@@ -12,8 +12,8 @@ export function Where() {
     <section className="where">
       <div className="container where-in">
         <div>
-          <h2>홍성 본사에서 충남 곳곳으로</h2>
-          <p className="lead">태안과 계룡의 공사까지, 발주처가 있는 곳이면 현장을 엽니다.</p>
+          <h2>홍성 본사에서 충남 전역으로</h2>
+          <p className="lead">태안, 계룡, 천안, 아산까지, 건축주가 계신 곳이라면 어디든 정직한 현장을 엽니다.</p>
         </div>
         <ul className="rows">
           {places.map(([place, work]) => (

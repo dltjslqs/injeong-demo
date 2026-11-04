@@ -14,8 +14,8 @@ export function Case() {
           <figcaption>㈜동신포리마 신원단공장, 2025년 10월 준공</figcaption>
         </figure>
         <div className="case-txt">
-          <h2>한 공장이 네 번 맡겼습니다</h2>
-          <p className="lead">자재창고 증축에서 시작해 새 공장까지, ㈜동신포리마는 공사를 마칠 때마다 다음 공사를 인정건설에 맡겼고 감사패도 보냈습니다.</p>
+          <h2>증축에서 신축까지, 건축주가 4번 연속 인정건설을 찾은 이유</h2>
+          <p className="lead">㈜동신포리마의 성장을 가장 가까이서 함께 지었습니다. 공사가 끝날 때마다 다음 현장까지 주저 없이 맡겨주신 비결은 완벽한 마감과 공기 약속에 있습니다.</p>
           <ol className="case-runs">
             {runs.map((p) => (
               <li key={p.id}>

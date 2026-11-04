@@ -23,7 +23,8 @@ export function NotesSummary() {
     <section className="notes">
       <div className="container notes-in">
         <div className="notes-txt">
-          <h2>현장 기술진이 쓰는 칼럼</h2>
+          <h2>건축주의 공사비 낭비를 막는 현장 소장의 실무 인사이트</h2>
+          <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫. 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
           <ol className="notes-list">
             {columns.slice(0, 4).map((n) => (
               <li key={n.slug}>

@@ -22,8 +22,8 @@ export function HeroIndex() {
         </video>
       </div>
       <div className="container hv-in">
-        <h1><span>1989년부터</span><br /><span>충남을 짓습니다</span></h1>
-        <p className="lead">학교와 관공서, 군 시설과 공장을 짓는 홍성의 종합건설사입니다.</p>
+        <h1><span>37년 무사고 책임준공,</span><br /><span className="h1-sub">1989년부터 증명해 온 건축주의 파트너</span></h1>
+        <p className="lead">깐깐한 교육청 시설부터 스마트 산업공장까지. 건축주의 눈높이에서 도면 너머 현장의 디테일까지 책임집니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">견적 문의</Link>
           <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
