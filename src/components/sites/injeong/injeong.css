@@ -14,7 +14,7 @@
 @import "./base.css" layer(base);
 
 .ij {
-  --bnr-h: 40px;
+  --bnr-h: 0px; /* the notice banner was removed; kept at 0 so the offsets that read it stay valid */
   --bar-h: 72px;
   --display-weight: 800;
   min-height: 100dvh;
@@ -532,6 +532,9 @@
 
 /* a head too long for the side column goes on top, the evidence under it */
 .ij .hist.stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); }
+.ij .sec-label { font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
+.ij .sec-label + .h2 { margin-top: var(--space-sm); }
+.ij .hist > div > .lede { margin-top: var(--space-md); }
 .ij .hist.stack .lede { max-width: 52ch; }
 
 /* the admin's notice popup */

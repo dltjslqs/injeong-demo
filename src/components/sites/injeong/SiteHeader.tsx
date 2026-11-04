@@ -22,15 +22,10 @@ export function Logo({ dark = false, swap = false }: { dark?: boolean; swap?: bo
   );
 }
 
-// nav: a banner over a bar; the banner retracts once the page scrolls (Behaviors adds .rt)
+// nav: one bar, menu first (the notice banner above it was removed)
 export function SiteHeader() {
   return (
     <header className="hd" id="ij-hd">
-      <div className="bnr">
-        <div className="container">
-          <Link href="/projects">지금 천안업성2초등학교 교사 신축공사를 시공하고 있습니다. 2027년 11월 준공 예정</Link>
-        </div>
-      </div>
       <div className="container bar">
         <Logo swap />
         <nav aria-label="주 메뉴">

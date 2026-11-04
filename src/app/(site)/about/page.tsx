@@ -31,12 +31,14 @@ const history = [
 export default function AboutPage() {
   return (
     <>
-      <PageHead en="ABOUT" title="회사소개" heading="1989년부터 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 시작해 2003년 법인으로 전환한 이래, 타협 없는 관급 공사의 엄격함을 민간 건축까지 그대로 적용해 왔습니다." img="team.jpg" />
+      <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" />
       <Message />
       <section className="sec">
         <div className="container hist">
           <div>
-            <h2 className="h2 rv">인정건설이 걸어온 길</h2>
+            <p className="sec-label rv">인정건설이 걸어온 길</p>
+            <h2 className="h2 rv">한 동네에서 30년을 지켜온 발자취</h2>
+            <p className="lede rv">시공사가 한 지역에서 수십 년간 이름을 지켜왔다는 것은, 지어온 건물마다 뒷말이 없었다는 가장 확실한 증거입니다.</p>
           </div>
           <ol>
             {history.map(([y, t]) => (
@@ -48,8 +50,8 @@ export default function AboutPage() {
       <section className="sec soft">
         <div className="container hist stack">
           <div>
-            <h2 className="h2 rv">수치와 공인 평가로 투명하게 증명하는 시공 역량</h2>
-            <p className="lede rv">재무 건전성부터 기술 인력 면허, 지자체 감사패까지 모든 증빙 원본을 투명하게 공개합니다.</p>
+            <h2 className="h2 rv">숫자와 평가로 투명하게 공개하는 시공 역량</h2>
+            <p className="lede rv">부실 시공과 자금 불안이 없도록, 재무 건전성부터 기술자 면허 현황까지 모든 공인 지표를 투명하게 공개합니다.</p>
           </div>
           <div>
             <dl className="creds rv">
