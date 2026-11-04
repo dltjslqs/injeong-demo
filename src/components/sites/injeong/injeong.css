@@ -426,7 +426,6 @@
 .ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
 /* the plaques as cards in a row that scrolls sideways: who gave it and when, the photograph, a line from it, the project */
-.ij .pq-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--space-lg)) / 3); gap: var(--space-lg); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: var(--space-md); scrollbar-width: thin; scrollbar-color: var(--color-field-muted) transparent; }
 .ij .pq { display: grid; grid-template-rows: auto auto 1fr auto; gap: var(--space-md); padding: var(--space-lg); border: 1px solid var(--color-hairline-light); border-radius: var(--radius-card); background: var(--color-field-2); scroll-snap-align: start; }
 .ij .pq-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-sm); }
 .ij .pq-top b { font-size: var(--text-lg); }
@@ -439,13 +438,31 @@
 .ij .pq-q::after { content: "”"; color: var(--color-sky); }
 .ij .pq-pj { font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .pq-row:focus-visible { outline-offset: 4px; }
-.ij .plaques-note { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-field-muted); }
+/* the slider: no scrollbar, arrows and a count in the head, a thin progress line under the row, the row's right edge fades */
+.ij .pq-wrap { position: relative; margin-inline: calc(var(--space-sm) * -1); }
+.ij .pq-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--space-lg) - 2 * var(--space-sm)) / 3); gap: var(--space-lg); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--space-sm); padding: var(--space-sm); scrollbar-width: none; scroll-behavior: smooth; }
+.ij .pq-row::-webkit-scrollbar { display: none; }
+.ij .pq-wrap::after { content: ""; z-index: 1; position: absolute; top: 0; right: 0; bottom: 0; width: var(--space-3xl); background: linear-gradient(90deg, transparent, var(--color-field)); pointer-events: none; transition: opacity var(--dur-short) var(--ease-out); }
+.ij .pq-wrap.end::after { opacity: 0; }
+.ij .pq-wrap::before { content: ""; position: absolute; z-index: 1; top: 0; left: 0; bottom: 0; width: var(--space-3xl); background: linear-gradient(270deg, transparent, var(--color-field)); pointer-events: none; opacity: 0; transition: opacity var(--dur-short) var(--ease-out); }
+.ij .pq-wrap.mid::before { opacity: 1; }
+.ij .pq { transition: transform var(--dur-long) var(--ease-out), border-color var(--dur-short) var(--ease-out); }
+.ij .pq:hover { transform: translateY(-4px); border-color: var(--color-field-muted); }
+.ij .pq-ctl { display: flex; align-items: center; gap: var(--space-sm); }
+.ij .pq-count { margin-right: var(--space-sm); font-size: var(--text-sm); font-weight: 700; color: var(--color-field-muted); }
+.ij .pq-btn { display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 1px solid var(--color-field-muted); border-radius: 50%; background: transparent; color: var(--color-field-ink); cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), opacity var(--dur-short) var(--ease-out); }
+.ij .pq-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ij .pq-btn:hover:not(:disabled) { background: var(--color-field-ink); border-color: var(--color-field-ink); color: var(--color-field); }
+.ij .pq-btn:active:not(:disabled) { transform: scale(0.96); }
+.ij .pq-btn:disabled { opacity: 0.3; cursor: default; }
+.ij .pq-bar { height: 2px; margin-top: var(--space-xl); background: var(--color-hairline-light); }
+.ij .pq-bar i { display: block; height: 100%; width: 60%; background: var(--color-field-ink); transition: transform var(--dur-long) var(--ease-out); }
 .ij .trust :focus-visible { outline-color: var(--color-sky); }
 @media (max-width: 60rem) {
   .ij .creds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ij .pq-row { grid-auto-columns: calc((100% - var(--space-lg)) / 2); }
+  .ij .pq-row { grid-auto-columns: calc((100% - var(--space-lg) - 2 * var(--space-sm)) / 2); }
 }
-@media (max-width: 40rem) { .ij .pq-row { grid-auto-columns: 82%; } }
+@media (max-width: 40rem) { .ij .pq-row { grid-auto-columns: 84%; } .ij .pq-ctl .pq-count { display: none; } }
 /* the team, one photograph set big under a left-aligned head */
 .ij .team { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
 .ij .team-pic img { width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: center 35%; border-radius: var(--radius-card); }

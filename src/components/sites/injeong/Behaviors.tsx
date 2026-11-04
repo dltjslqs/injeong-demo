@@ -65,6 +65,37 @@ export function Behaviors() {
       label();
     }
 
+    // plaques slider: arrows step one card, the count and the progress line follow the scroll
+    const pqRow = root.querySelector<HTMLElement>(".pq-row");
+    if (pqRow) {
+      const wrap = pqRow.parentElement;
+      const prev = root.querySelector<HTMLButtonElement>(".pq-btn.prev");
+      const next = root.querySelector<HTMLButtonElement>(".pq-btn.next");
+      const count = root.querySelector<HTMLElement>(".pq-count");
+      const bar = root.querySelector<HTMLElement>(".pq-bar i");
+      const cards = Array.from(pqRow.children) as HTMLElement[];
+      const step = () => (cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : pqRow.clientWidth);
+      const sync = () => {
+        const max = pqRow.scrollWidth - pqRow.clientWidth;
+        const x = pqRow.scrollLeft;
+        if (prev) prev.disabled = x <= 2;
+        if (next) next.disabled = x >= max - 2;
+        wrap?.classList.toggle("end", x >= max - 2);
+        wrap?.classList.toggle("mid", x > 2);
+        if (count) count.textContent = `${String(Math.round(x / step()) + 1).padStart(2, "0")} / ${String(cards.length).padStart(2, "0")}`;
+        if (bar) {
+          const shown = Math.min(1, pqRow.clientWidth / pqRow.scrollWidth);
+          bar.style.width = `${shown * 100}%`;
+          bar.style.transform = `translateX(${max > 0 ? (x / max) * ((1 - shown) / shown) * 100 : 0}%)`;
+        }
+      };
+      if (prev) on(prev, "click", () => pqRow.scrollBy({ left: -step(), behavior: "smooth" }));
+      if (next) on(next, "click", () => pqRow.scrollBy({ left: step(), behavior: "smooth" }));
+      on(pqRow, "scroll", sync, { passive: true });
+      on(window, "resize", sync);
+      sync();
+    }
+
     // works filter
     const tabs = root.querySelectorAll<HTMLButtonElement>(".tabs button");
     const cards = root.querySelectorAll<HTMLElement>(".pf article");
