@@ -12,10 +12,12 @@ export const menu = [
 ];
 
 // the company's own horizontal lockup (mark and name), transparent; the dark-background cut sits on the navy footer
-export function Logo({ dark = false }: { dark?: boolean }) {
+// swap: carry both cuts so the header can show the light one over the home video
+export function Logo({ dark = false, swap = false }: { dark?: boolean; swap?: boolean }) {
   return (
     <Link className="logo" href="/" aria-label={`${company.name} 첫 화면`}>
-      <img src={`${BASE}/sites/injeong/${dark ? "logo-h-dark" : "logo-h"}.png`} alt={company.name} width={746} height={160} />
+      <img className="lg-l" src={`${BASE}/sites/injeong/${dark ? "logo-h-dark" : "logo-h"}.png`} alt={company.name} width={746} height={160} />
+      {swap && <img className="lg-d" src={`${BASE}/sites/injeong/logo-h-dark.png`} alt="" width={746} height={160} />}
     </Link>
   );
 }
@@ -30,7 +32,7 @@ export function SiteHeader() {
         </div>
       </div>
       <div className="container bar">
-        <Logo />
+        <Logo swap />
         <nav aria-label="주 메뉴">
           <NavLinks items={menu} />
         </nav>

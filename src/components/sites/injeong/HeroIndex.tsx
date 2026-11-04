@@ -4,8 +4,9 @@ import { categories, company, projects } from "./data";
 
 const done = projects.filter((p) => !p.ongoing).length;
 
-// The record: the latest completed projects, newest first.
-const rows = projects.filter((p) => !p.ongoing && p.img && !p.imgNote).slice(0, 5);
+// The record: what is being built now, then the latest completed projects.
+const ongoing = projects.filter((p) => p.ongoing);
+const rows = [...ongoing, ...projects.filter((p) => !p.ongoing && p.img && !p.imgNote).slice(0, 6 - ongoing.length)];
 const label = (cat: string) => categories.find((c) => c.key === cat)?.label ?? cat;
 const caption = (p: (typeof projects)[number]) => `${p.name}, ${p.done.slice(0, 4)}년 준공`;
 
@@ -45,18 +46,25 @@ export function RecentList() {
     <section className="recent">
       <div className="container">
         <div className="head">
-          <h2 className="rv">최근 준공한 현장</h2>
+          <div>
+            <h2 className="rv">최근 실적</h2>
+            <p className="lede">지금 {ongoing.length}곳을 짓고 있고, 준공한 현장은 {done}곳입니다.</p>
+          </div>
           <Link className="link" href="/projects">시공 실적 전체 보기</Link>
         </div>
-        <ol className="hx-list" aria-label="최근 준공 실적">
+        <ol className="hx-list" aria-label="최근 실적">
           {rows.map((p) => (
             <li key={p.id}>
               <Link href="/projects">
-                <img src={`${BASE}/sites/injeong/works/${p.img}.jpg`} alt="" width={160} height={106} loading="lazy" />
-                <time className="num">{p.done}</time>
+                {p.img ? (
+                  <img src={`${BASE}/sites/injeong/works/${p.img}.jpg`} alt="" width={160} height={106} loading="lazy" />
+                ) : (
+                  <span className="hx-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
+                )}
+                {p.ongoing ? <span className="now">시공 중</span> : <time className="num">{p.done}</time>}
                 <span className="nm">{p.name}</span>
                 <span className="cl">{p.client}</span>
-                <span className="ct">{label(p.cat)}</span>
+                <span className="ct">{p.ongoing ? `${p.period.split(" – ")[1]} 준공 예정` : label(p.cat)}</span>
               </Link>
             </li>
           ))}

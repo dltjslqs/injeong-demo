@@ -34,7 +34,7 @@
 /* sections: three gaps, mixed */
 .ij .sec { padding-block: var(--section-gap); }
 /* home: every section is one block of colour, so the eye sees where one ends; paper, paper-2 and the navy field alternate */
-.ij .recent, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-gap-s); }
+.ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-gap-s); }
 .ij .soft, .ij .case, .ij .notes { background: var(--color-paper-2); }
 .ij .where { background: var(--color-field); color: var(--color-field-ink); }
 .ij .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
@@ -77,10 +77,24 @@
 .ij .hd.open .mb i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 .ij .mnav { display: none; }
 
+.ij .logo .lg-d { display: none; }
+/* home: over the video the header is clear and light; past the first 10px it takes its paper back */
+.ij .hd { transition: transform var(--dur-long) var(--ease-out), background-color var(--dur-long) var(--ease-out); }
+.ij:has(.hv) .hd:not(.sh):not(.open) { background: transparent; }
+.ij:has(.hv) .hd:not(.sh):not(.open) .bnr { background: transparent; border-bottom: 1px solid oklch(100% 0 0 / 0.18); }
+.ij:has(.hv) .hd:not(.sh):not(.open) .lg-l { display: none; }
+.ij:has(.hv) .hd:not(.sh):not(.open) .lg-d { display: block; }
+.ij:has(.hv) .hd:not(.sh):not(.open) nav a, .ij:has(.hv) .hd:not(.sh):not(.open) .tel { color: var(--color-field-ink); }
+.ij:has(.hv) .hd:not(.sh):not(.open) nav a:hover { color: var(--color-sky); }
+.ij:has(.hv) .hd:not(.sh):not(.open) .mb i { background: var(--color-field-ink); }
+.ij:has(.hv) .hd:not(.sh):not(.open) :focus-visible { outline-color: var(--color-sky); }
+/* the hero runs up under the sticky header */
+.ij .hv { margin-top: calc((var(--bnr-h) + var(--bar-h)) * -1); }
+
 /* hero: four finished buildings full screen, slowly drawing closer, the headline set over them */
-.ij .hv { position: relative; display: flex; min-height: max(640px, calc(100svh - var(--bnr-h) - var(--bar-h))); color: var(--color-field-ink); background: var(--color-field); overflow: clip; isolation: isolate; }
+.ij .hv { position: relative; display: flex; min-height: max(720px, 100svh); color: var(--color-field-ink); background: var(--color-field); overflow: clip; isolation: isolate; }
 .ij .hv-pics { position: absolute; inset: 0; z-index: -1; background: var(--color-field) center / cover no-repeat; }
-.ij .hv-pics::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, var(--color-scrim) 100%), linear-gradient(90deg, var(--color-scrim) 0%, var(--color-scrim) 25%, transparent 70%); }
+.ij .hv-pics::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, var(--color-scrim) 0%, transparent 22%, transparent 45%, var(--color-scrim) 100%), linear-gradient(90deg, var(--color-scrim) 0%, var(--color-scrim) 25%, transparent 70%); }
 .ij .hv-vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.9s var(--ease-out); }
 .ij .hv-vid.on { opacity: 1; }
 .ij .hv-vid.on.seam { opacity: 0.25; }
@@ -90,7 +104,7 @@
 .ij .hv .lead { display: block; animation-delay: 0.3s; }
 .ij .hv .acts { display: flex; animation-delay: 0.42s; }
 @keyframes hv-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
-.ij .hv-in { display: flex; flex-direction: column; justify-content: flex-end; width: 100%; padding-block: var(--space-3xl) var(--space-xl); }
+.ij .hv-in { display: flex; flex-direction: column; justify-content: flex-end; width: 100%; padding-block: calc(var(--bnr-h) + var(--bar-h) + var(--space-2xl)) var(--space-xl); }
 .ij .hv h1 { max-width: none; font-size: clamp(3rem, 6vw + 1rem, 7rem); line-height: 1.02; color: var(--color-field-ink); }
 .ij .hv .lead { color: var(--color-field-ink); max-width: 34ch; }
 .ij .acts { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-lg); }
@@ -105,13 +119,13 @@
 /* the record, right under the hero */
 .ij .recent .head { margin-bottom: var(--space-lg); }
 .ij .hx-list { border-top: 2px solid var(--color-field); }
-.ij .hx-list a { display: grid; grid-template-columns: 96px 104px minmax(0, 1fr) minmax(0, 0.8fr) 104px; align-items: center; gap: var(--space-lg); padding-block: var(--space-xs); border-bottom: 1px solid var(--color-rule); transition: background-color var(--dur-short) var(--ease-out); }
+.ij .hx-list a { display: grid; grid-template-columns: 96px 104px minmax(0, 1fr) minmax(0, 0.8fr) max-content; align-items: center; gap: var(--space-lg); padding-block: var(--space-xs); border-bottom: 1px solid var(--color-rule); transition: background-color var(--dur-short) var(--ease-out); }
 .ij .hx-list a:hover { background: var(--color-paper-2); }
-.ij .hx-list img { width: 96px; height: 60px; object-fit: cover; border-radius: var(--radius-card); }
+.ij .hx-list a > img { width: 96px; height: 60px; object-fit: cover; border-radius: var(--radius-card); }
 .ij .hx-list time { font-size: var(--text-lg); font-weight: 800; color: var(--color-accent); }
 .ij .hx-list .nm { font-size: var(--text-title); font-weight: 800; line-height: 1.3; }
 .ij .hx-list .cl { color: var(--color-muted); }
-.ij .hx-list .ct { justify-self: end; font-size: var(--text-sm); color: var(--color-muted); }
+.ij .hx-list .ct { justify-self: end; white-space: nowrap; font-size: var(--text-sm); color: var(--color-muted); }
 
 /* case: one client opened, a split 7 and 5 */
 .ij .case-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl) var(--gap-columns); align-items: center; }
@@ -384,6 +398,36 @@
 .ij .art-nav .nx { text-align: right; }
 @media (max-width: 40rem) { .ij .art-nav { grid-template-columns: minmax(0, 1fr); } .ij .art-nav .nx { text-align: left; } }
 
+/* the record: ongoing rows first, marked in the accent */
+.ij .recent .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md); }
+.ij .recent .head .lede { margin-top: var(--space-xs); }
+.ij .hx-list .now { justify-self: start; padding: var(--space-3xs) var(--space-xs); border-radius: var(--radius-card); background: var(--color-accent); color: var(--color-field-ink); font-size: var(--text-sm); font-weight: 700; }
+.ij .hx-ph { display: grid; place-items: center; width: 96px; height: 60px; border-radius: var(--radius-card); background: var(--color-paper-2); }
+.ij .hx-ph img { width: 48px; height: auto; border-radius: 0; }
+
+/* credentials and plaques, on navy */
+.ij .trust { background: var(--color-field); color: var(--color-field-ink); }
+.ij .trust .lede { color: var(--color-field-muted); }
+.ij .creds-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gap-columns); margin-top: var(--space-2xl); border-top: 1px solid var(--color-field-muted); }
+.ij .creds-grid > div { padding-top: var(--space-lg); }
+.ij .creds-grid dt { font-size: var(--text-sm); color: var(--color-field-muted); }
+.ij .creds-grid dd { display: grid; gap: var(--space-2xs); margin-top: var(--space-xs); }
+.ij .creds-grid b { font-size: var(--text-2xl); font-weight: 800; line-height: 1.2; }
+.ij .creds-grid dd span { font-size: var(--text-sm); color: var(--color-field-ink); }
+.ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
+.ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
+.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-lg); }
+.ij .plaques li { display: grid; gap: var(--space-sm); }
+.ij .plaques img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: var(--radius-card); }
+.ij .plaques p { font-weight: 700; }
+.ij .plaques-note { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-field-muted); }
+.ij .trust :focus-visible { outline-color: var(--color-sky); }
+@media (max-width: 60rem) {
+  .ij .creds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ij .plaques { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 40rem) { .ij .plaques { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }
 /* a navy panel on paper, so white always separates it from the section above and from the navy footer below */
@@ -412,8 +456,9 @@
   .ij .mnav a.on { color: var(--color-accent); }
   .ij .case-in, .ij .where-in, .ij .notes-in, .ij .close-in, .ij .rg, .ij .hist, .ij .visit, .ij .fq, .ij .ct, .ij .nfeat { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); }
   .ij .hx-list a { grid-template-columns: 96px minmax(0, 1fr); grid-template-areas: "img time" "img nm" "img cl"; row-gap: var(--space-3xs); }
-  .ij .hx-list img { grid-area: img; width: 96px; height: 72px; }
+  .ij .hx-list a > img, .ij .hx-ph { grid-area: img; width: 96px; height: 72px; }
   .ij .hx-list time { grid-area: time; font-size: var(--text-md); }
+  .ij .hx-list .now { grid-area: time; }
   .ij .hx-list .nm { grid-area: nm; font-size: var(--text-lg); }
   .ij .hx-list .cl { grid-area: cl; font-size: var(--text-sm); }
   .ij .hx-list .ct { display: none; }
