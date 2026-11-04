@@ -195,7 +195,7 @@
 .ij .ph .container { position: relative; }
 .ij .ph .crumb { display: flex; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .ph .crumb a:hover { color: var(--color-field-ink); }
-.ij .ph h1 { margin-top: var(--space-xl); font-size: var(--text-display-s); }
+.ij .ph h1 { margin-top: var(--space-xl); max-width: 22ch; font-size: var(--text-display-s); line-height: 1.2; overflow-wrap: break-word; min-width: 0; }
 .ij .ph p { margin-top: var(--space-md); max-width: 44ch; font-size: var(--text-lead); color: var(--color-field-ink); }
 
 /* 사업 분야: four in two by two */
@@ -502,6 +502,16 @@
    the same distance to whatever follows */
 .ij .recent .head, .ij .trust-head, .ij .notes-head, .ij .areas-head, .ij .team-head, .ij .case-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md) var(--gap-columns); margin: 0 0 var(--space-2xl); }
 .ij .recent .head .lede, .ij .trust-head .lede, .ij .notes-head .lede, .ij .areas-head .lede, .ij .team-head .lede { margin-top: var(--space-sm); max-width: 52ch; }
+
+/* the greeting: a small label over the quote, two paragraphs, the signature */
+.ij .gr .gr-label { margin-top: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-sky); }
+.ij .gr .gr-label + blockquote { margin-top: var(--space-sm); }
+.ij .gr p + p.rv { margin-top: var(--space-md); }
+.ij .ctab-in > div:first-child { max-width: 40rem; }
+
+/* a head too long for the side column goes on top, the evidence under it */
+.ij .hist.stack { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); }
+.ij .hist.stack .lede { max-width: 52ch; }
 
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }

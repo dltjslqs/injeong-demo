@@ -22,7 +22,7 @@ const history = [
 export default function AboutPage() {
   return (
     <>
-      <PageHead en="ABOUT" title="회사소개" desc="1989년 홍성에서 시작해 충남의 학교와 공공시설, 산업시설을 지어 온 종합건설사입니다." img="p03" />
+      <PageHead en="ABOUT" title="회사소개" heading="37년 동안 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 첫 삽을 뜬 이래 타협 없는 관급 공사의 엄격함을 민간 건축까지 그대로 적용해 왔습니다." img="p03" />
       <Message />
       <section className="sec">
         <div className="container hist">
@@ -37,10 +37,10 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="sec soft">
-        <div className="container hist">
+        <div className="container hist stack">
           <div>
-            <h2 className="h2 rv">공신력 자료</h2>
-            <p className="lede rv">증빙 서류 원본은 요청하시면 회사 자료와 함께 보내 드립니다.</p>
+            <h2 className="h2 rv">수치와 공인 평가로 투명하게 증명하는 시공 역량</h2>
+            <p className="lede rv">재무 건전성부터 기술 인력 면허, 지자체 감사패까지 모든 증빙 원본을 투명하게 공개합니다.</p>
           </div>
           <div>
             <dl className="creds rv">
