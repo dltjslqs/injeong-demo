@@ -1,20 +1,21 @@
 import Link from "next/link";
 import { BASE } from "./base";
+import { company } from "./data";
 import { NavLinks } from "./NavLinks";
 
 export const menu = [
   { href: "/about", label: "회사소개" },
   { href: "/business", label: "사업 분야" },
   { href: "/projects", label: "시공 실적" },
-  { href: "/notes", label: "현장 노트" },
-  { href: "/contact", label: "상담 문의" },
+  { href: "/notes", label: "기술 칼럼" },
+  { href: "/contact", label: "견적 문의" },
 ];
 
-export function Logo({ light = false }: { light?: boolean }) {
+export function Logo() {
   return (
     <Link className="logo" href="/" aria-label="인정건설 첫 화면">
-      <img src={`${BASE}/sites/injeong/injeong_badge_${light ? "white" : "blue"}.svg`} alt="" width={421} height={152} />
-      <span className="w"><b>인정건설(주)</b><small>INJEONG CONSTRUCTION</small></span>
+      <img src={`${BASE}/sites/injeong/symbol.png`} alt="" width={500} height={341} />
+      <span className="w"><b>{company.name}</b><small>INJEONG CONSTRUCTION</small></span>
     </Link>
   );
 }
@@ -28,15 +29,15 @@ export function SiteHeader() {
           <NavLinks items={menu} />
         </nav>
         <div className="act">
-          <a className="tel num" href="tel:041-633-9942">041-633-9942</a>
-          <Link className="btn cta" href="/contact">견적 상담</Link>
+          <a className="tel num" href={`tel:${company.tel}`}>{company.tel}</a>
+          <Link className="btn cta" href="/contact">견적 문의</Link>
         </div>
         <button className="mb" type="button" aria-label="메뉴 열기" aria-expanded="false"><i /><i /><i /></button>
       </div>
       <div className="mnav">
         <NavLinks items={menu} />
-        <a href="tel:041-633-9942">전화 041-633-9942</a>
-        <Link className="btn cta" href="/contact">견적 상담 신청</Link>
+        <a href={`tel:${company.tel}`}>전화 {company.tel}</a>
+        <Link className="btn cta" href="/contact">견적 문의하기</Link>
       </div>
     </header>
   );

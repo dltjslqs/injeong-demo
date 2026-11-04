@@ -3,22 +3,28 @@ import { BASE } from "./base";
 
 const fields = [
   {
-    img: "plant",
-    title: "공장 신축",
-    desc: "생산 설비가 놓일 자리에서 시작해 건물 크기를 정합니다.",
-    points: ["설비 배치에 맞춘 기초·바닥 하중 설계", "크레인·수전·배관 동선 사전 협의", "공장 등록까지 인허가 동행"],
+    img: "p12",
+    title: "교육시설",
+    desc: "초·중·고 강당과 교실, 대학 시설을 지었습니다. 학기 중 공사가 많아 학생 동선과 안전을 먼저 나눕니다.",
+    points: ["다목적강당 개축·증축", "교실 증축·개축", "대학 승강기·시설 개선"],
   },
   {
-    img: "logistics",
-    title: "물류센터·저온창고",
-    desc: "도크 배치와 차량 동선이 운영비를 좌우합니다.",
-    points: ["도크 수와 차량 회전 반경 검토", "영하 25도 저온 구역 단열 시공", "바닥 동결 방지층 시공"],
+    img: "p03",
+    title: "공공·군 시설",
+    desc: "박물관, 체육센터, 공공기관 사옥과 군 시설을 시공했습니다. 관급 공사의 서류와 검측 절차에 익숙합니다.",
+    points: ["문화·체육시설 건립", "공공기관 사옥 신축", "군 창고·교회·검사장 신축"],
   },
   {
-    img: "roof",
-    title: "증축·리모델링",
-    desc: "가동을 멈추지 않는 것이 증축 공사의 첫 조건입니다.",
-    points: ["생산 구역과 공사 구역 분리", "소음이 큰 공정은 주말·야간 배치", "위생·안전 기준 사전 합의"],
+    img: "p18",
+    title: "산업시설",
+    desc: "공장과 자재창고를 신축·증축합니다. 같은 기업이 네 번 연속 공사를 맡겼습니다.",
+    points: ["공장 신축·증축", "자재창고 증축", "가동 중인 사업장 내 공사"],
+  },
+  {
+    img: "p07",
+    title: "민간건축·실내건축",
+    desc: "교회, 근린생활시설, 다가구주택을 짓고, 실내건축공사업으로 리모델링과 시설 개선까지 맡습니다.",
+    points: ["종교시설 신축·증축", "근생·다가구주택 신축", "실내건축·시설 개선"],
   },
 ];
 
@@ -29,15 +35,15 @@ export function Business({ summary = false }: { summary?: boolean }) {
         <div className="head">
           <div>
             <span className="kicker rv">사업 분야</span>
-            <h2 className="h2 rv">인정건설이 짓는 세 가지 시설</h2>
-            <p className="lede rv">용도마다 먼저 확인할 것이 다릅니다. 시설별로 저희가 챙기는 항목입니다.</p>
+            <h2 className="h2 rv">학교부터 공장까지, 인정건설이 짓는 건물</h2>
+            <p className="lede rv">건축공사업과 실내건축공사업 면허로 공공과 민간 공사를 모두 시공합니다.</p>
           </div>
           {summary && <Link className="link rv" href="/business">사업 분야 자세히</Link>}
         </div>
-        <div className="svc">
+        <div className="svc four">
           {fields.map((f, i) => (
             <article className="rv" key={f.title}>
-              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/img/${f.img}.jpg)` }} />
+              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${f.img}.jpg)` }} />
               <div className="bd">
                 <span className="no num">{String(i + 1).padStart(2, "0")}</span>
                 <h3>{f.title}</h3>

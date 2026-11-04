@@ -1,56 +1,56 @@
 import Link from "next/link";
 import { BASE } from "./base";
+import { categories, projects } from "./data";
 
-const filters = ["전체", "공장", "물류", "증축"];
-
-const works = [
-  { cat: "공장", img: "hero", name: "당진 송산 정밀부품 공장", place: "당진 송산2산단", size: "4,200평", cost: "185억", period: "2025.11 – 2026.12", ongoing: true },
-  { cat: "물류", img: "logistics", name: "아산 저온 물류센터", place: "아산 둔포", size: "3,600평", cost: "142억", period: "2025.09 – 2026.12", ongoing: true },
-  { cat: "공장", img: "plant", name: "홍성 자동차부품 공장", place: "홍성 일반산단", size: "2,800평", cost: "96억", period: "2023.04 – 2024.03" },
-  { cat: "증축", img: "roof", name: "예산 식품공장 2라인 증축", place: "예산 예당산단", size: "1,100평", cost: "38억", period: "2024.02 – 2024.09" },
-  { cat: "공장", img: "steel", name: "서산 금속가공 공장", place: "서산 오토밸리", size: "1,900평", cost: "64억", period: "2022.05 – 2023.01" },
-  { cat: "증축", img: "pile", name: "천안 전자부품 공장 증축", place: "천안 3산단", size: "900평", cost: "31억", period: "2026.03 – 2026.11", ongoing: true },
-];
+// Home picks one recent completed project from different client types.
+const homePicks = ["p18", "p17", "p12"];
 
 export function Works({ summary = false }: { summary?: boolean }) {
-  const list = summary ? works.slice(0, 3) : works;
+  const list = summary
+    ? homePicks.map((id) => projects.find((p) => p.id === id)!)
+    : projects.filter((p) => !p.ongoing);
   return (
     <section className="sec" id="works">
       <div className="wrap">
         <div className="head">
           <div>
             <span className="kicker rv">시공 실적</span>
-            <h2 className="h2 rv">충남 산업단지 주요 현장</h2>
+            <h2 className="h2 rv">{summary ? "최근 준공한 현장" : `준공 실적 ${list.length}건`}</h2>
+            {!summary && <p className="lede rv">공사 금액은 부가세를 포함한 계약 금액입니다. 민간 공사 일부는 계약 방식상 금액을 적지 않았습니다.</p>}
           </div>
           {summary ? (
             <Link className="link rv" href="/projects">시공 실적 전체 보기</Link>
           ) : (
             <div className="tabs rv" role="group" aria-label="실적 분류">
-              {filters.map((f, i) => (
-                <button type="button" className={i === 0 ? "on" : undefined} aria-pressed={i === 0} data-f={f} key={f}>{f}</button>
+              {["전체", ...categories.map((c) => c.key)].map((f, i) => (
+                <button type="button" className={i === 0 ? "on" : undefined} aria-pressed={i === 0} data-f={f} key={f}>
+                  {f === "전체" ? "전체" : categories.find((c) => c.key === f)!.label}
+                </button>
               ))}
             </div>
           )}
         </div>
         <div className="pf">
           {list.map((w) => (
-            <article className="rv" data-cat={w.cat} key={w.name}>
-              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/img/${w.img}.jpg)` }}>
-                <span className={w.ongoing ? "tag on" : "tag"}>{w.ongoing ? "시공 중" : "준공"}</span>
+            <article className="rv" data-cat={w.cat} key={w.id}>
+              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${w.img}.jpg)` }}>
+                <span className="tag">{categories.find((c) => c.key === w.cat)!.label}</span>
+                {w.imgNote && <span className="tag note">{w.imgNote}</span>}
               </div>
               <div className="bd">
                 <h3>{w.name}</h3>
                 <dl>
-                  <dt>위치</dt><dd>{w.place}</dd>
-                  <dt>연면적</dt><dd className="num">{w.size}</dd>
-                  <dt>공사비</dt><dd className="num">{w.cost}</dd>
-                  <dt>기간</dt><dd className="num">{w.period}</dd>
+                  <dt>발주처</dt><dd>{w.client}</dd>
+                  <dt>용도</dt><dd>{w.use}</dd>
+                  {w.area && <><dt>연면적</dt><dd className="num">{w.area}</dd></>}
+                  {w.cost && <><dt>공사비</dt><dd className="num">{w.cost}</dd></>}
+                  <dt>준공</dt><dd className="num">{w.done}</dd>
                 </dl>
               </div>
             </article>
           ))}
         </div>
-        {!summary && <div className="more"><Link className="btn line" href="/contact">전체 실적 자료 요청</Link></div>}
+        {!summary && <div className="more"><Link className="btn line" href="/contact">실적 자료(지명원) 요청</Link></div>}
       </div>
     </section>
   );

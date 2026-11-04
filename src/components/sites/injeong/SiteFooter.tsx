@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { company } from "./data";
 import { Logo, menu } from "./SiteHeader";
 
 export function SiteFooter() {
@@ -7,11 +8,12 @@ export function SiteFooter() {
       <div className="wrap">
         <div className="top">
           <div>
-            <Logo light />
+            <Logo />
             <p className="info">
-              인정건설 주식회사 · 대표이사 ○○○<br />
-              사업자등록번호 000-00-00000 · 종합건설업 등록번호 0000<br />
-              충청남도 홍성군 (주소 입력 예정)
+              {company.name} · 대표이사 {company.ceo}<br />
+              사업자등록번호 {company.bizNo}<br />
+              {company.licenses.map((l) => `${l.name} ${l.no}`).join(" · ")}<br />
+              {company.address}
             </p>
           </div>
           <div>
@@ -21,15 +23,15 @@ export function SiteFooter() {
           <div>
             <h4>연락처</h4>
             <p className="info" style={{ marginTop: 0 }}>
-              TEL <span className="num">041-633-9942</span><br />
-              FAX <span className="num">041-633-9943</span><br />
-              contact@injeong.example
+              TEL <span className="num">{company.tel}</span><br />
+              FAX <span className="num">{company.fax}</span><br />
+              {company.email}
             </p>
           </div>
         </div>
         <div className="bot">
-          <span>© 인정건설 주식회사</span>
-          <span className="demo">데모 시안입니다. 사진, 현장 이름, 수치는 예시이며 실제 자료로 바꿔야 합니다.</span>
+          <span>© {company.name}</span>
+          <span className="demo">홈페이지 시안입니다. 대표 인사말 문구는 회사 확인 전 초안입니다.</span>
         </div>
       </div>
     </footer>

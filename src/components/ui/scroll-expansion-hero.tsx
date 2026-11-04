@@ -182,7 +182,7 @@ const ScrollExpandMedia = ({
               style={{ objectFit: "cover", objectPosition: "center" }}
               priority
             />
-            <div className="absolute inset-0 bg-[#0d1230]/60" />
+            <div className="absolute inset-0 bg-[#1c2a53]/60" />
           </motion.div>
 
           <div className="container mx-auto flex flex-col items-center justify-start relative z-10">

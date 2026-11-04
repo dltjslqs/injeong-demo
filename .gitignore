@@ -53,3 +53,7 @@ temp/
 /src/components/sites/yerinhomepage/
 /public/sites/yerinhomepage/
 /docs/research/yerinhomepage/
+/.photo-orig/
+
+# 견적 문의 첨부 파일(로컬 저장)
+/.uploads/

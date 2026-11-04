@@ -3,12 +3,12 @@ import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { NotesList } from "@/components/sites/injeong/Notes";
 import { PageHead } from "@/components/sites/injeong/PageHead";
 
-export const metadata: Metadata = { title: "현장 노트" };
+export const metadata: Metadata = { title: "기술 칼럼" };
 
 export default function NotesPage() {
   return (
     <>
-      <PageHead en="FIELD NOTES" title="현장 노트" desc="공장을 짓기 전에 알아 두면 좋은 내용을 현장 엔지니어가 칼럼과 영상으로 정리합니다." img="steel" />
+      <PageHead en="COLUMN" title="기술 칼럼" desc="관급공사 진행 과정과 착공 전 체크리스트를 현장 기술진이 직접 정리합니다." img="p17" />
       <NotesList />
       <CtaBand />
     </>
