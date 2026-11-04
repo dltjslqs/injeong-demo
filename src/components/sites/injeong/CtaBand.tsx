@@ -12,7 +12,7 @@ export function CtaBand() {
             <p className="rv">공사 위치와 대략적인 규모만 알려주시면, 도면의 오류 검토와 합리적인 공기·예산안을 현장 전문가가 함께 정리해 드립니다.</p>
           </div>
           <div className="btns rv">
-            <Link className="btn cta" href="/contact">견적 문의하기</Link>
+            <Link className="btn cta" href="/contact">지금 바로 문의하기</Link>
             <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
           </div>
         </div>

@@ -38,7 +38,7 @@ function Ask({ lead }: { lead: string }) {
     <aside className="art-ask">
       <p>{lead}<br />인정건설에 연락 주세요.</p>
       <div className="btns">
-        <Link className="btn btn-seal" href="/contact">견적 문의</Link>
+        <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
         <a className="btn line num" href={`tel:${company.tel}`}>{company.tel}</a>
       </div>
     </aside>

@@ -21,7 +21,7 @@ export async function HeroIndex() {
         <h1><span>무사고 책임준공,</span><br /><span className="h1-sub">2003년부터 증명해 온 건축주의 파트너</span></h1>
         <p className="lead">깐깐한 교육청 시설부터 스마트 산업공장까지. 건축주의 눈높이에서 도면 너머 현장의 디테일까지 책임집니다.</p>
         <div className="acts">
-          <Link className="btn btn-seal" href="/contact">견적 문의</Link>
+          <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
           <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
         </div>
         <div className="hv-foot">
