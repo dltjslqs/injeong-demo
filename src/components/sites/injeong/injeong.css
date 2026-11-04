@@ -427,12 +427,14 @@
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
 /* the plaques stand on a lit shelf: cut out, bottom-aligned, a soft pool of light behind each */
 .ij .plaques { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-lg); align-items: end; margin-top: var(--space-xl); padding-inline: var(--space-md); }
-.ij .plaques::after { content: ""; position: absolute; left: 0; right: 0; bottom: calc(2.25rem + var(--space-md) - 1px); height: 2px; background: linear-gradient(90deg, transparent, var(--color-field-muted) 15%, var(--color-field-muted) 85%, transparent); opacity: 0.6; }
+.ij .plaques::after { content: ""; position: absolute; left: 0; right: 0; bottom: calc(2.25rem + var(--space-md) - 1px); height: 1px; background: linear-gradient(90deg, transparent, var(--color-field-muted) 15%, var(--color-field-muted) 85%, transparent); opacity: 0.6; }
 .ij .plaques li { display: grid; justify-items: center; gap: var(--space-md); }
-.ij .plq { position: relative; display: grid; place-items: end center; width: 100%; height: clamp(11rem, 19vw, 17rem); }
-.ij .plq::before { content: ""; position: absolute; inset: 10% -10% -6%; background: radial-gradient(closest-side, var(--color-glow), transparent); z-index: 0; }
-.ij .plq img { position: relative; z-index: 1; width: auto; height: 100%; max-width: 100%; object-fit: contain; object-position: bottom; filter: drop-shadow(0 18px 18px var(--color-cast)); transition: transform var(--dur-long) var(--ease-out); -webkit-box-reflect: below 2px linear-gradient(transparent 70%, var(--color-reflect)); }
-.ij .plaques li:hover .plq img { transform: translateY(-6px); }
+.ij .plq { position: relative; display: flex; align-items: flex-end; justify-content: center; width: 100%; height: clamp(11rem, 19vw, 17rem); }
+.ij .plq::before { content: ""; position: absolute; inset: 10% -10% 0; background: radial-gradient(closest-side, var(--color-glow), transparent); }
+/* a short contact shadow on the shelf, so every plaque sits on the same line */
+.ij .plq::after { content: ""; position: absolute; bottom: -4px; left: 15%; right: 15%; height: 10px; border-radius: 50%; background: radial-gradient(closest-side, var(--color-cast), transparent); }
+.ij .plq img { position: relative; z-index: 1; display: block; width: auto; max-width: 100%; height: var(--h, 86%); object-fit: contain; object-position: bottom; transition: transform var(--dur-long) var(--ease-out); }
+.ij .plaques li:hover .plq img { transform: translateY(-4px); }
 .ij .plaques p { height: 2.25rem; font-weight: 700; text-align: center; }
 .ij .plaques-note { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .trust :focus-visible { outline-color: var(--color-sky); }
