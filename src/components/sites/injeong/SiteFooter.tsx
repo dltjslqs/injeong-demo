@@ -27,6 +27,8 @@ export function SiteFooter() {
         </div>
         <div className="ft-bot">
           <span>© {company.name}</span>
+          {/* the admin entrance, deliberately faint; the GitHub Pages copy has no admin, so no link there */}
+          {process.env.NEXT_PUBLIC_STATIC_DEMO !== "1" && <Link href="/admin" className="ft-admin" rel="nofollow">관리자</Link>}
         </div>
       </div>
     </footer>

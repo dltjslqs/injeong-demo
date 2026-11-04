@@ -526,6 +526,10 @@
 @keyframes pop-in { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .pop-bg { animation: none; } }
 
+/* the admin link at the very bottom: there for staff, barely there for everyone else */
+.ij .ft-admin { font-size: var(--text-sm); color: var(--color-field-muted); opacity: 0.35; transition: opacity var(--dur-short) var(--ease-out); }
+.ij .ft-admin:hover, .ij .ft-admin:focus-visible { opacity: 1; }
+
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }
 /* a navy panel on paper, so white always separates it from the section above and from the navy footer below */
