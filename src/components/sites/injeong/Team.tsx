@@ -1,4 +1,5 @@
 import { BASE } from "./base";
+import { company } from "./data";
 
 // The people. The photograph is a generated stand-in until the company's own group photo is taken.
 export function Team() {
@@ -13,6 +14,11 @@ export function Team() {
         </div>
         <figure className="team-pic">
           <img src={`${BASE}/sites/injeong/team.jpg`} alt="안전모를 쓴 인정건설 임직원 단체 사진" width={2400} height={1028} loading="lazy" />
+          <ul className="team-badges" aria-label="기술 인력">
+            {company.crew.map((c) => (
+              <li key={c.label}>{c.label}{c.count ? <b className="num"> {c.count}명</b> : c.fallback ? ` ${c.fallback}` : ""}</li>
+            ))}
+          </ul>
         </figure>
       </div>
     </section>

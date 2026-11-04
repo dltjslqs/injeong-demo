@@ -9,7 +9,13 @@ export const company = {
   ceo: "김석구",
   bizNo: "126-81-72450",
   founded: "2003년 6월 19일",
-  since: 2003,
+  since: 1989, // 개인 건설업 시작 (법인 전환은 founded)
+  // 홈 단체사진 배지. 인원수를 넣으면 「현장 소장 5명」처럼 숫자가 붙고, null이면 숫자 없이 나간다
+  crew: [
+    { label: "현장 소장", count: null as number | null, fallback: "상주" },
+    { label: "특급 기술자", count: null as number | null, fallback: "보유" },
+    { label: "직접 시공 인력", count: null as number | null, fallback: "" },
+  ],
   address: "충남 홍성군 홍성읍 충절로938번길 16",
   tel: "041-633-9942",
   fax: "041-633-9945",

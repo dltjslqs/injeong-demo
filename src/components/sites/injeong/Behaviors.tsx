@@ -112,6 +112,33 @@ export function Behaviors() {
       sync();
     }
 
+    // case photographs: cross-fade every 3.5 seconds; the dots pick one; holds still under the pointer,
+    // off screen and for reduced motion (the first photograph shows without scripting)
+    const cs = root.querySelector<HTMLElement>(".cs-stage");
+    if (cs) {
+      const slides = Array.from(cs.querySelectorAll<HTMLElement>(".cs"));
+      const dots = Array.from(root.querySelectorAll<HTMLButtonElement>(".cs-dots button"));
+      let i = 0;
+      const show = (n: number) => {
+        i = (n + slides.length) % slides.length;
+        slides.forEach((s, k) => s.classList.toggle("on", k === i));
+        dots.forEach((d, k) => d.setAttribute("aria-current", k === i ? "true" : "false"));
+      };
+      dots.forEach((d, k) => on(d, "click", () => show(k)));
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && slides.length > 1) {
+        let held = false;
+        let seen = false;
+        const box = cs.closest(".case-pic") ?? cs;
+        on(box, "pointerenter", () => { held = true; });
+        on(box, "pointerleave", () => { held = false; });
+        const io = new IntersectionObserver((es) => { seen = es[0].isIntersecting; }, { threshold: 0.3 });
+        io.observe(cs);
+        off.push(() => io.disconnect());
+        const tick = window.setInterval(() => { if (!held && seen && !document.hidden) show(i + 1); }, 3500);
+        off.push(() => window.clearInterval(tick));
+      }
+    }
+
     // works filter
     const tabs = root.querySelectorAll<HTMLButtonElement>(".tabs button");
     const cards = root.querySelectorAll<HTMLElement>(".pf article");

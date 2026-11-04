@@ -8,8 +8,8 @@ import { PageHead } from "@/components/sites/injeong/PageHead";
 export const metadata: Metadata = { title: "회사소개" };
 
 const history = [
-  ["1989", "홍성에서 건설업 시작"],
-  ["2003", "㈜인정건설 법인 설립, 건축공사업 등록"],
+  ["1989", "홍성에서 개인 건설업 시작"],
+  ["2003", "㈜인정건설 법인 전환, 건축공사업 등록"],
   ["2017", "한국국토정보공사 아산지사 사옥 준공"],
   ["2018", "금산 역사문화박물관 준공"],
   ["2021", "㈜텔콘알에프제약 공장 증축 준공, 군 탄약검사장 준공"],
@@ -22,7 +22,7 @@ const history = [
 export default function AboutPage() {
   return (
     <>
-      <PageHead en="ABOUT" title="회사소개" heading="37년 동안 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 첫 삽을 뜬 이래 타협 없는 관급 공사의 엄격함을 민간 건축까지 그대로 적용해 왔습니다." img="p03" />
+      <PageHead en="ABOUT" title="회사소개" heading="1989년부터 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 시작해 2003년 법인으로 전환한 이래, 타협 없는 관급 공사의 엄격함을 민간 건축까지 그대로 적용해 왔습니다." img="p03" />
       <Message />
       <section className="sec">
         <div className="container hist">
@@ -44,7 +44,7 @@ export default function AboutPage() {
           </div>
           <div>
             <dl className="creds rv">
-              <div><dt>건설업 시작</dt><dd>{company.since}년, 법인 설립 {company.founded}</dd></div>
+              <div><dt>건설업 시작</dt><dd>{company.since}년 개인 건설업, {company.founded} 법인 전환</dd></div>
               {company.licenses.map((l) => <div key={l.name}><dt>{l.name}</dt><dd>{l.no}</dd></div>)}
               <div><dt>시공능력평가액</dt><dd>{company.capacity.year}년 {company.capacity.amount}, {company.capacity.rankRegion} ({company.capacity.regionTotal}개사 중)</dd></div>
               <div><dt>기업신용평가</dt><dd>{company.credit.grade} ({company.credit.agency}, {company.credit.until}까지)</dd></div>
