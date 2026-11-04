@@ -29,6 +29,19 @@ export function Behaviors() {
       setOpen(false);
       on(mb, "click", () => setOpen(!hd.classList.contains("open")));
       hd.querySelectorAll(".mnav a").forEach((a) => on(a, "click", () => setOpen(false)));
+      // the logo on the page it points to goes back to the top instead of doing nothing
+      const logo = hd.querySelector<HTMLAnchorElement>("a.logo");
+      if (logo) {
+        on(logo, "click", (e) => {
+          const ev = e as MouseEvent;
+          if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.button !== 0) return;
+          if (new URL(logo.href).pathname.replace(/\/$/, "") !== location.pathname.replace(/\/$/, "")) return;
+          e.preventDefault();
+          setOpen(false);
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+        });
+      }
       // past the first 40px the banner retracts and the bar keeps a hairline
       const shadow = () => {
         hd.classList.toggle("sh", window.scrollY > 10);
