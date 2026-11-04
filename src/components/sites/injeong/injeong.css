@@ -440,7 +440,7 @@
 .ij .pq-q::after { content: "”"; color: var(--color-sky); }
 .ij .pq-pj { font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .pq-row:focus-visible { outline-offset: 4px; }
-/* the slider: no scrollbar, arrows and a count in the head, a thin progress line under the row, the row's right edge fades */
+/* the slider: no scrollbar, arrows and a count in the head, moves every 3 seconds, the row edges fade */
 .ij .pq-wrap { position: relative; margin-inline: calc(var(--space-sm) * -1); }
 .ij .pq-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--space-lg) - 2 * var(--space-sm)) / 3); gap: var(--space-lg); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--space-sm); padding: var(--space-sm); scrollbar-width: none; scroll-behavior: smooth; }
 .ij .pq-row::-webkit-scrollbar { display: none; }
@@ -457,8 +457,6 @@
 .ij .pq-btn:hover:not(:disabled) { background: var(--color-field-ink); border-color: var(--color-field-ink); color: var(--color-field); }
 .ij .pq-btn:active:not(:disabled) { transform: scale(0.96); }
 .ij .pq-btn:disabled { opacity: 0.3; cursor: default; }
-.ij .pq-bar { height: 2px; margin-top: var(--space-xl); background: var(--color-hairline-light); }
-.ij .pq-bar i { display: block; height: 100%; width: 60%; background: var(--color-field-ink); transition: transform var(--dur-long) var(--ease-out); }
 .ij .trust :focus-visible { outline-color: var(--color-sky); }
 @media (max-width: 60rem) {
   .ij .creds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

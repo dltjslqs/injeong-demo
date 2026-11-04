@@ -37,7 +37,6 @@ export function Trust() {
             ))}
           </ul>
         </div>
-        <div className="pq-bar" aria-hidden="true"><i /></div>
       </div>
     </section>
   );
