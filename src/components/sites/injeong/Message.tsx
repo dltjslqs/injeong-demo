@@ -3,8 +3,8 @@ import { company } from "./data";
 
 export function Message() {
   return (
-    <section className="gr" id="greeting" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/p03-2.jpg)` }}>
-      <div className="container">
+    <section className="gr" id="greeting">
+      <div className="container gr-grid">
         <div className="box">
           <p className="gr-label rv">대표 인사말</p>
           <blockquote className="rv">“건물은 말로 짓지 않습니다. 현장에서 책임질 사람의 얼굴로 짓습니다.”</blockquote>
@@ -12,6 +12,9 @@ export function Message() {
           <p className="rv">도면 뒤로 숨지 않고, 계약부터 준공 테이프를 끊는 날까지 현장을 직접 지키겠습니다.</p>
           <div className="sig rv">{company.name} 대표이사<b>{company.ceo}</b></div>
         </div>
+        <figure className="gr-pic rv">
+          <img src={`${BASE}/sites/injeong/works/p03-2.jpg`} alt="인정건설이 시공한 현장" loading="lazy" />
+        </figure>
       </div>
     </section>
   );

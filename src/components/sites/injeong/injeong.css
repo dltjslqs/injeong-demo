@@ -59,7 +59,7 @@
 .ij .bnr { height: var(--bnr-h); display: flex; align-items: center; background: var(--color-field); color: var(--color-field-ink); font-size: var(--text-sm); }
 .ij .bnr a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-decoration: underline; text-decoration-color: var(--color-field-muted); text-underline-offset: 0.3em; }
 .ij .bnr a:hover { text-decoration-color: var(--color-field-ink); }
-.ij .bnr :focus-visible, .ij .ft :focus-visible, .ij .tile.field :focus-visible, .ij .ct aside :focus-visible, .ij .ph :focus-visible, .ij .gr :focus-visible { outline-color: var(--color-sky); }
+.ij .bnr :focus-visible, .ij .ft :focus-visible, .ij .tile.field :focus-visible, .ij .ct aside :focus-visible, .ij .ph :focus-visible { outline-color: var(--color-sky); }
 .ij .bar { display: flex; align-items: center; gap: var(--space-xl); height: var(--bar-h); }
 .ij .logo { display: flex; align-items: center; gap: var(--space-sm); flex: none; }
 .ij .logo img { width: auto; height: 40px; }
@@ -254,14 +254,16 @@
 .ij .bars b small { font-family: var(--font-body); font-size: var(--text-sm); color: var(--color-muted); }
 
 /* 대표 인사: a statement over the photograph */
-.ij .gr { position: relative; padding-block: var(--section-gap); color: var(--color-field-ink); background: var(--color-field) center / cover no-repeat; }
-.ij .gr::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--color-field) 30%, var(--color-scrim)); }
-.ij .gr .container { position: relative; }
-.ij .gr .box { max-width: 760px; }
-.ij .gr blockquote { font-size: var(--text-section); font-weight: 800; line-height: 1.25; letter-spacing: var(--tracking-display); text-wrap: balance; }
-.ij .gr p { margin-top: var(--space-xl); max-width: 56ch; color: var(--color-field-ink); }
-.ij .gr .sig { margin-top: var(--space-xl); color: var(--color-field-muted); }
-.ij .gr .sig b { margin-left: var(--space-xs); font-size: var(--text-lg); color: var(--color-field-ink); }
+.ij .gr { padding-block: var(--section-gap); color: var(--color-ink); background: var(--color-paper-2); border-block: 1px solid var(--color-rule); }
+.ij .gr .gr-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: center; }
+.ij .gr .box { max-width: 760px; min-width: 0; }
+.ij .gr .gr-pic { margin: 0; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
+.ij .gr .gr-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ij .gr blockquote { font-size: var(--text-section); font-weight: 800; line-height: 1.25; letter-spacing: var(--tracking-display); text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
+.ij .gr p { margin-top: var(--space-xl); max-width: 56ch; color: var(--color-ink-2); }
+.ij .gr .sig { margin-top: var(--space-xl); color: var(--color-muted); }
+.ij .gr .sig b { margin-left: var(--space-xs); font-size: var(--text-lg); color: var(--color-ink); }
+@media (max-width: 60rem) { .ij .gr .gr-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } .ij .gr .gr-pic { aspect-ratio: 16 / 10; } }
 
 /* 회사소개: history, credentials, office */
 .ij .hist, .ij .visit { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl) var(--gap-columns); align-items: start; }
@@ -414,7 +416,6 @@
 .ij .rc-meta { font-size: var(--text-sm); color: var(--color-accent); font-weight: 700; }
 .ij .rc-nm { font-size: var(--text-sm); color: var(--color-muted); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 @media (max-width: 60rem) { .ij .rc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 40rem) { .ij .rc-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); } }
 
 /* credentials and plaques, on navy */
 .ij .trust { background: var(--color-field); color: var(--color-field-ink); }
@@ -494,7 +495,6 @@
 .ij .art-list.num-list li { list-style: decimal; }
 .ij .art-list li::marker { color: var(--color-accent); }
 @media (max-width: 60rem) { .ij .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ij .sc-lead { grid-column: span 2; grid-row: auto; } }
-@media (max-width: 40rem) { .ij .sc-grid { grid-template-columns: minmax(0, 1fr); } .ij .sc-lead { grid-column: auto; } }
 
 /* one section head for the whole home page: heading and one line on the left, the link on the right,
    the same distance to whatever follows */
@@ -502,7 +502,7 @@
 .ij .recent .head .lede, .ij .trust-head .lede, .ij .notes-head .lede, .ij .areas-head .lede, .ij .team-head .lede { margin-top: var(--space-sm); max-width: 52ch; }
 
 /* the greeting: a small label over the quote, two paragraphs, the signature */
-.ij .gr .gr-label { margin-top: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-sky); }
+.ij .gr .gr-label { margin-top: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
 .ij .gr .gr-label + blockquote { margin-top: var(--space-sm); }
 .ij .gr p + p.rv { margin-top: var(--space-md); }
 .ij .ctab-in > div:first-child { max-width: 40rem; }
@@ -587,3 +587,15 @@
 
 /* phone numbers never break */
 .ij a[href^="tel:"] { white-space: nowrap; }
+
+/* phones: recent work and the column series become swipe rows that bleed to the screen edge, not a three-screen stack */
+@media (max-width: 40rem) {
+  .ij .rc-grid, .ij .sc-grid { display: grid; grid-template-columns: none; grid-template-rows: none; grid-auto-flow: column; grid-auto-columns: 80%; gap: var(--space-md); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) var(--space-xs); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .ij .rc-grid::-webkit-scrollbar, .ij .sc-grid::-webkit-scrollbar { display: none; }
+  .ij .rc-grid > *, .ij .sc-grid > * { scroll-snap-align: start; min-width: 0; }
+  .ij .sc-lead { grid-row: auto; grid-column: auto; }
+  .ij .sc-lead .sc-pic { aspect-ratio: 16 / 10; }
+  .ij .sc-lead .sc-t { font-size: var(--text-md); line-height: 1.45; -webkit-line-clamp: 2; }
+  .ij .sc-lead .sc-sub { display: none; }
+  .ij .team-pic img { aspect-ratio: 4 / 3; }
+}
