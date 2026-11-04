@@ -5,10 +5,9 @@ export function NowBuilding() {
   const ongoing = projects.filter((p) => p.ongoing);
   return (
     <section className="sec soft" id="now">
-      <div className="wrap">
+      <div className="container">
         <div className="head">
           <div>
-            <span className="kicker rv">진행 중인 현장</span>
             <h2 className="h2 rv">지금 시공하고 있는 공사</h2>
             <p className="lede rv">두 현장 모두 공동도급으로 인정건설이 지분 51%를 맡아 공사를 이끌고 있습니다.</p>
           </div>
@@ -17,10 +16,10 @@ export function NowBuilding() {
           {ongoing.map((p) => (
             <article className="rv" key={p.id}>
               <div className={p.img ? "im" : "im none"} style={p.img ? { backgroundImage: `url(${BASE}/sites/injeong/works/${p.img}.jpg)` } : undefined}>
-                {p.img ? <span className="tag">{p.imgNote ?? "현장"}</span> : <span className="ph-note">현장 사진 준비 중</span>}
+                {!p.img && <span className="ph-note">현장 사진 준비 중</span>}
               </div>
               <div className="bd">
-                <span className="st">시공 중 · {p.period}</span>
+                <p className="st">시공 중, <span className="num">{p.period}</span>{p.imgNote ? `, 이미지는 ${p.imgNote}` : ""}</p>
                 <h3>{p.name}</h3>
                 <dl>
                   <dt>발주처</dt><dd>{p.client}</dd>

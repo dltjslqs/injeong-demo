@@ -2,36 +2,32 @@ import Link from "next/link";
 import { company } from "./data";
 import { Logo, menu } from "./SiteHeader";
 
+// footer: a statement, one closing sentence large, the links and the legal lines beneath
 export function SiteFooter() {
   return (
     <footer className="ft">
-      <div className="wrap">
-        <div className="top">
+      <div className="container">
+        <p className="ft-stmt">약속한 날, 약속한 품질로 넘겨 드립니다.</p>
+        <div className="ft-grid">
           <div>
             <Logo />
-            <p className="info">
-              {company.name} · 대표이사 {company.ceo}<br />
+            <p className="ft-info">
+              {company.name}, 대표이사 {company.ceo}<br />
               사업자등록번호 {company.bizNo}<br />
-              {company.licenses.map((l) => `${l.name} ${l.no}`).join(" · ")}<br />
+              {company.licenses.map((l) => `${l.name} ${l.no}`).join(", ")}<br />
               {company.address}
             </p>
           </div>
-          <div>
-            <h4>바로 가기</h4>
-            <nav aria-label="바닥글 메뉴">{menu.map((m) => <Link href={m.href} key={m.href}>{m.label}</Link>)}</nav>
-          </div>
-          <div>
-            <h4>연락처</h4>
-            <p className="info" style={{ marginTop: 0 }}>
-              TEL <span className="num">{company.tel}</span><br />
-              FAX <span className="num">{company.fax}</span><br />
-              {company.email}
-            </p>
-          </div>
+          <nav aria-label="바닥글 메뉴">{menu.map((m) => <Link href={m.href} key={m.href}>{m.label}</Link>)}</nav>
+          <p className="ft-info">
+            전화 <a className="num" href={`tel:${company.tel}`}>{company.tel}</a><br />
+            팩스 <span className="num">{company.fax}</span><br />
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+          </p>
         </div>
-        <div className="bot">
+        <div className="ft-bot">
           <span>© {company.name}</span>
-          <span className="demo">홈페이지 시안입니다. 대표 인사말 문구는 회사 확인 전 초안입니다.</span>
+          <span>홈페이지 시안입니다. 대표 인사말 문구는 회사 확인 전 초안입니다.</span>
         </div>
       </div>
     </footer>

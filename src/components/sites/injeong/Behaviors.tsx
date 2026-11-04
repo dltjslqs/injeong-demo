@@ -29,7 +29,11 @@ export function Behaviors() {
       setOpen(false);
       on(mb, "click", () => setOpen(!hd.classList.contains("open")));
       hd.querySelectorAll(".mnav a").forEach((a) => on(a, "click", () => setOpen(false)));
-      const shadow = () => hd.classList.toggle("sh", window.scrollY > 10);
+      // past the first 40px the banner retracts and the bar keeps a hairline
+      const shadow = () => {
+        hd.classList.toggle("sh", window.scrollY > 10);
+        hd.classList.toggle("rt", window.scrollY > 40);
+      };
       shadow();
       on(window, "scroll", shadow, { passive: true });
     }
@@ -90,7 +94,7 @@ export function Behaviors() {
         const total = files.reduce((a, f) => a + f.size, 0);
         drop?.classList.toggle("has", files.length > 0);
         const sum = form.querySelector<HTMLElement>(".fsum");
-        if (sum) sum.textContent = files.length ? `${files.length}개 · ${formatSize(total)}` : "";
+        if (sum) sum.textContent = files.length ? `${files.length}개, ${formatSize(total)}` : "";
       };
       const add = (incoming: FileList | File[]) => {
         const rejected: string[] = [];

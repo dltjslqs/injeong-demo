@@ -4,7 +4,7 @@ import { BASE } from "./base";
 // 기초자료 작성표 5번 「건축 칼럼 주제」에서 인정건설이 고른 주제
 const feature = {
   cat: "관급공사", date: "연재 예정", img: "p20",
-  title: "관급공사는 어떤 순서로 진행될까 — 천안업성2초 현장 기록",
+  title: "관급공사는 어떤 순서로 진행될까, 천안업성2초 현장 기록",
   text: "착공부터 준공까지 관급공사의 단계별 핵심 사항을 지금 시공 중인 천안업성2초등학교 현장으로 정리합니다.",
 };
 
@@ -15,43 +15,31 @@ const notes = [
 ];
 
 function Meta({ cat, date }: { cat: string; date: string }) {
-  return (
-    <span className="meta"><span className="k">{cat}</span><span className="num">{date}</span></span>
-  );
+  return <p className="meta">{cat}, {date}</p>;
 }
 
-/** Home: one feature plus the topic list, linking to /notes. */
+/** Home: the planned columns as a list beside the site they start from. */
 export function NotesSummary() {
   return (
-    <section className="sec soft">
-      <div className="wrap">
-        <div className="head">
-          <div>
-            <span className="kicker rv">기술 칼럼</span>
-            <h2 className="h2 rv">현장 기술진이 직접 쓰는 건축 이야기</h2>
-          </div>
-          <Link className="link rv" href="/notes">칼럼 주제 모두 보기</Link>
-        </div>
-        <div className="nt">
-          <Link className="feat rv" href="/notes">
-            <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${feature.img}.jpg)` }} />
-            <div className="bd">
-              <Meta {...feature} />
-              <h3>{feature.title}</h3>
-              <p>{feature.text}</p>
-            </div>
-          </Link>
-          <ul className="rv">
-            {notes.map((n) => (
+    <section className="notes">
+      <div className="container notes-in">
+        <div className="notes-txt">
+          <h2>현장 기술진이 쓰는 칼럼</h2>
+          <ol className="notes-list">
+            {[feature, ...notes].map((n) => (
               <li key={n.title}>
                 <Link href="/notes">
-                  <Meta {...n} />
                   <h3>{n.title}</h3>
+                  <Meta {...n} />
                 </Link>
               </li>
             ))}
-          </ul>
+          </ol>
         </div>
+        <figure className="notes-pic">
+          <img src={`${BASE}/sites/injeong/works/${feature.img}.jpg`} alt="천안업성2초등학교 조감도" width={1600} height={1131} loading="lazy" />
+          <figcaption>첫 연재의 현장, 천안업성2초등학교 조감도</figcaption>
+        </figure>
       </div>
     </section>
   );
@@ -61,24 +49,24 @@ export function NotesSummary() {
 export function NotesList() {
   return (
     <section className="sec">
-      <div className="wrap">
-        <article className="nfeat rv">
-          <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${feature.img}.jpg)` }} />
-          <div className="bd">
-            <Meta {...feature} />
+      <div className="container">
+        <article className="nfeat">
+          <img src={`${BASE}/sites/injeong/works/${feature.img}.jpg`} alt="천안업성2초등학교 조감도" width={1600} height={1131} loading="lazy" />
+          <div className="nfeat-txt">
             <h2>{feature.title}</h2>
+            <Meta {...feature} />
             <p>{feature.text}</p>
           </div>
         </article>
-        <div className="ncards">
+        <ul className="nrows">
           {notes.map((n) => (
-            <article className="rv" key={n.title}>
-              <Meta {...n} />
+            <li key={n.title}>
               <h3>{n.title}</h3>
               <p>{n.text}</p>
-            </article>
+              <Meta {...n} />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

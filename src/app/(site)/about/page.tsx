@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ClientMix } from "@/components/sites/injeong/ClientMix";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
-import { Figures } from "@/components/sites/injeong/Figures";
 import { Message } from "@/components/sites/injeong/Message";
 import { PageHead } from "@/components/sites/injeong/PageHead";
 
@@ -25,11 +24,9 @@ export default function AboutPage() {
     <>
       <PageHead en="ABOUT" title="회사소개" desc="1989년 홍성에서 시작해 충남의 학교와 공공시설, 산업시설을 지어 온 종합건설사입니다." img="p03" />
       <Message />
-      <Figures />
       <section className="sec">
-        <div className="wrap hist">
+        <div className="container hist">
           <div>
-            <span className="kicker rv">연혁</span>
             <h2 className="h2 rv">인정건설이 걸어온 길</h2>
           </div>
           <ol>
@@ -40,17 +37,18 @@ export default function AboutPage() {
         </div>
       </section>
       <section className="sec soft">
-        <div className="wrap hist">
+        <div className="container hist">
           <div>
-            <span className="kicker rv">면허·신용</span>
             <h2 className="h2 rv">공신력 자료</h2>
             <p className="lede rv">증빙 서류 원본은 요청하시면 회사 자료와 함께 보내 드립니다.</p>
           </div>
           <div>
             <dl className="creds rv">
+              <div><dt>건설업 시작</dt><dd>{company.since}년, 법인 설립 {company.founded}</dd></div>
               {company.licenses.map((l) => <div key={l.name}><dt>{l.name}</dt><dd>{l.no}</dd></div>)}
-              <div><dt>시공능력평가액</dt><dd>{company.capacity.year}년 {company.capacity.amount} · {company.capacity.rankRegion} ({company.capacity.regionTotal}개사 중)</dd></div>
+              <div><dt>시공능력평가액</dt><dd>{company.capacity.year}년 {company.capacity.amount}, {company.capacity.rankRegion} ({company.capacity.regionTotal}개사 중)</dd></div>
               <div><dt>기업신용평가</dt><dd>{company.credit.grade} ({company.credit.agency}, {company.credit.until}까지)</dd></div>
+              <div><dt>기술인력</dt><dd>{company.engineers}명</dd></div>
               <div><dt>최근 매출</dt><dd>{company.sales.map((s) => `${s.year}년 ${s.amount}억`).join(" → ")}</dd></div>
             </dl>
             <h3 className="awt rv">발주처에서 받은 감사패</h3>
@@ -60,9 +58,8 @@ export default function AboutPage() {
       </section>
       <ClientMix />
       <section className="sec soft">
-        <div className="wrap visit">
+        <div className="container visit">
           <div>
-            <span className="kicker rv">오시는 길</span>
             <h2 className="h2 rv">홍성 본사</h2>
           </div>
           <dl className="rv">

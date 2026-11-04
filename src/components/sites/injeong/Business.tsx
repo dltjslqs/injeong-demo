@@ -31,21 +31,19 @@ const fields = [
 export function Business({ summary = false }: { summary?: boolean }) {
   return (
     <section className="sec" id="business">
-      <div className="wrap">
+      <div className="container">
         <div className="head">
           <div>
-            <span className="kicker rv">사업 분야</span>
             <h2 className="h2 rv">학교부터 공장까지, 인정건설이 짓는 건물</h2>
             <p className="lede rv">건축공사업과 실내건축공사업 면허로 공공과 민간 공사를 모두 시공합니다.</p>
           </div>
           {summary && <Link className="link rv" href="/business">사업 분야 자세히</Link>}
         </div>
         <div className="svc four">
-          {fields.map((f, i) => (
+          {fields.map((f) => (
             <article className="rv" key={f.title}>
               <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${f.img}.jpg)` }} />
               <div className="bd">
-                <span className="no num">{String(i + 1).padStart(2, "0")}</span>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
                 <ul>{f.points.map((p) => <li key={p}>{p}</li>)}</ul>

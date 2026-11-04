@@ -14,7 +14,6 @@ export function Hero() {
         scrollToExpand="스크롤하면 현장이 펼쳐집니다"
       >
         <div className="intro">
-          <span className="kicker">발주처가 인정한 시공</span>
           <h2 className="h2">교육청과 지자체, 군이 맡긴 품질 그대로 짓습니다</h2>
           <p>홍성에 본사를 둔 종합건설사입니다. 학교와 공공청사, 군 시설을 지어 온 관급 공사 경험으로 공장과 교회, 근린생활시설까지 시공합니다.</p>
           <div className="btns">

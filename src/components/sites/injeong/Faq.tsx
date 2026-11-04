@@ -12,9 +12,8 @@ const faqs = [
 export function Faq() {
   return (
     <section className="sec" id="faq">
-      <div className="wrap fq">
+      <div className="container fq">
         <div>
-          <span className="kicker rv">자주 묻는 질문</span>
           <h2 className="h2 rv">공사 전에 많이<br />물어보시는 것들</h2>
           <div className="ask rv">
             <b>찾는 답이 없나요?</b>

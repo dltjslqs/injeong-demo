@@ -11,10 +11,9 @@ export function Works({ summary = false }: { summary?: boolean }) {
     : projects.filter((p) => !p.ongoing);
   return (
     <section className="sec" id="works">
-      <div className="wrap">
+      <div className="container">
         <div className="head">
           <div>
-            <span className="kicker rv">시공 실적</span>
             <h2 className="h2 rv">{summary ? "최근 준공한 현장" : `준공 실적 ${list.length}건`}</h2>
             {!summary && <p className="lede rv">공사 금액은 부가세를 포함한 계약 금액입니다. 민간 공사 일부는 계약 방식상 금액을 적지 않았습니다.</p>}
           </div>
@@ -34,17 +33,17 @@ export function Works({ summary = false }: { summary?: boolean }) {
           {list.map((w) => (
             <article className="rv" data-cat={w.cat} key={w.id}>
               <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${w.img}.jpg)` }}>
-                <span className="tag">{categories.find((c) => c.key === w.cat)!.label}</span>
-                {w.imgNote && <span className="tag note">{w.imgNote}</span>}
               </div>
               <div className="bd">
                 <h3>{w.name}</h3>
                 <dl>
+                  <dt>분류</dt><dd>{categories.find((c) => c.key === w.cat)!.label}</dd>
                   <dt>발주처</dt><dd>{w.client}</dd>
                   <dt>용도</dt><dd>{w.use}</dd>
                   {w.area && <><dt>연면적</dt><dd className="num">{w.area}</dd></>}
                   {w.cost && <><dt>공사비</dt><dd className="num">{w.cost}</dd></>}
                   <dt>준공</dt><dd className="num">{w.done}</dd>
+                  {w.imgNote && <><dt>사진</dt><dd>{w.imgNote}</dd></>}
                 </dl>
               </div>
             </article>

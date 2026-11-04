@@ -9,10 +9,9 @@ const steps = [
 export function Process() {
   return (
     <section className="sec soft" id="process">
-      <div className="wrap">
+      <div className="container">
         <div className="head">
           <div>
-            <span className="kicker rv">진행 순서</span>
             <h2 className="h2 rv">상담부터 사후 관리까지 다섯 단계</h2>
           </div>
         </div>

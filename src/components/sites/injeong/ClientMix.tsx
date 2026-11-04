@@ -7,9 +7,8 @@ export function ClientMix() {
   const publicCount = rows.filter((r) => ["교육", "공공", "군"].includes(r.key)).reduce((a, r) => a + r.n, 0);
   return (
     <section className="sec">
-      <div className="wrap rg">
+      <div className="container rg">
         <div>
-          <span className="kicker rv">발주처 구성</span>
           <h2 className="h2 rv">실적 {projects.length}건 중 {publicCount}건이<br />교육청·지자체·군 발주 공사</h2>
           <p className="lede rv">관급 공사에서 다져 온 시공 기준을 민간 공사에도 그대로 적용합니다. 산업시설은 한 기업이 네 차례 연속으로 공사를 맡겼습니다.</p>
         </div>

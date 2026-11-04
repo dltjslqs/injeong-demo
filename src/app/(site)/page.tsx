@@ -1,19 +1,19 @@
-import { Business } from "@/components/sites/injeong/Business";
-import { CtaBand } from "@/components/sites/injeong/CtaBand";
-import { Figures } from "@/components/sites/injeong/Figures";
-import { Hero } from "@/components/sites/injeong/Hero";
+import { Areas } from "@/components/sites/injeong/Areas";
+import { Case } from "@/components/sites/injeong/Case";
+import { Close } from "@/components/sites/injeong/Close";
+import { HeroIndex } from "@/components/sites/injeong/HeroIndex";
 import { NotesSummary } from "@/components/sites/injeong/Notes";
-import { Works } from "@/components/sites/injeong/Works";
+import { Where } from "@/components/sites/injeong/Where";
 
 export default function Home() {
   return (
     <>
-      <Hero />
-      <Business summary />
-      <Figures />
-      <Works summary />
+      <HeroIndex />
+      <Case />
+      <Areas />
+      <Where />
       <NotesSummary />
-      <CtaBand />
+      <Close />
     </>
   );
 }
