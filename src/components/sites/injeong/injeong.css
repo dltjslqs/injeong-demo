@@ -425,20 +425,27 @@
 .ij .creds-grid dd span { font-size: var(--text-sm); color: var(--color-field-ink); }
 .ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
-/* the plaques: one studio set, the same backdrop and frame, so they read as a row of cards */
-.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); }
-.ij .plaques li { display: grid; gap: var(--space-sm); }
-.ij .plq { display: block; aspect-ratio: 4 / 5; overflow: clip; border-radius: var(--radius-card); background: var(--color-field-2); }
-.ij .plq img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
-.ij .plaques li:hover .plq img { transform: scale(1.04); }
-.ij .plaques p { font-weight: 700; }
+/* the plaques as cards in a row that scrolls sideways: who gave it and when, the photograph, a line from it, the project */
+.ij .pq-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * var(--space-lg)) / 3); gap: var(--space-lg); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: var(--space-md); scrollbar-width: thin; scrollbar-color: var(--color-field-muted) transparent; }
+.ij .pq { display: grid; grid-template-rows: auto auto 1fr auto; gap: var(--space-md); padding: var(--space-lg); border: 1px solid var(--color-hairline-light); border-radius: var(--radius-card); background: var(--color-field-2); scroll-snap-align: start; }
+.ij .pq-top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-sm); }
+.ij .pq-top b { font-size: var(--text-lg); }
+.ij .pq-top span { font-size: var(--text-sm); color: var(--color-field-muted); }
+.ij .pq-pic { display: block; aspect-ratio: 4 / 3; overflow: clip; border-radius: var(--radius-card); background: var(--color-field); }
+.ij .pq-pic img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
+.ij .pq:hover .pq-pic img { transform: scale(1.04); }
+.ij .pq-q { margin: 0; font-size: var(--text-lg); font-weight: 800; line-height: 1.5; }
+.ij .pq-q::before { content: "“"; color: var(--color-sky); }
+.ij .pq-q::after { content: "”"; color: var(--color-sky); }
+.ij .pq-pj { font-size: var(--text-sm); color: var(--color-field-muted); }
+.ij .pq-row:focus-visible { outline-offset: 4px; }
 .ij .plaques-note { margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .trust :focus-visible { outline-color: var(--color-sky); }
 @media (max-width: 60rem) {
   .ij .creds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ij .plaques { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .ij .pq-row { grid-auto-columns: calc((100% - var(--space-lg)) / 2); }
 }
-@media (max-width: 40rem) { .ij .plaques { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .ij .pq-row { grid-auto-columns: 82%; } }
 /* the team, one photograph set big under a left-aligned head */
 .ij .team { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
 .ij .team-pic img { width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: center 35%; border-radius: var(--radius-card); }
