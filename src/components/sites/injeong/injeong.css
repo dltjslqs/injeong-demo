@@ -121,7 +121,16 @@
 /* the record, right under the hero */
 
 /* case: one client opened, a split 7 and 5 */
-.ij .case-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl) var(--gap-columns); align-items: center; }
+.ij .case-in { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: var(--space-2xl) var(--space-3xl); align-items: start; }
+.ij .case-pic { position: sticky; top: calc(var(--bar-h) + var(--space-lg)); }
+.ij .case-why { border-top: 2px solid var(--color-field); }
+.ij .case-why li { padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
+.ij .cw-label { display: flex; align-items: baseline; gap: var(--space-sm); font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
+.ij .cw-label .num { font-weight: 800; }
+.ij .case-why h3 { margin-top: var(--space-2xs); font-size: var(--text-xl); font-weight: 800; line-height: 1.35; overflow-wrap: break-word; min-width: 0; }
+.ij .cw-desc { margin-top: var(--space-xs); color: var(--color-ink-2); line-height: 1.65; }
+.ij .cw-tags { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-sm); margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.ij .case-txt > .link { display: inline-block; margin-top: var(--space-lg); }
 .ij .cs-stage { position: relative; aspect-ratio: 4 / 3; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
 .ij .cs-stage .cs { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 900ms var(--ease-out); }
 .ij .cs-stage .cs.on { opacity: 1; }
@@ -623,3 +632,5 @@
   .ij .sc-lead .sc-sub { display: none; }
   .ij .team-pic img { aspect-ratio: 4 / 3; }
 }
+
+@media (max-width: 60rem) { .ij .case-pic { position: static; } }
