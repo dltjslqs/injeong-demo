@@ -32,7 +32,7 @@ export const company = {
     { year: 2024, amount: 53.1 },
     { year: 2025, amount: 67.5 },
   ],
-  engineers: 16,
+  engineers: 17, // 공사지명원(2026.10) 기술자보유명단 기준
   awards: [
     "한국국토정보공사 감사패",
     "금산군청 감사패",

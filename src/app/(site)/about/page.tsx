@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BASE } from "@/components/sites/injeong/base";
 import { ClientMix } from "@/components/sites/injeong/ClientMix";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
@@ -6,6 +7,14 @@ import { Message } from "@/components/sites/injeong/Message";
 import { PageHead } from "@/components/sites/injeong/PageHead";
 
 export const metadata: Metadata = { title: "회사소개" };
+
+// 제출서류(26.11.03) 01. 증빙서류의 원본 PDF를 그대로 이미지로 옮긴 것
+const certs = [
+  { file: "business", name: "사업자등록증", note: "126-81-72450" },
+  { file: "license-arch", name: "건설업등록증", note: "건축공사업 10-1210" },
+  { file: "license-interior", name: "건설업등록증", note: "실내건축공사업 충남홍성 2024-나-03" },
+  { file: "capacity-2026", name: "시공능력평가액 확인서", note: "2026년도, 대한건설협회" },
+];
 
 const history = [
   ["1989", "홍성에서 개인 건설업 시작"],
@@ -51,6 +60,18 @@ export default function AboutPage() {
               <div><dt>기술인력</dt><dd>{company.engineers}명</dd></div>
               <div><dt>최근 매출</dt><dd>{company.sales.map((s) => `${s.year}년 ${s.amount}억`).join(" → ")}</dd></div>
             </dl>
+            <h3 className="awt rv">등록증과 확인서 원본</h3>
+            <ul className="certs rv">
+              {certs.map((c) => (
+                <li key={c.file}>
+                  <a href={`${BASE}/sites/injeong/certs/${c.file}.jpg`} target="_blank" rel="noopener" aria-label={`${c.name} ${c.note} 크게 보기 (새 창)`}>
+                    <span className="cert-pic"><img src={`${BASE}/sites/injeong/certs/${c.file}-s.jpg`} alt={`${c.name} 원본`} width={640} height={900} loading="lazy" /></span>
+                    <b>{c.name}</b>
+                    <span>{c.note}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
             <h3 className="awt rv">발주처에서 받은 감사패</h3>
             <ul className="awards rv">{company.awards.map((a) => <li key={a}>{a}</li>)}</ul>
           </div>
@@ -67,7 +88,11 @@ export default function AboutPage() {
             <div><dt>대표전화</dt><dd className="num">{company.tel}</dd></div>
             <div><dt>팩스</dt><dd className="num">{company.fax}</dd></div>
             <div><dt>이메일</dt><dd>{company.email}</dd></div>
+            <div><dt>길찾기</dt><dd><a className="link" href={`https://map.naver.com/p/search/${encodeURIComponent(company.address)}`} target="_blank" rel="noopener">네이버 지도</a> <a className="link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener">구글 지도</a></dd></div>
           </dl>
+          <div className="map rv">
+            <iframe title="㈜인정건설 홍성 본사 위치" src={`https://www.google.com/maps?q=${encodeURIComponent(`${company.address} 인정건설`)}&hl=ko&z=16&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          </div>
         </div>
       </section>
       <CtaBand />
