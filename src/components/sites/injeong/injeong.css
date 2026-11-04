@@ -132,7 +132,7 @@
 /* areas: a bento of mixed spans, two photographs and three set in type */
 .ij .areas-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-xl); }
 .ij .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gap-columns); }
-.ij .tile { position: relative; display: flex; flex-direction: column; min-height: 320px; padding: var(--space-xl); border-radius: var(--radius-card); overflow: hidden; }
+.ij .tile { position: relative; display: flex; flex-direction: column; min-height: 264px; padding: var(--space-xl); border-radius: var(--radius-card); overflow: hidden; }
 .ij .span-4 { grid-column: span 4; } .ij .span-8 { grid-column: span 8; } .ij .span-12 { grid-column: span 12; min-height: 0; }
 .ij .tile h3 { font-size: var(--text-2xl); }
 .ij .tile p { margin-top: var(--space-xs); }
@@ -168,8 +168,8 @@
 .ij .notes-pic img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius-card); }
 
 /* close: contact details, then the one action */
-.ij .close { padding-block: var(--section-gap) var(--section-gap-s); }
-.ij .close-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl) var(--gap-columns); align-items: start; }
+.ij .close { padding-block: var(--section-gap-s); }
+.ij .close-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl) var(--gap-columns); align-items: start; }
 .ij .close .btn { margin-top: var(--space-xl); }
 .ij .close-dl { border-top: 2px solid var(--color-field); }
 .ij .close-dl div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-lg); align-items: baseline; padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
@@ -398,9 +398,9 @@
 .ij .recent .head .lede { margin-top: var(--space-xs); }
 
 /* the record as photo cards: one height per row, the photo carries it */
-.ij .rc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl) var(--gap-columns); margin-top: var(--space-xl); }
+.ij .rc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl) var(--gap-columns); }
 .ij .rc { display: grid; gap: var(--space-2xs); }
-.ij .rc-pic { position: relative; display: block; aspect-ratio: 4 / 3; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); margin-bottom: var(--space-sm); }
+.ij .rc-pic { position: relative; display: block; aspect-ratio: 3 / 2; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); margin-bottom: var(--space-sm); }
 .ij .rc-pic > img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
 .ij .rc:hover .rc-pic > img { transform: scale(1.04); }
 .ij .rc-ph { display: grid; place-items: center; width: 100%; height: 100%; }
@@ -426,7 +426,7 @@
 .ij .creds-grid .lic { font-size: var(--text-md); font-weight: 700; line-height: 1.4; }
 .ij .awards-h { margin-top: var(--space-3xl); font-size: var(--text-xl); }
 /* the plaques: one studio set, the same backdrop and frame, so they read as a row of cards */
-.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); margin-top: var(--space-2xl); }
+.ij .plaques { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--space-md); }
 .ij .plaques li { display: grid; gap: var(--space-sm); }
 .ij .plq { display: block; aspect-ratio: 4 / 5; overflow: clip; border-radius: var(--radius-card); background: var(--color-field-2); }
 .ij .plq img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-long) var(--ease-out); }
@@ -441,13 +441,12 @@
 @media (max-width: 40rem) { .ij .plaques { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 /* the team, one photograph set big under a left-aligned head */
 .ij .team { padding-block: var(--section-gap-s); background: var(--color-paper-2); }
-.ij .team-pic { margin-top: var(--space-xl); }
-.ij .team-pic img { width: 100%; aspect-ratio: 1344 / 752; object-fit: cover; border-radius: var(--radius-card); }
+.ij .team-pic img { width: 100%; aspect-ratio: 2.2 / 1; object-fit: cover; object-position: center 35%; border-radius: var(--radius-card); }
 .ij .team-pic figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 
 /* the series: one lead card, four beside it, every card the same photo ratio */
 .ij .notes-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md); }
-.ij .sc-series { margin-top: var(--space-2xl); font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
+.ij .sc-series { margin-top: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
 .ij .sc-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr); grid-template-rows: auto auto; gap: var(--space-xl) var(--gap-columns); margin-top: var(--space-md); }
 .ij .sc-lead { grid-row: span 2; }
 .ij .sc { display: grid; gap: var(--space-xs); }
@@ -472,6 +471,11 @@
 .ij .art-list li::marker { color: var(--color-accent); }
 @media (max-width: 60rem) { .ij .sc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ij .sc-lead { grid-column: span 2; grid-row: auto; } }
 @media (max-width: 40rem) { .ij .sc-grid { grid-template-columns: minmax(0, 1fr); } .ij .sc-lead { grid-column: auto; } }
+
+/* one section head for the whole home page: heading and one line on the left, the link on the right,
+   the same distance to whatever follows */
+.ij .recent .head, .ij .trust-head, .ij .notes-head, .ij .areas-head, .ij .team-head, .ij .case-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md) var(--gap-columns); margin: 0 0 var(--space-2xl); }
+.ij .recent .head .lede, .ij .trust-head .lede, .ij .notes-head .lede, .ij .areas-head .lede, .ij .team-head .lede { margin-top: var(--space-sm); max-width: 52ch; }
 
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }

@@ -47,8 +47,8 @@ export function RecentList() {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="rv">최근 실적</h2>
-            <p className="lede">지금 {ongoing.length}곳을 짓고 있고, 준공한 현장은 {done}곳입니다.</p>
+            <h2 className="rv">지금도 충남 곳곳을 짓고 있습니다</h2>
+            <p className="lede">교육청과 지자체, 군, 기업이 최근 인정건설에 맡긴 현장입니다. 준공 {done}곳, 지금 짓고 있는 현장 {ongoing.length}곳.</p>
           </div>
           <Link className="link" href="/projects">시공 실적 전체 보기</Link>
         </div>
