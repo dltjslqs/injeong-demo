@@ -14,7 +14,7 @@ export function Works({ summary = false }: { summary?: boolean }) {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">{summary ? "최근 준공한 현장" : `준공 실적 ${list.length}건`}</h2>
+            <h2 className="h2 rv">{summary ? "최근 준공한 현장" : `주요 준공 실적 ${list.length}건`}</h2>
             {!summary && <p className="lede rv">공사 금액은 부가세를 포함한 계약 금액입니다. 민간 공사 일부는 계약 방식상 금액을 적지 않았습니다.</p>}
           </div>
           {summary ? (

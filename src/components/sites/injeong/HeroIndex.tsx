@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { BASE } from "./base";
-import { categories, company, projects } from "./data";
+import { categories, company, projects, recordCount } from "./data";
 
-const done = projects.filter((p) => !p.ongoing).length;
+const done = recordCount(projects.filter((p) => !p.ongoing).length);
 
 // The record: what is being built now, then the latest completed projects.
 const ongoing = projects.filter((p) => p.ongoing);

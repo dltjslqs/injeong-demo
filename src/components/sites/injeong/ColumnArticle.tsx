@@ -7,7 +7,11 @@ export const COLUMN_DATE = "2026.11";
 export const COLUMN_AUTHOR = "인정건설 김병철 이사";
 
 /** The photo a column opens with: its first picture. */
-export const coverOf = (c: Column) => (c.blocks.find((b) => b.t === "img") as { id: string } | undefined)?.id ?? "p18";
+export const coverOf = (c: Column) => {
+  if (c.cover) return `${BASE}/sites/injeong/cols/${c.cover}.jpg`;
+  const id = (c.blocks.find((b) => b.t === "img") as { id: string } | undefined)?.id ?? "p18";
+  return `${BASE}/sites/injeong/works/${id}.jpg`;
+};
 
 function Pic({ id }: { id: string }) {
   const p = projects.find((x) => x.id === id);
@@ -50,6 +54,10 @@ function Part({ b, last }: { b: Block; last: boolean }) {
     case "h2": return <h2>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
     case "img": return <Pic id={b.id} />;
+    case "cover": return <figure className="art-pic"><img src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt="" width={1536} height={864} /></figure>;
+    case "h3": return <h3>{b.x}</h3>;
+    case "ul": return <ul className="art-list">{b.items.map((x) => <li key={x}>{x}</li>)}</ul>;
+    case "ol": return <ol className="art-list num-list">{b.items.map((x) => <li key={x}>{x}</li>)}</ol>;
     case "table": return <Table head={b.head} rows={b.rows} />;
   }
 }
@@ -67,7 +75,7 @@ export function ColumnArticle({ c }: { c: Column }) {
           <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/notes">기술 칼럼</Link></nav>
           <h1>{c.title}</h1>
           <p className="art-sub">{c.sub}</p>
-          <p className="meta">{c.cat}, {COLUMN_DATE}, {COLUMN_AUTHOR}</p>
+          <p className="meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}, {COLUMN_DATE}, {COLUMN_AUTHOR}</p>
         </div>
       </header>
       <div className="container art-body">

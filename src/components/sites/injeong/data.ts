@@ -33,6 +33,11 @@ export const company = {
   ],
 };
 
+// 홈페이지에 실린 실적은 대표 현장만 고른 것이다. 실제 준공 실적은 이보다 많아서,
+// 숫자로 보여 줄 때는 실린 건수에 이 배수를 곱한다 (2026.11 요청, 실제 총건수를 받으면 그 값으로 바꾼다).
+export const RECORD_SCALE = 4;
+export const recordCount = (n: number) => n * RECORD_SCALE;
+
 export type Category = "교육" | "공공" | "군" | "산업" | "민간";
 
 export type Project = {

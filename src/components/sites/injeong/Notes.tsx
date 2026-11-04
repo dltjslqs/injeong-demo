@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { BASE } from "./base";
 import { COLUMN_DATE, coverOf } from "./ColumnArticle";
-import { columns } from "./columns";
+import { type Column, columns } from "./columns";
 
-const feature = columns[0];
+const series = columns.filter((c) => c.series);
+const others = columns.filter((c) => !c.series);
 
 // 기초자료 작성표 5번 「건축 칼럼 주제」에서 인정건설이 고른 주제, 아직 쓰지 않은 글
 const planned = [
@@ -17,54 +17,53 @@ function Meta({ cat, date }: { cat: string; date: string }) {
   return <p className="meta">{cat}, {date}</p>;
 }
 
-/** Home: the four newest columns beside the photo of the first. */
+/** The series as photo cards: the first one large, the other four beside it. */
+function SeriesCards({ items }: { items: Column[] }) {
+  return (
+    <ol className="sc-grid">
+      {items.map((c, i) => (
+        <li key={c.slug} className={i === 0 ? "sc-lead" : undefined}>
+          <Link href={`/notes/${c.slug}`} className="sc">
+            <span className="sc-pic"><img src={coverOf(c)} alt="" width={1536} height={864} loading="lazy" /></span>
+            <span className="sc-no num">{String(c.series).padStart(2, "0")}</span>
+            <span className="sc-t">{c.title}</span>
+            {i === 0 && <span className="sc-sub">{c.sub}</span>}
+          </Link>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** Home: the five-part series on how to tell a good builder. */
 export function NotesSummary() {
   return (
     <section className="notes">
-      <div className="container notes-in">
-        <div className="notes-txt">
-          <h2>공사비를 절약하는 실무 인사이트</h2>
-          <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫. 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
-          <ol className="notes-list">
-            {columns.slice(0, 4).map((n) => (
-              <li key={n.slug}>
-                <Link href={`/notes/${n.slug}`}>
-                  <h3>{n.title}</h3>
-                  <Meta cat={n.cat} date={COLUMN_DATE} />
-                </Link>
-              </li>
-            ))}
-          </ol>
-          <Link className="link notes-all" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
+      <div className="container">
+        <div className="notes-head">
+          <div>
+            <h2>공사비를 절약하는 실무 인사이트</h2>
+            <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫. 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
+          </div>
+          <Link className="link" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
         </div>
-        <figure className="notes-pic">
-          <img src={`${BASE}/sites/injeong/works/${coverOf(feature)}.jpg`} alt="㈜동신포리마 신원단공장" width={1800} height={1018} loading="lazy" />
-          <figcaption>공장 신축과 증축, 사무용 건물까지 현장에서 받은 질문으로 씁니다</figcaption>
-        </figure>
+        <p className="sc-series">연재, 잘하는 시공사의 진짜 실력 {series.length}편</p>
+        <SeriesCards items={series} />
       </div>
     </section>
   );
 }
 
-/** /notes: the first column as the feature, every other column as a row, then the planned topics. */
+/** /notes: the series first, then every other column as a row, then the planned topics. */
 export function NotesList() {
-  const href = `/notes/${feature.slug}`;
   return (
     <section className="sec">
       <div className="container">
-        <article className="nfeat">
-          <Link href={href} className="nfeat-pic">
-            <img src={`${BASE}/sites/injeong/works/${coverOf(feature)}.jpg`} alt="㈜동신포리마 신원단공장" width={1800} height={1018} loading="lazy" />
-          </Link>
-          <div className="nfeat-txt">
-            <h2><Link href={href}>{feature.title}</Link></h2>
-            <Meta cat={feature.cat} date={COLUMN_DATE} />
-            <p>{feature.lede}</p>
-            <p><Link className="link" href={href}>칼럼 읽기</Link></p>
-          </div>
-        </article>
+        <h2 className="nser-h">연재, 잘하는 시공사의 진짜 실력</h2>
+        <SeriesCards items={series} />
+        <h2 className="nser-h nser-gap">공장과 건물, 공사비 칼럼</h2>
         <ul className="nrows">
-          {columns.slice(1).map((n) => (
+          {others.map((n) => (
             <li key={n.slug}>
               <h3><Link href={`/notes/${n.slug}`}>{n.title}</Link></h3>
               <p>{n.sub}</p>

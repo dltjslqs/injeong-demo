@@ -7,7 +7,7 @@ export function SiteFooter() {
   return (
     <footer className="ft">
       <div className="container">
-        <p className="ft-stmt">약속한 날, 약속한 품질로 넘겨 드립니다.</p>
+        <p className="ft-stmt">지으라는 대로만 짓지 않습니다.<br />설계 오류는 먼저 찾고, 예산을 아끼는 시공법은 먼저 제안합니다.</p>
         <div className="ft-grid">
           <div>
             <Logo dark />
