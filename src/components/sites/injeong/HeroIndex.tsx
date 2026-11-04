@@ -52,19 +52,21 @@ export function RecentList() {
           </div>
           <Link className="link" href="/projects">시공 실적 전체 보기</Link>
         </div>
-        <ol className="hx-list" aria-label="최근 실적">
+        <ol className="rc-grid" aria-label="최근 실적">
           {rows.map((p) => (
             <li key={p.id}>
-              <Link href="/projects">
-                {p.img ? (
-                  <img src={`${BASE}/sites/injeong/works/${p.img}.jpg`} alt="" width={160} height={106} loading="lazy" />
-                ) : (
-                  <span className="hx-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
-                )}
-                {p.ongoing ? <span className="now">시공 중</span> : <time className="num">{p.done}</time>}
-                <span className="nm">{p.name}</span>
-                <span className="cl">{p.client}</span>
-                <span className="ct">{p.ongoing ? `${p.period.split(" – ")[1]} 준공 예정` : label(p.cat)}</span>
+              <Link href="/projects" className="rc">
+                <span className="rc-pic">
+                  {p.img ? (
+                    <img src={`${BASE}/sites/injeong/works/${p.img}.jpg`} alt="" width={800} height={600} loading="lazy" />
+                  ) : (
+                    <span className="rc-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
+                  )}
+                  <span className={p.ongoing ? "rc-tag now" : "rc-tag"}>{p.ongoing ? "시공 중" : <span className="num">{p.done} 준공</span>}</span>
+                </span>
+                <span className="rc-cl">{p.client}</span>
+                <span className="rc-meta">{label(p.cat)}{p.ongoing ? `, ${p.period.split(" – ")[1]} 준공 예정` : ""}</span>
+                <span className="rc-nm">{p.name}</span>
               </Link>
             </li>
           ))}
