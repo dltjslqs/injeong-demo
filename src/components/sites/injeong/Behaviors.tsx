@@ -38,52 +38,31 @@ export function Behaviors() {
       on(window, "scroll", shadow, { passive: true });
     }
 
-    // home hero: crossfade through the project photos, with numbered buttons and a pause
-    const hv = root.querySelector<HTMLElement>(".hv");
-    if (hv) {
-      const pics = Array.from(hv.querySelectorAll<HTMLImageElement>(".hv-pic"));
-      const nums = Array.from(hv.querySelectorAll<HTMLButtonElement>(".hv-nums button:not(.hv-pause)"));
-      const pause = hv.querySelector<HTMLButtonElement>(".hv-pause");
-      const cap = hv.querySelector<HTMLElement>(".hv-cap");
+    // home hero: background footage with a pause button; still for reduced motion
+    const vid = root.querySelector<HTMLVideoElement>(".hv-vid");
+    const pause = root.querySelector<HTMLButtonElement>(".hv-pause");
+    if (vid) {
       const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let at = 0;
-      let timer: number | undefined;
-      const show = (i: number) => {
-        const was = at;
-        at = (i + pics.length) % pics.length;
-        if (was === at) return;
-        // the outgoing photo holds its zoom while it fades out
-        pics.forEach((p, j) => {
-          p.classList.toggle("out", j === was);
-          p.classList.toggle("on", j === at);
-        });
-        nums.forEach((b, j) => {
-          b.classList.toggle("on", j === at);
-          b.setAttribute("aria-pressed", String(j === at));
-        });
-        if (cap) cap.textContent = pics[at].dataset.cap ?? "";
+      const label = () => {
+        if (!pause) return;
+        pause.textContent = vid.paused ? "재생" : "멈춤";
+        pause.setAttribute("aria-label", vid.paused ? "배경 영상 재생" : "배경 영상 멈춤");
       };
-      const stop = () => {
-        window.clearInterval(timer);
-        timer = undefined;
-        if (pause) {
-          pause.textContent = "재생";
-          pause.setAttribute("aria-label", "사진 넘기기 다시 시작");
-        }
-      };
-      const play = () => {
-        window.clearInterval(timer);
-        timer = window.setInterval(() => show(at + 1), 6000);
-        if (pause) {
-          pause.textContent = "멈춤";
-          pause.setAttribute("aria-label", "사진 넘기기 멈춤");
-        }
-      };
-      nums.forEach((b, j) => on(b, "click", () => { show(j); stop(); }));
-      if (pause) on(pause, "click", () => (timer === undefined ? play() : stop()));
-      if (still) stop();
-      else play();
-      off.push(() => window.clearInterval(timer));
+      if (still) vid.pause();
+      else vid.play().catch(() => {});
+      on(vid, "play", label);
+      on(vid, "pause", label);
+      // reveal the footage once it is actually moving, over the poster frame
+      const ready = () => vid.classList.add("on");
+      if (vid.readyState >= 3) ready();
+      on(vid, "playing", ready);
+      // dip to dark across the loop seam so the jump back to the start never shows
+      on(vid, "timeupdate", () => {
+        const left = vid.duration - vid.currentTime;
+        vid.classList.toggle("seam", left < 0.9 || vid.currentTime < 0.5);
+      });
+      if (pause) on(pause, "click", () => (vid.paused ? vid.play().catch(() => {}) : vid.pause()));
+      label();
     }
 
     // works filter

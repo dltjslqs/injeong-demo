@@ -2,9 +2,6 @@ import Link from "next/link";
 import { BASE } from "./base";
 import { categories, company, projects } from "./data";
 
-// Four finished buildings, one per kind of client, shown full screen behind the headline.
-const SLIDES = ["p03", "p12", "p18", "p02"];
-const slides = SLIDES.map((id) => projects.find((p) => p.id === id)!).filter(Boolean);
 const done = projects.filter((p) => !p.ongoing).length;
 
 // The record: the latest completed projects, newest first.
@@ -13,24 +10,18 @@ const label = (cat: string) => categories.find((c) => c.key === cat)?.label ?? c
 const caption = (p: (typeof projects)[number]) => `${p.name}, ${p.done.slice(0, 4)}년 준공`;
 
 export function HeroIndex() {
+  const v = `${BASE}/sites/injeong`;
   return (
     <section className="hv" aria-label="인정건설 소개">
-      <div className="hv-pics">
-        {slides.map((p, i) => (
-          <img
-            key={p.id}
-            className={i === 0 ? "hv-pic on" : "hv-pic"}
-            src={`${BASE}/sites/injeong/works/${p.img}.jpg`}
-            alt=""
-            width={1800}
-            height={1018}
-            data-cap={caption(p)}
-            fetchPriority={i === 0 ? "high" : "low"}
-          />
-        ))}
+      <div className="hv-pics" style={{ backgroundImage: `url(${v}/hero-poster.jpg)` }}>
+        {/* decorative footage: muted, looping, paused for reduced motion by Behaviors */}
+        <video className="hv-vid" autoPlay muted loop playsInline preload="auto" poster={`${v}/hero-poster.jpg`} aria-hidden="true">
+          <source src={`${v}/hero-m.mp4`} type="video/mp4" media="(max-width: 48rem)" />
+          <source src={`${v}/hero.mp4`} type="video/mp4" />
+        </video>
       </div>
       <div className="container hv-in">
-        <h1>1989년부터<br />충남을 짓습니다</h1>
+        <h1><span>1989년부터</span><br /><span>충남을 짓습니다</span></h1>
         <p className="lead">학교와 관공서, 군 시설과 공장을 짓는 홍성의 종합건설사입니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">견적 문의</Link>
@@ -42,17 +33,7 @@ export function HeroIndex() {
             <div><dt>{company.capacity.year} 시공능력평가</dt><dd className="num">{company.capacity.amount}</dd></div>
             <div><dt>준공 실적</dt><dd className="num">{done}건</dd></div>
           </dl>
-          <div className="hv-ctl">
-            <p className="hv-cap">{caption(slides[0])}</p>
-            <div className="hv-nums">
-              {slides.map((p, i) => (
-                <button key={p.id} type="button" className={i === 0 ? "on" : undefined} aria-label={`${i + 1}번 사진: ${p.name}`} aria-pressed={i === 0}>
-                  <span className="num">{String(i + 1).padStart(2, "0")}</span>
-                </button>
-              ))}
-              <button type="button" className="hv-pause" aria-label="사진 넘기기 멈춤">멈춤</button>
-            </div>
-          </div>
+          <button type="button" className="hv-pause" aria-label="배경 영상 멈춤">멈춤</button>
         </div>
       </div>
     </section>
