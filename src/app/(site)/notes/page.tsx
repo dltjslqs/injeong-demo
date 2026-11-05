@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "기술 칼럼" };
 export default function NotesPage() {
   return (
     <>
-      <PageHead en="COLUMN" title="기술 칼럼" desc="공장건축 견적부터 관급공사 진행 과정까지, 현장 기술진이 직접 정리합니다." img="p17" />
+      <PageHead en="COLUMN" title="기술 칼럼" heading="건축주를 위한 실전 인사이트" desc="설계 오류를 막고 공사비를 아끼는 건설 엔지니어링 가이드" img="p17" />
       <NotesList />
       <CtaBand />
     </>

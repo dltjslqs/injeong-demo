@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { BASE } from "./base";
 import { COLUMN_DATE, coverOf } from "./ColumnArticle";
 import { getColumns } from "@/lib/injeong/content";
+import { NotesFeed, type FeedItem } from "./NotesFeed";
 import type { Column } from "./columns";
 
 
@@ -11,10 +13,6 @@ const planned = [
   { cat: "공사관리", title: "건설사업관리 대상 현장, 시공사는 무엇을 준비하나" },
   { cat: "법령", title: "건설 관련 법령·표준시방서, 이번에 달라진 것" },
 ];
-
-function Meta({ cat, date }: { cat: string; date: string }) {
-  return <p className="meta">{cat}, {date}</p>;
-}
 
 /** The series as photo cards: the first one large, the other four beside it. */
 function SeriesCards({ items }: { items: Column[] }) {
@@ -56,29 +54,33 @@ export async function NotesSummary() {
 }
 
 /** /notes: the series first, then every other column as a row, then the planned topics. */
+// the article the feed leads with: the factory-estimate piece, the one most readers come for
+const FEATURED = "factory-cost";
+// feed covers for columns whose first picture repeats another's (mostly the same 동신 plant); the article itself is unchanged
+const FEED_COVER: Record<string, string> = {
+  "factory-cost": "works/area-industry.jpg",
+  "factory-site": "hero-poster.jpg",
+  "factory-layout": "works/case-3.jpg",
+  "factory-handover": "works/why-3.jpg",
+  "extension-permit": "works/why-1.jpg",
+};
+
 export async function NotesList() {
   const columns = await getColumns();
-  const series = columns.filter((c) => c.series);
-  const others = columns.filter((c) => !c.series);
+  const toItem = (c: Column): FeedItem => ({ slug: c.slug, title: c.title, sub: c.sub, cat: c.cat, date: c.date ?? COLUMN_DATE, cover: FEED_COVER[c.slug] ? `${BASE}/sites/injeong/${FEED_COVER[c.slug]}` : coverOf(c) });
+  const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
+  const rest = columns.filter((c) => c.slug !== lead.slug);
+  const cats = [...new Set(columns.map((c) => c.cat))];
   return (
-    <section className="sec">
-      <div className="container">
-        <h2 className="nser-h">연재, 잘하는 시공사의 진짜 실력</h2>
-        <SeriesCards items={series} />
-        <h2 className="nser-h nser-gap">공장과 건물, 공사비 칼럼</h2>
-        <ul className="nrows">
-          {others.map((n) => (
-            <li key={n.slug}>
-              <h3><Link href={`/notes/${n.slug}`}>{n.title}</Link></h3>
-              <p>{n.sub}</p>
-              <Meta cat={n.cat} date={n.date ?? COLUMN_DATE} />
-            </li>
-          ))}
-        </ul>
-        <h2 className="nplan-h">연재 예정</h2>
-        <ul className="nplan">
-          {planned.map((n) => <li key={n.title}><span>{n.title}</span><Meta cat={n.cat} date="준비 중" /></li>)}
-        </ul>
+    <section className="sec nf">
+      <div className="container nf-in">
+        <NotesFeed featured={toItem(lead)} items={rest.map(toItem)} cats={cats} />
+        <div className="nf-plan">
+          <h2>준비 중인 글</h2>
+          <ul>
+            {planned.map((n) => <li key={n.title}><span className="nf-plan-cat">{n.cat}</span><span>{n.title}</span></li>)}
+          </ul>
+        </div>
       </div>
     </section>
   );
