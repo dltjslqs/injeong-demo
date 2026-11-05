@@ -35,6 +35,7 @@
 .ij .sec { padding-block: var(--section-gap); }
 /* home: every section is one block of colour, so the eye sees where one ends; paper, paper-2 and the navy field alternate */
 .ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-gap-s); }
+.ij .case, .ij .areas { padding-block: calc(var(--section-gap-l) + var(--space-lg)); }
 .ij .soft, .ij .recent, .ij .notes { background: var(--color-paper-2); }
 .ij .where { background: var(--color-field); color: var(--color-field-ink); }
 .ij .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
@@ -121,9 +122,7 @@
 /* the record, right under the hero */
 
 /* case: one client opened, a split 7 and 5 */
-.ij .case-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl) var(--space-3xl); align-items: stretch; }
-/* desktop: a taller main photo brings the section to the same height as 최근 실적, and the button sits on the left column's last line */
-@media (min-width: 60.01rem) { .ij .case .cs-stage { aspect-ratio: 30 / 31; } .ij .case-txt .case-why { flex: 1; display: flex; flex-direction: column; } .ij .case-txt .case-why.acc-on li.open { flex: 1; } .ij .case-txt .cs-more { margin-top: var(--space-lg); } }
+.ij .case-in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl) var(--space-3xl); align-items: start; }
 
 /* right: the reasons; the open one becomes a tinted panel */
 .ij .case-why { display: grid; border-top: 1px solid var(--color-rule); }
