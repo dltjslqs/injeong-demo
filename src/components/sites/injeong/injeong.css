@@ -621,9 +621,9 @@
 /* the closing band on the menu pages */
 .ij .ctab { padding-block: var(--space-3xl); background: var(--color-paper); }
 /* a navy panel on paper, so white always separates it from the section above and from the navy footer below */
-.ij .ctab-in { display: flex; padding: var(--space-2xl); border-radius: var(--radius-card); background: var(--color-field); color: var(--color-field-ink); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-xl); }
-.ij .ctab h2 { font-size: var(--text-section); }
-.ij .ctab p { margin-top: var(--space-sm); color: var(--color-field-muted); }
+.ij .ctab-in { display: flex; padding: var(--space-3xl) var(--space-3xl); border-radius: var(--radius-card); background: var(--color-field); color: var(--color-field-ink); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-xl); }
+.ij .ctab h2 { font-size: var(--text-section); line-height: 1.35; }
+.ij .ctab p { margin-top: var(--space-md); color: var(--color-field-muted); line-height: 1.8; }
 .ij .ctab :focus-visible { outline-color: var(--color-sky); }
 .ij .ctab .btns { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 

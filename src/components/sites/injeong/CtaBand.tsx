@@ -8,8 +8,8 @@ export function CtaBand() {
       <div className="container">
         <div className="ctab-in">
           <div>
-            <h2 className="rv">건축 계획이 있으신가요? 도면 검토부터 함께 짚어드립니다.</h2>
-            <p className="rv">대략적인 부지 위치나 도면만 보여주셔도 괜찮습니다. 인허가 체크부터 설계 오류, 현실적인 공사비 가이드까지 현장 실무진이 솔직하게 상담해 드립니다.</p>
+            <h2 className="rv">건축 계획이 있으신가요?<br />도면 검토부터 함께 짚어드립니다.</h2>
+            <p className="rv">부지 위치나 도면만 보여주셔도 됩니다.<br />인허가부터 공사비까지 현장 실무진이 직접 상담해 드립니다.</p>
           </div>
           <div className="btns rv">
             <Link className="btn cta" href="/contact">지금 바로 문의하기</Link>
