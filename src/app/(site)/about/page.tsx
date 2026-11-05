@@ -5,6 +5,7 @@ import { company } from "@/components/sites/injeong/data";
 import { Message } from "@/components/sites/injeong/Message";
 import { PageHead } from "@/components/sites/injeong/PageHead";
 import { Strengths } from "@/components/sites/injeong/Strengths";
+import { Trust } from "@/components/sites/injeong/Trust";
 
 export const metadata: Metadata = { title: "회사소개" };
 
@@ -75,11 +76,10 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
-            <h3 className="awt rv">발주처에서 받은 감사패</h3>
-            <ul className="awards rv">{company.awards.map((a) => <li key={a}>{a}</li>)}</ul>
           </div>
         </div>
       </section>
+      <Trust />
       <section className="sec soft">
         <div className="container visit">
           <div>
