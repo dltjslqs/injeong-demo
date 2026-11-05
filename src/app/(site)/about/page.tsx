@@ -4,7 +4,6 @@ import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
 import { Message } from "@/components/sites/injeong/Message";
 import { PageHead } from "@/components/sites/injeong/PageHead";
-import { ProfileCard } from "@/components/sites/injeong/ProfileDownload";
 import { Strengths } from "@/components/sites/injeong/Strengths";
 import { Trust } from "@/components/sites/injeong/Trust";
 
@@ -77,7 +76,6 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
-            <ProfileCard />
           </div>
         </div>
       </section>
