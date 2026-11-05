@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { company } from "./data";
+import { ProfileButton } from "./ProfileDownload";
 
 // The close for a "hire" page: the contact details, then the one action.
 export function Close() {
@@ -9,7 +10,10 @@ export function Close() {
         <div>
           <h2>현실적인 견적 가이드를 받아보세요</h2>
           <p className="lead">도면이 없거나 대략적인 부지 계획만 있어도 괜찮습니다. 현장 조건에 맞춘 인허가 검토와 가장 현실적인 견적 가이드를 함께 풀어드립니다.</p>
-          <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
+          <div className="close-btns">
+            <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
+            <ProfileButton />
+          </div>
         </div>
         <dl className="close-dl">
           <div><dt>대표전화</dt><dd><a className="num big" href={`tel:${company.tel}`}>{company.tel}</a></dd></div>

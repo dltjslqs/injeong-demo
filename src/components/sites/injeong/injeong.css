@@ -228,7 +228,7 @@
 /* close: contact details, then the one action */
 .ij .close { padding-block: var(--section-gap-s); }
 .ij .close-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--space-2xl) var(--gap-columns); align-items: start; }
-.ij .close .btn { margin-top: var(--space-xl); }
+.ij .close-btns { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
 .ij .close-dl { border-top: 2px solid var(--color-field); }
 .ij .close-dl div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--space-lg); align-items: baseline; padding-block: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
 .ij .close-dl dt { color: var(--color-muted); }
@@ -735,3 +735,11 @@
 /* every menu page opens with the same band height, whatever the heading length */
 @media (max-width: 60rem) { .ij .ph { --ph-h: 28rem; } }
 @media (max-width: 40rem) { .ij .ph { --ph-h: 27rem; padding-block: var(--space-xl) var(--space-2xl); } }
+
+/* company profile download: a card under the certificates on the about page */
+.ij .pf { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-lg); margin-top: var(--space-2xl); padding: var(--space-xl); border-radius: var(--radius-card); background: var(--color-paper-2); border: 1px solid var(--color-rule); }
+.ij .pf > div { flex: 1 1 22rem; min-width: 0; }
+.ij .pf b { display: block; font-size: var(--text-lg); font-weight: 800; color: var(--color-ink); }
+.ij .pf p { margin-top: var(--space-2xs, 4px); color: var(--color-muted); }
+.ij .pf .pf-size { margin-left: var(--space-2xs, 4px); font-weight: 500; opacity: 0.8; font-size: var(--text-sm); }
+.ij a.btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
