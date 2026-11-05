@@ -78,7 +78,7 @@ export const categories: { key: Category; label: string }[] = [
 
 export const projects: Project[] = [
   { id: "p20", cat: "교육", name: "(가칭)천안업성2초등학교 교사 신축공사", client: "충청남도교육청 천안교육지원청", use: "초등학교", scale: "지하 1층 · 지상 5층", area: "17,844㎡", cost: "178.4억", share: "공동도급 · 당사 지분 51%", period: "2026.07 – 2027.11", done: "시공 중", img: "p20", imgNote: "조감도", ongoing: true },
-  { id: "p21", cat: "공공", name: "[국고] 권역책임의료기관 시설개선공사", client: "단국대학교 의과대학 부속병원", use: "병원 (부서 이전 2,632㎡)", scale: "B동 1·3·4층, 암센터 4층", cost: "40.7억", share: "공동도급 · 당사 지분 51%", period: "2026.10 – 2027.07", done: "시공 중", ongoing: true },
+  { id: "p21", cat: "공공", name: "[국고] 권역책임의료기관 시설개선공사", client: "단국대학교 의과대학 부속병원", use: "병원 (부서 이전 2,632㎡)", scale: "B동 1·3·4층, 암센터 4층", cost: "40.7억", period: "2026.10 – 2027.07", done: "시공 중", img: "p21", imgNote: "병원 전경", ongoing: true },
   { id: "p19", cat: "군", name: "25-충-국-7 시설공사(창고 신축)", client: "국군 제9965부대", use: "군사시설(창고)", scale: "지상 1층", area: "180㎡", cost: "4.4억", period: "2025.11 – 2026.06", done: "2026.06", img: "p19" },
   { id: "p18", cat: "산업", name: "㈜동신포리마 신원단공장 신축공사", client: "㈜동신포리마", use: "공장", scale: "2개 동 · 지상 2층", area: "2,072㎡", cost: "33.5억", period: "2024.12 – 2025.10", done: "2025.10", img: "p18" },
   { id: "p17", cat: "공공", name: "고덕국민체육센터 건립공사", client: "충청남도 예산군", use: "체육관", scale: "지상 1층", area: "986㎡", cost: "17.8억", period: "2024.07 – 2025.09", done: "2025.09", img: "p17" },
