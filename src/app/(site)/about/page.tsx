@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { BASE } from "@/components/sites/injeong/base";
-import { ClientMix } from "@/components/sites/injeong/ClientMix";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
 import { Message } from "@/components/sites/injeong/Message";
 import { PageHead } from "@/components/sites/injeong/PageHead";
+import { Strengths } from "@/components/sites/injeong/Strengths";
 
 export const metadata: Metadata = { title: "회사소개" };
 
@@ -31,13 +31,13 @@ const history = [
 export default function AboutPage() {
   return (
     <>
-      <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남의 공공 기준을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" />
+      <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" />
       <Message />
       <section className="sec">
         <div className="container hist">
           <div>
             <p className="sec-label rv">인정건설이 걸어온 길</p>
-            <h2 className="h2 rv">한 동네에서 30년을 지켜온 발자취</h2>
+            <h2 className="h2 rv">30년을 지켜온 발자취</h2>
             <p className="lede rv">시공사가 한 지역에서 수십 년간 이름을 지켜왔다는 것은, 지어온 건물마다 뒷말이 없었다는 가장 확실한 증거입니다.</p>
           </div>
           <ol>
@@ -47,10 +47,11 @@ export default function AboutPage() {
           </ol>
         </div>
       </section>
-      <section className="sec soft">
+      <Strengths />
+      <section className="sec">
         <div className="container hist stack">
           <div>
-            <h2 className="h2 rv">숫자와 평가로 투명하게 공개하는 시공 역량</h2>
+            <h2 className="h2 rv">투명하게 공개하는 시공 역량</h2>
             <p className="lede rv">부실 시공과 자금 불안이 없도록, 재무 건전성부터 기술자 면허 현황까지 모든 공인 지표를 투명하게 공개합니다.</p>
           </div>
           <div>
@@ -79,11 +80,12 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-      <ClientMix />
       <section className="sec soft">
         <div className="container visit">
           <div>
-            <h2 className="h2 rv">홍성 본사</h2>
+            <p className="sec-label rv">Contact</p>
+            <h2 className="h2 rv">연락처</h2>
+            <p className="lede rv">전화 한 통, 도면 한 장이면 충분합니다. 편하게 연락 주세요.</p>
           </div>
           <dl className="rv">
             <div><dt>주소</dt><dd>{company.address}</dd></div>

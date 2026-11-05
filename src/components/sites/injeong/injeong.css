@@ -672,3 +672,18 @@
   .ij .team-pic img { aspect-ratio: 4 / 3; }
 }
 
+/* about: the four principles, photograph and text in alternating rows */
+.ij .st-head { max-width: 760px; }
+.ij .st-head .lede { margin-top: var(--space-md); }
+.ij .st-list { display: grid; gap: var(--space-3xl); margin-top: var(--space-3xl); }
+.ij .st-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--space-2xl) var(--space-3xl); align-items: center; }
+.ij .st-row:nth-child(even) .st-pic { order: 2; }
+.ij .st-pic { margin: 0; aspect-ratio: 4 / 3; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
+.ij .st-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ij .st-txt { min-width: 0; }
+.ij .st-k { display: inline-flex; align-items: center; gap: var(--space-xs); padding: 4px 12px; border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-accent-ink); font-size: var(--text-sm); font-weight: 700; }
+.ij .st-k .num { font-weight: 800; }
+.ij .st-txt h3 { margin-top: var(--space-md); font-size: var(--text-2xl); font-weight: 800; line-height: 1.3; overflow-wrap: break-word; min-width: 0; }
+.ij .st-txt .st-lead { margin-top: var(--space-sm); font-weight: 700; color: var(--color-accent); }
+.ij .st-txt p:not(.st-k):not(.st-lead) { margin-top: var(--space-sm); color: var(--color-ink-2); line-height: 1.75; max-width: 52ch; }
+@media (max-width: 60rem) { .ij .st-row { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); } .ij .st-row:nth-child(even) .st-pic { order: 0; } .ij .st-list { gap: var(--space-2xl); } }
