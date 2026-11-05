@@ -14,6 +14,7 @@ export async function HeroIndex() {
         {/* decorative footage: muted, looping, paused for reduced motion by Behaviors */}
         <video className="hv-vid" autoPlay muted loop playsInline preload="auto" poster={`${v}/hero-poster.jpg`} aria-hidden="true">
           <source src={`${v}/hero-m.mp4`} type="video/mp4" media="(max-width: 48rem)" />
+          <source src={`${v}/hero-4k.mp4`} type="video/mp4" media="(min-width: 120rem), (min-width: 64rem) and (min-resolution: 2dppx)" />
           <source src={`${v}/hero.mp4`} type="video/mp4" />
         </video>
       </div>
@@ -31,10 +32,11 @@ export async function HeroIndex() {
             <div><dt>준공 실적</dt><dd className="num">{done}건</dd></div>
           </dl>
           <div className="hv-ctl">
-            {/* review only: lets the client compare the two opening films (?hero=b opens the second) */}
+            {/* review only: lets the client compare the two opening films (?hero=b or ?hero=c opens the others) */}
             <div className="hv-ab" role="group" aria-label="첫 화면 영상 시안">
               <button type="button" data-hero="a" aria-pressed="true">A안 공장</button>
               <button type="button" data-hero="b" aria-pressed="false">B안 일반건축물</button>
+              <button type="button" data-hero="c" aria-pressed="false">C안 타임랩스</button>
             </div>
             <button type="button" className="hv-pause" aria-label="배경 영상 멈춤">멈춤</button>
           </div>
