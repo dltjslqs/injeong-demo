@@ -307,14 +307,15 @@
 
 /* 대표 인사: a statement over the photograph */
 .ij .gr { padding-block: var(--section-gap); color: var(--color-ink); background: var(--color-paper-2); border-block: 1px solid var(--color-rule); }
-.ij .gr .gr-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: center; }
+.ij .gr .gr-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+@media (min-width: 60.01rem) { .ij .gr .gr-pic { position: sticky; top: calc(var(--bar-h) + var(--space-xl)); } }
 .ij .gr .box { max-width: 760px; min-width: 0; }
 .ij .gr .gr-pic { margin: 0; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--radius-card); }
 .ij .gr .gr-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ij .gr blockquote { font-size: var(--text-section); font-weight: 800; line-height: 1.25; letter-spacing: var(--tracking-display); text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
-.ij .gr p { margin-top: var(--space-xl); max-width: 56ch; color: var(--color-ink-2); }
-.ij .gr .sig { margin-top: var(--space-xl); color: var(--color-muted); }
-.ij .gr .sig b { margin-left: var(--space-xs); font-size: var(--text-lg); color: var(--color-ink); }
+.ij .gr p { margin-top: var(--space-xl); max-width: 56ch; color: var(--color-ink-2); line-height: 1.95; }
+.ij .gr .sig { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); max-width: 56ch; color: var(--color-ink-2); font-weight: 700; }
+.ij .gr .sig b { font-size: var(--text-2xl); font-weight: 800; letter-spacing: 0.08em; color: var(--color-ink); }
 @media (max-width: 60rem) { .ij .gr .gr-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } .ij .gr .gr-pic { aspect-ratio: 16 / 10; } }
 
 /* 회사소개: history, credentials, office */
@@ -575,7 +576,7 @@
 /* the greeting: a small label over the quote, two paragraphs, the signature */
 .ij .gr .gr-label { margin-top: 0; font-size: var(--text-sm); font-weight: 700; color: var(--color-accent); }
 .ij .gr .gr-label + blockquote { margin-top: var(--space-sm); }
-.ij .gr p + p.rv { margin-top: var(--space-md); }
+.ij .gr p + p.rv { margin-top: var(--space-lg); }
 .ij .ctab-in > div:first-child { max-width: 40rem; }
 
 /* a head too long for the side column goes on top, the evidence under it */
