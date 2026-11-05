@@ -125,31 +125,25 @@ export function Behaviors() {
       sync();
     }
 
-    // case photographs: cross-fade every 3.5 seconds; the dots pick one; holds still under the pointer,
-    // off screen and for reduced motion (the first photograph shows without scripting)
-    const cs = root.querySelector<HTMLElement>(".cs-stage");
-    if (cs) {
-      const slides = Array.from(cs.querySelectorAll<HTMLElement>(".cs"));
-      const dots = Array.from(root.querySelectorAll<HTMLButtonElement>(".cs-dots button"));
-      let i = 0;
-      const show = (n: number) => {
-        i = (n + slides.length) % slides.length;
-        slides.forEach((s, k) => s.classList.toggle("on", k === i));
-        dots.forEach((d, k) => d.setAttribute("aria-current", k === i ? "true" : "false"));
+    // case reasons: an accordion; opening a reason swaps the photograph beside it.
+    // The markup ships all four open; .acc-on (added here) is what closes the others, so nothing hides without scripting.
+    const why = root.querySelector<HTMLElement>(".case-why");
+    if (why) {
+      const items = Array.from(why.querySelectorAll<HTMLLIElement>(":scope > li"));
+      const slides = Array.from(root.querySelectorAll<HTMLElement>(".case .cs"));
+      const open = (n: number) => {
+        items.forEach((li, k) => {
+          li.classList.toggle("open", k === n);
+          li.querySelector("button")?.setAttribute("aria-expanded", k === n ? "true" : "false");
+        });
+        slides.forEach((s, k) => s.classList.toggle("on", k === n));
       };
-      dots.forEach((d, k) => on(d, "click", () => show(k)));
-      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches && slides.length > 1) {
-        let held = false;
-        let seen = false;
-        const box = cs.closest(".case-pic") ?? cs;
-        on(box, "pointerenter", () => { held = true; });
-        on(box, "pointerleave", () => { held = false; });
-        const io = new IntersectionObserver((es) => { seen = es[0].isIntersecting; }, { threshold: 0.3 });
-        io.observe(cs);
-        off.push(() => io.disconnect());
-        const tick = window.setInterval(() => { if (!held && seen && !document.hidden) show(i + 1); }, 3500);
-        off.push(() => window.clearInterval(tick));
-      }
+      why.classList.add("acc-on");
+      items.forEach((li, k) => {
+        const btn = li.querySelector("button");
+        if (btn) on(btn, "click", () => open(k));
+      });
+      open(0);
     }
 
     // works filter
