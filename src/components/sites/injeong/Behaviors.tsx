@@ -125,25 +125,36 @@ export function Behaviors() {
       sync();
     }
 
-    // case reasons: an accordion; opening a reason swaps the photograph beside it.
-    // The markup ships all four open; .acc-on (added here) is what closes the others, so nothing hides without scripting.
+    // case reasons: an accordion, one open at a time. The markup ships all four open;
+    // .acc-on (added here) is what closes the others, so nothing hides without scripting.
     const why = root.querySelector<HTMLElement>(".case-why");
     if (why) {
       const items = Array.from(why.querySelectorAll<HTMLLIElement>(":scope > li"));
-      const slides = Array.from(root.querySelectorAll<HTMLElement>(".case .cs"));
-      const open = (n: number) => {
-        items.forEach((li, k) => {
-          li.classList.toggle("open", k === n);
-          li.querySelector("button")?.setAttribute("aria-expanded", k === n ? "true" : "false");
-        });
-        slides.forEach((s, k) => s.classList.toggle("on", k === n));
-      };
+      const open = (n: number) => items.forEach((li, k) => {
+        li.classList.toggle("open", k === n);
+        li.querySelector("button")?.setAttribute("aria-expanded", k === n ? "true" : "false");
+      });
       why.classList.add("acc-on");
       items.forEach((li, k) => {
         const btn = li.querySelector("button");
         if (btn) on(btn, "click", () => open(k));
       });
       open(0);
+    }
+
+    // case projects: a thumbnail or a step on the 1차-4차 line shows that project's photo
+    const runBtns = Array.from(root.querySelectorAll<HTMLButtonElement>(".case [data-run]"));
+    if (runBtns.length) {
+      const slides = Array.from(root.querySelectorAll<HTMLElement>(".case .cs"));
+      const steps = Array.from(root.querySelectorAll<HTMLElement>(".case .cs-steps li"));
+      const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>(".case .cs-thumbs button"));
+      const pick = (n: number) => {
+        slides.forEach((x, k) => x.classList.toggle("on", k === n));
+        steps.forEach((x, k) => { x.classList.toggle("on", k === n); x.classList.toggle("past", k < n); });
+        thumbs.forEach((x, k) => x.setAttribute("aria-pressed", k === n ? "true" : "false"));
+      };
+      runBtns.forEach((btn) => on(btn, "click", () => pick(Number(btn.dataset.run))));
+      pick(slides.length - 1);
     }
 
     // works filter
