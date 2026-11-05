@@ -255,8 +255,10 @@ export function Behaviors() {
         fd.delete("files");
         const agree = form.elements.namedItem("agree") as HTMLInputElement | null;
         fd.set("agree", agree?.checked ? "1" : "0");
-        if (!fd.get("type") || !fd.get("name") || !fd.get("phone") || fd.get("agree") !== "1") {
-          fail("필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
+        const prof = (form.elements.namedItem("profile") as HTMLInputElement | null)?.checked;
+        fd.set("profile", prof ? "1" : "0");
+        if ((!prof && !fd.get("type")) || !fd.get("name") || !fd.get("phone") || fd.get("agree") !== "1") {
+          fail(prof ? "필수 항목(성함·연락처)과 개인정보 동의를 확인해 주세요." : "필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
           return;
         }
         files.forEach((f) => fd.append("files", f, f.name));

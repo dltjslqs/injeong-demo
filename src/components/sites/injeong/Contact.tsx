@@ -1,7 +1,7 @@
 import { company } from "./data";
 import { UPLOAD } from "./upload";
 
-const types = ["교육·공공시설", "공장·창고", "교회·종교시설", "근생·주택", "리모델링·실내건축", "회사 자료(지명원) 요청", "기타"];
+const types = ["교육·공공시설", "공장·창고", "교회·종교시설", "근생·주택", "리모델링·실내건축", "기타"];
 const sizes = ["300㎡ 미만", "300~1,000㎡", "1,000~3,000㎡", "3,000㎡ 이상", "아직 모름"];
 
 export function Contact() {
@@ -15,8 +15,12 @@ export function Contact() {
         </div>
         <div className="ct">
           <form id="ij-form" className="rv" noValidate>
+            <label className="prof">
+              <input type="checkbox" name="profile" value="1" />
+              <span><b>회사 자료(지명원)만 요청합니다</b>체크하시면 공사 종류는 적지 않으셔도 됩니다. 성함·연락처만 남겨 주세요.</span>
+            </label>
             <div className="grid">
-              <label>공사 종류<em>필수</em>
+              <label>공사 종류<em className="est">필수</em>
                 <select name="type" defaultValue="">
                   <option value="" disabled>선택해 주세요</option>
                   {types.map((t) => <option key={t}>{t}</option>)}

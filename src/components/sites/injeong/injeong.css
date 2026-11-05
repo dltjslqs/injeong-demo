@@ -386,7 +386,14 @@
 .ij .ct form { padding: var(--space-xl); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); }
 .ij .ct .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-md); }
 .ij .ct label { display: block; font-size: var(--text-sm); font-weight: 700; }
-.ij .ct label em { margin-left: var(--space-2xs); font-style: normal; color: var(--color-accent); }
+.ij .ct label em { margin-left: var(--space-2xs); font-style: normal; color: var(--color-seal); }
+/* company-profile request: when ticked, the project type is no longer required */
+.ij .ct .prof { display: flex; align-items: flex-start; gap: var(--space-sm); margin-bottom: var(--space-lg); padding: var(--space-sm) var(--space-md); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper-2); font-weight: 400; color: var(--color-muted); cursor: pointer; }
+.ij .ct .prof b { display: block; color: var(--color-ink); font-weight: 700; }
+.ij .ct .prof input { flex: none; width: 18px; height: 18px; margin: var(--space-3xs) 0 0; accent-color: var(--color-accent); }
+.ij .ct .prof:has(input:checked) { border-color: var(--color-accent); }
+.ij .ct .prof:focus-within { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.ij .ct form:has(input[name=profile]:checked) em.est { display: none; }
 .ij .ct .full { grid-column: 1 / -1; }
 .ij .ct input:not([type=checkbox]):not([type=file]), .ij .ct select, .ij .ct textarea { display: block; width: 100%; min-height: 48px; margin-top: var(--space-xs); padding-inline: var(--space-sm); border: 1px solid var(--color-muted); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink); font-size: var(--text-md); }
 .ij .ct textarea { padding-block: var(--space-sm); resize: vertical; }

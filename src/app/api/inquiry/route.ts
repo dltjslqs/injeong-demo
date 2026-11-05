@@ -22,6 +22,8 @@ export async function POST(req: Request) {
   if (!fd) return bad("전송된 내용을 읽지 못했습니다. 다시 보내 주세요.");
   const fields: Record<string, string> = {};
   for (const [k, v] of fd.entries()) if (typeof v === "string") fields[k] = v;
+  // a request for the company profile alone needs no project type
+  if (fields.profile === "1" && !fields.type) fields.type = "회사 자료(지명원) 요청";
   if (!fields.type || !fields.name || !fields.phone || fields.agree !== "1") {
     return bad("필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
   }
