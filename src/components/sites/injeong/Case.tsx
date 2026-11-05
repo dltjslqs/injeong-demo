@@ -51,7 +51,7 @@ export async function Case() {
               {runs.map((p, i) => (
                 <img key={p.id} className={i === last ? "cs on" : "cs"} src={p.img && hero[p.img] ? `${BASE}/sites/injeong/works/${hero[p.img]}` : projectImg(p)} alt={`㈜동신포리마 ${short(p.name)}`} width={1600} height={1200} loading="lazy" />
               ))}
-              <span className="cs-badge"><b className="num">{runs.length}회</b> 연속 수주</span>
+              <span className="cs-badge"><b className="num">{runs.length}회</b> 연속 의뢰</span>
             </div>
             <div className="cs-thumbs" role="group" aria-label="㈜동신포리마 공사 사진 고르기">
               {runs.map((p, i) => (
