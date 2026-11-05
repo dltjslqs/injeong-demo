@@ -31,15 +31,7 @@ export async function HeroIndex() {
             <div><dt>{company.capacity.year} 시공능력평가</dt><dd className="num">{company.capacity.amount}</dd></div>
             <div><dt>준공 실적</dt><dd className="num">{done}건</dd></div>
           </dl>
-          <div className="hv-ctl">
-            {/* review only: lets the client compare the two opening films (?hero=b or ?hero=c opens the others) */}
-            <div className="hv-ab" role="group" aria-label="첫 화면 영상 시안">
-              <button type="button" data-hero="a" aria-pressed="true">A안</button>
-              <button type="button" data-hero="b" aria-pressed="false">B안</button>
-              <button type="button" data-hero="c" aria-pressed="false">C안</button>
-            </div>
-            <button type="button" className="hv-pause" aria-label="배경 영상 멈춤">멈춤</button>
-          </div>
+          <button type="button" className="hv-pause" aria-label="배경 영상 멈춤">멈춤</button>
         </div>
       </div>
     </section>
