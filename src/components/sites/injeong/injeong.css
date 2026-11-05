@@ -248,7 +248,7 @@
 .ij .ft-bot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-2xl); }
 
 /* menu pages: a banner-height head on the field, the photograph behind a scrim */
-.ij .ph { position: relative; padding-block: var(--space-2xl) var(--space-3xl); color: var(--color-field-ink); background: var(--color-field) center / cover no-repeat; }
+.ij .ph { position: relative; display: grid; align-content: center; min-height: var(--ph-h, 30rem); padding-block: var(--space-2xl) var(--space-3xl); color: var(--color-field-ink); background: var(--color-field) center / cover no-repeat; }
 .ij .ph::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--color-field) 15%, var(--color-scrim)); }
 .ij .ph .container { position: relative; }
 .ij .ph .crumb { display: flex; gap: var(--space-xs); font-size: var(--text-sm); color: var(--color-field-muted); }
@@ -731,3 +731,7 @@
 @media (max-width: 60rem) { .ij .nf-hero { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); } .ij .nf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .ij .nf-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } .ij .nf-plan ul { grid-template-columns: minmax(0, 1fr); } .ij .nf-chips { margin-top: var(--space-2xl); margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); } }
 @media (prefers-reduced-motion: reduce) { .ij .nf-hero-pic img, .ij .nf-pic img, .ij .nf-t, .ij .nf-hero-t, .ij .nf-chips button { transition: none; } .ij .nf-hero:hover .nf-hero-pic img, .ij .nf-card:hover .nf-pic img { transform: none; } }
+
+/* every menu page opens with the same band height, whatever the heading length */
+@media (max-width: 60rem) { .ij .ph { --ph-h: 28rem; } }
+@media (max-width: 40rem) { .ij .ph { --ph-h: 27rem; padding-block: var(--space-xl) var(--space-2xl); } }
