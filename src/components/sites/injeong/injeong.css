@@ -142,7 +142,6 @@
 .ij .case-why button:hover .cw-t { color: var(--color-accent); }
 .ij .cw-body { padding: 0 var(--space-lg) var(--space-lg); }
 .ij .cw-body p { color: var(--color-ink-2); line-height: 1.7; }
-.ij .cw-body .cw-tags { display: flex; flex-wrap: wrap; gap: 2px var(--space-sm); margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 .ij .case-why.acc-on li:not(.open) .cw-body { display: none; }
 .ij .case-why.acc-on li.open .cw-body { animation: cw-in var(--dur-long) var(--ease-out); }
 @keyframes cw-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
