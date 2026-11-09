@@ -38,7 +38,7 @@ export function Board({ items, cats }: { items: BoardItem[]; cats: { key: string
   return (
     <>
       <div className="pb-tools">
-        <input type="search" className="pb-search" placeholder="공사명이나 발주처로 찾기" value={q} onChange={(e) => setQ(e.target.value)} aria-label="실적 검색" />
+        <input type="search" className="pb-search" placeholder="공사명·발주처 검색" value={q} onChange={(e) => setQ(e.target.value)} aria-label="실적 검색" />
         <div className="pb-chips" role="group" aria-label="분류">
           <button type="button" className={cat === "" ? "on" : undefined} aria-pressed={cat === ""} onClick={() => setCat("")}>전체 {items.length}</button>
           {cats.map((c) => (
@@ -61,7 +61,7 @@ export function Board({ items, cats }: { items: BoardItem[]; cats: { key: string
         <ul className="pb-grid">
           {list.map((p) => (
             <li key={p.id} className={p.off ? "pb-card off" : "pb-card"}>
-              <Link href={`/admin/projects/edit?id=${p.id}`} className="pb-pic" aria-label={`${p.name} 고치기`}>
+              <Link href={`/admin/projects/edit?id=${p.id}`} className="pb-pic" aria-label={`${p.name} 수정`}>
                 {p.img ? <img src={p.img} alt="" loading="lazy" /> : <span className="pb-nopic">사진 없음</span>}
                 <span className={p.ongoing ? "pb-badge now" : "pb-badge"}>{p.ongoing ? "시공 중" : `${p.done} 준공`}</span>
                 {p.off && <span className="pb-hidden">숨김</span>}
@@ -69,18 +69,18 @@ export function Board({ items, cats }: { items: BoardItem[]; cats: { key: string
               <div className="pb-bd">
                 <p className="pb-meta">
                   <span>{p.catLabel}</span>
-                  {!p.builtin ? <span className="ad-tag new">추가</span> : p.edited ? <span className="ad-tag">수정됨</span> : null}
+                  {!p.builtin ? <span className="ad-tag new">신규</span> : p.edited ? <span className="ad-tag">수정됨</span> : null}
                 </p>
                 <Link href={`/admin/projects/edit?id=${p.id}`} className="pb-name">{p.name}</Link>
                 <p className="pb-client">{p.client}</p>
               </div>
               <div className="pb-acts">
-                <Link className="ad-btn" href={`/admin/projects/edit?id=${p.id}`}>고치기</Link>
+                <Link className="ad-btn" href={`/admin/projects/edit?id=${p.id}`}>수정</Link>
                 <form action={toggleProject}><input type="hidden" name="id" value={p.id} /><button type="submit" className="ad-btn">{p.off ? "다시 게시" : "숨기기"}</button></form>
                 {!p.builtin ? (
-                  <form action={removeProject}><input type="hidden" name="id" value={p.id} /><ConfirmButton message="이 실적을 지울까요? 되돌릴 수 없습니다.">삭제</ConfirmButton></form>
+                  <form action={removeProject}><input type="hidden" name="id" value={p.id} /><ConfirmButton message="이 실적을 삭제할까요? 삭제하면 복구할 수 없습니다.">삭제</ConfirmButton></form>
                 ) : p.edited ? (
-                  <form action={removeProject}><input type="hidden" name="id" value={p.id} /><ConfirmButton message="고친 내용을 버리고 원래대로 되돌릴까요?" className="ad-btn">원래대로</ConfirmButton></form>
+                  <form action={removeProject}><input type="hidden" name="id" value={p.id} /><ConfirmButton message="수정한 내용을 취소하고 원본으로 복원할까요?" className="ad-btn">원본 복원</ConfirmButton></form>
                 ) : null}
               </div>
             </li>

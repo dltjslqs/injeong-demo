@@ -26,7 +26,7 @@ export default async function ProjectsAdmin({ searchParams }: { searchParams: Pr
     edited: edited.has(p.id),
   }));
   return (
-    <Shell title="시공 실적" here="/admin/projects" action={<Link className="ad-btn primary" href="/admin/projects/edit">실적 추가</Link>}>
+    <Shell title="시공 실적" here="/admin/projects" action={<Link className="ad-btn primary" href="/admin/projects/edit">실적 등록</Link>}>
       <Saved show={saved === "1"} />
       <Board items={items} cats={categories.map((c) => ({ key: c.key, label: c.label }))} />
     </Shell>

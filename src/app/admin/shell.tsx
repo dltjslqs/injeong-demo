@@ -4,7 +4,7 @@ import { currentUser } from "@/lib/injeong/auth";
 import { logout } from "./actions";
 
 const nav: { href: string; label: string; perm?: Perm | "super" }[] = [
-  { href: "/admin", label: "처음" },
+  { href: "/admin", label: "홈" },
   { href: "/admin/columns", label: "기술 칼럼", perm: "columns" },
   { href: "/admin/projects", label: "시공 실적", perm: "projects" },
   { href: "/admin/popups", label: "팝업", perm: "popups" },

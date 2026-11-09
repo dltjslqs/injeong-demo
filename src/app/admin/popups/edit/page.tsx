@@ -12,7 +12,7 @@ export default async function PopupEdit({ searchParams }: { searchParams: Promis
   const { id } = await searchParams;
   const p = id ? (await readPopups()).find((x) => x.id === id) : undefined;
   return (
-    <Shell title={p ? "팝업 고치기" : "새 팝업"} here="/admin/popups" action={<Link className="ad-btn" href="/admin/popups">목록으로</Link>}>
+    <Shell title={p ? "팝업 수정" : "팝업 등록"} here="/admin/popups" action={<Link className="ad-btn" href="/admin/popups">목록</Link>}>
       <ActionForm action={savePopup} className="ad-form">
         <input type="hidden" name="id" value={p?.id ?? ""} />
         <input type="hidden" name="imageUrl" value={p?.imageUrl ?? ""} />
@@ -26,19 +26,19 @@ export default async function PopupEdit({ searchParams }: { searchParams: Promis
             <textarea name="body" defaultValue={p?.body} rows={5} maxLength={600} />
           </label>
           <label className="ad-field">
-            <span>버튼 링크 <em>비우면 버튼 없음</em></span>
+            <span>버튼 링크 <em>미입력 시 버튼 없음</em></span>
             <input name="linkUrl" defaultValue={p?.linkUrl} placeholder="/contact 또는 https://…" />
           </label>
           <label className="ad-field">
-            <span>버튼 글자</span>
+            <span>버튼 문구</span>
             <input name="linkLabel" defaultValue={p?.linkLabel ?? "자세히 보기"} maxLength={20} />
           </label>
           <label className="ad-field">
-            <span>시작일 <em>비우면 바로</em></span>
+            <span>시작일 <em>미입력 시 즉시</em></span>
             <input type="date" name="start" defaultValue={p?.start} />
           </label>
           <label className="ad-field">
-            <span>종료일 <em>비우면 끌 때까지</em></span>
+            <span>종료일 <em>미입력 시 중지할 때까지</em></span>
             <input type="date" name="end" defaultValue={p?.end} />
           </label>
         </div>
@@ -46,11 +46,11 @@ export default async function PopupEdit({ searchParams }: { searchParams: Promis
           <legend>사진 <em>선택, 10MB까지</em></legend>
           {p?.imageUrl && <img className="ad-thumb" src={p.imageUrl} alt="" />}
           <input type="file" name="image" accept="image/jpeg,image/png,image/webp" />
-          {p?.imageUrl && <label className="ad-check"><input type="checkbox" name="removeImage" /> 사진 지우기</label>}
+          {p?.imageUrl && <label className="ad-check"><input type="checkbox" name="removeImage" /> 사진 삭제</label>}
         </fieldset>
-        <label className="ad-check ad-field"><input type="checkbox" name="active" defaultChecked={p ? p.active : true} /> 팝업 켜기</label>
+        <label className="ad-check ad-field"><input type="checkbox" name="active" defaultChecked={p ? p.active : true} /> 팝업 사용</label>
         <div className="ad-row ad-sticky">
-          <Submit>{p ? "고친 내용 저장" : "팝업 만들기"}</Submit>
+          <Submit>{p ? "저장" : "등록"}</Submit>
           <Link className="ad-btn" href="/admin/popups">취소</Link>
         </div>
       </ActionForm>

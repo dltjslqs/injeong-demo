@@ -21,7 +21,7 @@ export function Submit({ children = "저장" }: { children?: React.ReactNode }) 
   const { pending } = useFormStatus();
   return (
     <button type="submit" className="ad-btn primary" disabled={pending}>
-      {pending ? "저장하고 있습니다" : children}
+      {pending ? "저장 중" : children}
     </button>
   );
 }

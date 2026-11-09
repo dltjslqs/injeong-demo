@@ -104,14 +104,14 @@ export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { 
             onDragLeave={() => setOver(false)}
             onDrop={(e) => { e.preventDefault(); setOver(false); pick(e.dataTransfer.files); }}
           >
-            {preview && !removed ? <img src={preview} alt="" /> : <span className="pf-drop-empty"><b>사진을 끌어다 놓거나 눌러서 고르세요</b><small>가로 사진, JPG·PNG·WEBP, 10MB까지</small></span>}
+            {preview && !removed ? <img src={preview} alt="" /> : <span className="pf-drop-empty"><b>사진을 끌어다 놓거나 클릭해 선택하세요</b><small>가로 사진, JPG·PNG·WEBP, 10MB까지</small></span>}
             <input ref={fileInput} type="file" name="photo" accept={IMAGE_TYPES.join(",")} onChange={(e) => pick(e.target.files)} />
           </label>
           {preview && !removed && (
             <div className="ad-row">
-              <button type="button" className="ad-btn" onClick={() => fileInput.current?.click()}>다른 사진으로</button>
+              <button type="button" className="ad-btn" onClick={() => fileInput.current?.click()}>사진 변경</button>
               {(init?.imgUrl || picked) && (
-                <button type="button" className="ad-btn danger" onClick={() => { setRemoved(true); if (fileInput.current) fileInput.current.value = ""; }}>사진 빼기</button>
+                <button type="button" className="ad-btn danger" onClick={() => { setRemoved(true); if (fileInput.current) fileInput.current.value = ""; }}>사진 삭제</button>
               )}
             </div>
           )}
@@ -123,7 +123,7 @@ export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { 
             <label className="ad-field wide"><span>공사명</span><input name="name" value={f.name} onChange={set("name")} required maxLength={120} placeholder="예: ㈜동신포리마 신원단공장 신축공사" /></label>
             <label className="ad-field"><span>분류</span>
               <select name="cat" value={f.cat} onChange={set("cat")} required>
-                <option value="" disabled>고르세요</option>
+                <option value="" disabled>선택</option>
                 {cats.map((c) => <option key={c.key} value={c.key}>{c.label}</option>)}
               </select>
             </label>
@@ -146,17 +146,17 @@ export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { 
           <h2>일정</h2>
           <label className="pf-switch">
             <input type="checkbox" name="ongoing" checked={f.ongoing} onChange={set("ongoing")} />
-            <span>지금 시공 중인 현장</span>
+            <span>시공 중인 현장</span>
           </label>
           <div className="ad-grid2">
             <label className="ad-field"><span>착공</span><input type="month" value={f.start} onChange={set("start")} /></label>
-            <label className="ad-field"><span>{f.ongoing ? "준공 예정" : "공사 끝"}</span><input type="month" value={f.end} onChange={set("end")} /></label>
-            {!f.ongoing && <label className="ad-field"><span>준공 연월 <em>공사 끝과 다를 때만 바꾸세요</em></span><input type="month" value={f.done} onChange={set("done")} required /></label>}
+            <label className="ad-field"><span>{f.ongoing ? "준공 예정" : "공사 종료"}</span><input type="month" value={f.end} onChange={set("end")} /></label>
+            {!f.ongoing && <label className="ad-field"><span>준공 연월 <em>공사 종료월과 다를 때만 수정</em></span><input type="month" value={f.done} onChange={set("done")} required /></label>}
           </div>
         </section>
 
         <div className="ad-row ad-sticky">
-          <Submit>{init ? "고친 내용 저장" : "실적 게시"}</Submit>
+          <Submit>{init ? "저장" : "등록"}</Submit>
           <Link className="ad-btn" href="/admin/projects">취소</Link>
         </div>
       </div>

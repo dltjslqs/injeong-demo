@@ -130,7 +130,7 @@ export function RichEditor({ initial }: { initial: DocNode }) {
         : null,
   });
 
-  if (!editor) return <div className="ed"><div className="ed-loading">편집기를 불러오고 있습니다</div></div>;
+  if (!editor) return <div className="ed"><div className="ed-loading">편집기 불러오는 중</div></div>;
   const st = s ?? { p: false, h2: false, h3: false, bold: false, ul: false, ol: false, q: false, table: false, img: false, undo: false, redo: false };
   const c = () => editor.chain().focus();
 
@@ -157,8 +157,8 @@ export function RichEditor({ initial }: { initial: DocNode }) {
           <Btn label="견적 문의 상자" run={() => c().insertContent({ type: "askBox", content: [{ type: "text", text: "공사 상담이 필요하다면," }] }).run()} />
         </div>
         <div className="ed-grp ed-end">
-          <Btn label="되돌리기" disabled={!st.undo} run={() => c().undo().run()} />
-          <Btn label="다시" disabled={!st.redo} run={() => c().redo().run()} />
+          <Btn label="실행 취소" disabled={!st.undo} run={() => c().undo().run()} />
+          <Btn label="다시 실행" disabled={!st.redo} run={() => c().redo().run()} />
         </div>
         <input
           ref={picker}
@@ -177,23 +177,23 @@ export function RichEditor({ initial }: { initial: DocNode }) {
           <span>표</span>
           <Btn label="아래에 행 추가" run={() => c().addRowAfter().run()} />
           <Btn label="오른쪽에 열 추가" run={() => c().addColumnAfter().run()} />
-          <Btn label="행 지우기" run={() => c().deleteRow().run()} />
-          <Btn label="열 지우기" run={() => c().deleteColumn().run()} />
-          <Btn label="표 지우기" run={() => c().deleteTable().run()} />
+          <Btn label="행 삭제" run={() => c().deleteRow().run()} />
+          <Btn label="열 삭제" run={() => c().deleteColumn().run()} />
+          <Btn label="표 삭제" run={() => c().deleteTable().run()} />
         </div>
       )}
       {st.img && (
         <div className="ed-bar ed-sub" role="toolbar" aria-label="사진 편집">
           <span>사진</span>
           <Btn
-            label="설명 적기"
+            label="설명 입력"
             run={() => {
               const cur = String(editor.getAttributes("image").alt ?? "");
               const v = window.prompt("사진 아래에 보일 설명", cur);
               if (v !== null) c().updateAttributes("image", { alt: v }).run();
             }}
           />
-          <Btn label="사진 지우기" run={() => c().deleteSelection().run()} />
+          <Btn label="사진 삭제" run={() => c().deleteSelection().run()} />
         </div>
       )}
       {error && <p className="ad-err" role="alert">{error}</p>}

@@ -33,13 +33,13 @@ const caller = async () => (await headers()).get("x-forwarded-for")?.split(",")[
 export async function login(_prev: FormState, fd: FormData): Promise<FormState> {
   const who = await caller();
   const t = tries.get(who);
-  if (t && t.until > Date.now()) return { message: `아이디나 비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 뒤에 다시 시도해 주세요.` };
+  if (t && t.until > Date.now()) return { message: `아이디 또는 비밀번호를 ${MAX_TRIES}회 잘못 입력했습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 후 다시 시도해 주세요.` };
   const account = await checkLogin(str(fd, "id").toLowerCase(), String(fd.get("password") ?? ""));
   if (!account) {
     await new Promise((r) => setTimeout(r, 800)); // slows down guessing
     const n = (t && t.until === 0 ? t.n : 0) + 1;
     tries.set(who, n >= MAX_TRIES ? { n: 0, until: Date.now() + LOCK_MIN * 60000 } : { n, until: 0 });
-    return { message: n >= MAX_TRIES ? `아이디나 비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${LOCK_MIN}분 뒤에 다시 시도해 주세요.` : `아이디나 비밀번호가 맞지 않습니다. (${n}/${MAX_TRIES})` };
+    return { message: n >= MAX_TRIES ? `아이디 또는 비밀번호를 ${MAX_TRIES}회 잘못 입력했습니다. ${LOCK_MIN}분 후 다시 시도해 주세요.` : `아이디 또는 비밀번호가 일치하지 않습니다. (${n}/${MAX_TRIES})` };
   }
   tries.delete(who);
   await startSession(account);
@@ -58,11 +58,11 @@ export async function savePassword(_prev: FormState, fd: FormData): Promise<Form
   const next = String(fd.get("next") ?? "");
   if (!checkPassword(me, now)) {
     await new Promise((r) => setTimeout(r, 800));
-    return { message: "지금 비밀번호가 맞지 않습니다." };
+    return { message: "현재 비밀번호가 일치하지 않습니다." };
   }
-  if (next.length < MIN_PASSWORD) return { message: `새 비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
-  if (next !== String(fd.get("again") ?? "")) return { message: "새 비밀번호 두 칸이 서로 다릅니다." };
-  if (next === now) return { message: "지금 비밀번호와 다른 것으로 정해 주세요." };
+  if (next.length < MIN_PASSWORD) return { message: `새 비밀번호는 ${MIN_PASSWORD}자 이상으로 입력해 주세요.` };
+  if (next !== String(fd.get("again") ?? "")) return { message: "새 비밀번호가 서로 일치하지 않습니다." };
+  if (next === now) return { message: "현재 비밀번호와 다른 비밀번호를 입력해 주세요." };
   try {
     const updated: Account = { ...me, ...passwordFields(next) };
     await saveAccounts((await accounts()).map((a) => (a.id === me.id ? updated : a)));
@@ -84,16 +84,16 @@ export async function saveAccount(_prev: FormState, fd: FormData): Promise<FormS
   const password = String(fd.get("password") ?? "");
   const perms = PERMS.map((p) => p.key).filter((k) => fd.getAll("perms").includes(k));
   if (!ID_RULE.test(id)) return { message: "아이디는 영문 소문자와 숫자로 3~20자입니다. (-, _ 가능)" };
-  if (!name) return { message: "이름을 적어 주세요." };
+  if (!name) return { message: "이름을 입력해 주세요." };
   try {
     const list = await accounts();
     const prev = list.find((a) => a.id === id);
-    if (editing && !prev) return { message: "없는 계정입니다." };
-    if (!editing && prev) return { message: "이미 있는 아이디입니다." };
-    if (!editing && list.length >= MAX_ACCOUNTS) return { message: `계정은 ${MAX_ACCOUNTS}개까지 만들 수 있습니다.` };
-    if ((!prev || password) && password.length < MIN_PASSWORD) return { message: `비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
+    if (editing && !prev) return { message: "존재하지 않는 계정입니다." };
+    if (!editing && prev) return { message: "이미 사용 중인 아이디입니다." };
+    if (!editing && list.length >= MAX_ACCOUNTS) return { message: `계정은 ${MAX_ACCOUNTS}개까지 등록할 수 있습니다.` };
+    if ((!prev || password) && password.length < MIN_PASSWORD) return { message: `비밀번호는 ${MIN_PASSWORD}자 이상으로 입력해 주세요.` };
     const isSuper = prev?.role === "super";
-    if (!isSuper && perms.length === 0) return { message: "맡길 메뉴를 하나 이상 골라 주세요." };
+    if (!isSuper && perms.length === 0) return { message: "담당 메뉴를 하나 이상 선택해 주세요." };
     const next: Account = {
       ...(prev ?? { id, role: "editor" as const, ver: "" }),
       name,
@@ -121,7 +121,7 @@ export async function removeAccount(fd: FormData) {
 export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin("columns");
   const f = file(fd, "photo");
-  if (!f) return { message: "사진 파일을 골라 주세요." };
+  if (!f) return { message: "사진 파일을 선택해 주세요." };
   try {
     return { url: await saveImage(f) };
   } catch (e) {
@@ -134,14 +134,14 @@ export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormS
 export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin("columns");
   const title = str(fd, "title");
-  if (!title) return { message: "제목을 적어 주세요." };
+  if (!title) return { message: "제목을 입력해 주세요." };
   let blocks: ReturnType<typeof sanitizeBlocks> = [];
   try {
     blocks = sanitizeBlocks(JSON.parse(str(fd, "blocks") || "[]"));
   } catch {
     return { message: "본문을 읽지 못했습니다. 다시 저장해 주세요." };
   }
-  if (!blocks.some((b) => b.t === "p" || b.t === "h2")) return { message: "본문을 적어 주세요." };
+  if (!blocks.some((b) => b.t === "p" || b.t === "h2")) return { message: "본문을 입력해 주세요." };
   const lede = blocks.find((b) => b.t === "p") as { x: string } | undefined;
   try {
     const o = await readColumns();
@@ -175,7 +175,7 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
 export async function saveAuthor(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin("columns");
   const name = str(fd, "name");
-  if (!name) return { message: "이름을 적어 주세요." };
+  if (!name) return { message: "이름을 입력해 주세요." };
   try {
     const prev = await readAuthor();
     const photo = file(fd, "photo");
@@ -217,9 +217,9 @@ export async function saveProject(_prev: FormState, fd: FormData): Promise<FormS
   const name = str(fd, "name");
   const cat = str(fd, "cat") as Category;
   const ongoing = Boolean(fd.get("ongoing"));
-  if (!name) return { message: "공사명을 적어 주세요." };
-  if (!categories.some((c) => c.key === cat)) return { message: "분류를 골라 주세요." };
-  if (!ongoing && !/^\d{4}\.\d{2}$/.test(str(fd, "done"))) return { message: "준공 연월을 2025.10 형식으로 적어 주세요." };
+  if (!name) return { message: "공사명을 입력해 주세요." };
+  if (!categories.some((c) => c.key === cat)) return { message: "분류를 선택해 주세요." };
+  if (!ongoing && !/^\d{4}\.\d{2}$/.test(str(fd, "done"))) return { message: "준공 연월을 2025.10 형식으로 입력해 주세요." };
   try {
     const o = await readProjects();
     const id = str(fd, "id") || `u-${Date.now().toString(36)}`;
@@ -277,10 +277,10 @@ export async function removeProject(fd: FormData) {
 export async function savePopup(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin("popups");
   const title = str(fd, "title");
-  if (!title) return { message: "팝업 제목을 적어 주세요." };
+  if (!title) return { message: "팝업 제목을 입력해 주세요." };
   const start = str(fd, "start");
   const end = str(fd, "end");
-  if (start && end && start > end) return { message: "끝나는 날이 시작하는 날보다 앞입니다." };
+  if (start && end && start > end) return { message: "종료일이 시작일보다 빠릅니다." };
   const link = str(fd, "linkUrl");
   if (link && !/^(https?:\/\/|\/)/.test(link)) return { message: "링크는 https:// 또는 /로 시작해야 합니다." };
   try {

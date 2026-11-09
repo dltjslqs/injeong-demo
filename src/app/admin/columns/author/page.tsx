@@ -12,7 +12,7 @@ export default async function AuthorEdit({ searchParams }: { searchParams: Promi
   const { saved } = await searchParams;
   const a = await readAuthor();
   return (
-    <Shell title="칼럼 작성자 프로필" here="/admin/columns" action={<Link className="ad-btn" href="/admin/columns">목록으로</Link>}>
+    <Shell title="칼럼 작성자 프로필" here="/admin/columns" action={<Link className="ad-btn" href="/admin/columns">목록</Link>}>
       <Saved show={saved === "1"} />
       <ActionForm action={saveAuthor} className="ad-form">
         <p className="ad-muted">모든 칼럼 제목 아래에 사진, 이름, 직함이 함께 나옵니다.</p>
@@ -27,10 +27,10 @@ export default async function AuthorEdit({ searchParams }: { searchParams: Promi
           </label>
         </div>
         <fieldset className="ad-field">
-          <legend>프로필 사진 <em>정사각형에 가까운 얼굴 사진. 원 모양으로 잘려 보입니다. 비우면 이름 첫 글자</em></legend>
-          {a.photoUrl && <img className="ad-avatar" src={a.photoUrl} alt="지금 프로필 사진" />}
+          <legend>프로필 사진 <em>정사각형에 가까운 얼굴 사진. 원 모양으로 잘려 보입니다. 미등록 시 이름 첫 글자</em></legend>
+          {a.photoUrl && <img className="ad-avatar" src={a.photoUrl} alt="현재 프로필 사진" />}
           <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" />
-          {a.photoUrl && <label className="ad-check"><input type="checkbox" name="removePhoto" /> 프로필 사진 지우기</label>}
+          {a.photoUrl && <label className="ad-check"><input type="checkbox" name="removePhoto" /> 프로필 사진 삭제</label>}
         </fieldset>
         <div className="ad-row">
           <Submit>저장</Submit>
