@@ -16,7 +16,7 @@ export async function Works({ summary = false }: { summary?: boolean }) {
         <div className="head">
           <div>
             <h2 className="h2 rv">{summary ? "최근 준공한 현장" : `주요 준공 실적 ${list.length}건`}</h2>
-            {!summary && <p className="lede rv">공사 금액은 부가세를 포함한 계약 금액입니다. 민간 공사 일부는 계약 방식상 금액을 적지 않았습니다.</p>}
+            {!summary && <p className="lede rv">금산 역사문화박물관과 한국국토정보공사 아산지사 사옥, 고덕국민체육센터,<br className="br-pc" /> 홍성여고 다목적강당, 네 번 연속 맡겨 주신 ㈜동신포리마 공장까지 직접 지었습니다.</p>}
           </div>
           {summary ? (
             <Link className="link rv" href="/projects">시공 실적 전체 보기</Link>
