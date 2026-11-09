@@ -8,7 +8,7 @@ import { ActionForm, Submit } from "../../ui";
 export const metadata = { title: "칼럼 작성자 프로필" };
 
 export default async function AuthorEdit({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("columns");
   const { saved } = await searchParams;
   const a = await readAuthor();
   return (

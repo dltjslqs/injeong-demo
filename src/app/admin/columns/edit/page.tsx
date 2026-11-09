@@ -25,7 +25,7 @@ const TEMPLATE: Block[] = [
 ];
 
 export default async function ColumnEdit({ searchParams }: { searchParams: Promise<{ slug?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("columns");
   const { slug } = await searchParams;
   const c = slug ? (await allColumns()).find((x) => x.slug === slug) : undefined;
   const projects = await getProjects();

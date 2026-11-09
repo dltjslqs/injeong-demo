@@ -1,17 +1,17 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { credMatches, readCred, writeCred } from "./cred";
+import { type Account, can, passwordMatches, type Perm, readAccounts, writeAccounts } from "./accounts";
 
 /**
- * One admin account. The password is ADMIN_PASSWORD until it is changed in the admin; from then on
- * the stored record (see cred.ts) is the password. Sessions are signed with ADMIN_SECRET and carry
- * the password's version, so changing the password signs every other browser out.
+ * Sign-in for the admin. Accounts and their passwords are in accounts.ts; sessions are a cookie
+ * signed with ADMIN_SECRET that names the account and the version of its password, so a changed
+ * password or a removed account ends that account's sessions everywhere.
  */
 const COOKIE = "ij_admin";
 const DAYS = 7;
 
-function secret() {
+export function secret() {
   const s = process.env.ADMIN_SECRET;
   if (!s || s.length < 32) throw new Error("ADMIN_SECRET(32자 이상)가 설정되어 있지 않습니다.");
   return s;
@@ -25,26 +25,20 @@ function same(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y);
 }
 
-/** "env" while the environment password is in force, else the stored record's version. */
-const version = async () => (await readCred(secret()))?.ver ?? "env";
+export const accounts = () => readAccounts(secret());
+export const saveAccounts = (list: Account[]) => writeAccounts(list, secret());
 
-export async function passwordMatches(input: string) {
-  const cred = await readCred(secret());
-  if (cred) return credMatches(cred, input);
-  const pw = process.env.ADMIN_PASSWORD;
-  if (!pw) return false;
-  // compare digests so the length of the real password is not leaked
-  const h = (v: string) => createHmac("sha256", "pw").update(v).digest("hex");
-  return same(h(input), h(pw));
+/** The account for this id and password, or null. */
+export async function checkLogin(id: string, password: string): Promise<Account | null> {
+  const account = (await accounts()).find((a) => a.id === id);
+  return passwordMatches(account, password, process.env.ADMIN_PASSWORD) ? account! : null;
 }
 
-export async function changePassword(next: string) {
-  await writeCred(next, secret());
-}
+export const checkPassword = (account: Account, password: string) => passwordMatches(account, password, process.env.ADMIN_PASSWORD);
 
-export async function startSession() {
+export async function startSession(account: Account) {
   const exp = Date.now() + DAYS * 864e5;
-  const payload = `admin.${exp}.${await version()}`;
+  const payload = `${account.id}.${exp}.${account.ver}`;
   (await cookies()).set(COOKIE, `${payload}.${sign(payload)}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -58,20 +52,31 @@ export async function endSession() {
   (await cookies()).delete(COOKIE);
 }
 
-export async function isAdmin() {
+/** The signed-in account, read fresh so permission changes apply on the next click. */
+export async function currentUser(): Promise<Account | null> {
   const v = (await cookies()).get(COOKIE)?.value;
-  if (!v) return false;
+  if (!v) return null;
   const i = v.lastIndexOf(".");
   const payload = v.slice(0, i);
-  const [, exp, ver] = payload.split(".");
+  const [id, exp, ver] = payload.split(".");
   try {
-    return same(v.slice(i + 1), sign(payload)) && Number(exp) > Date.now() && ver === (await version());
+    if (!same(v.slice(i + 1), sign(payload)) || !(Number(exp) > Date.now())) return null;
+    const account = (await accounts()).find((a) => a.id === id);
+    return account && account.ver === ver ? account : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
-/** Call at the top of every admin page and every admin action. */
-export async function requireAdmin() {
-  if (!(await isAdmin())) redirect("/admin/login");
+export const isAdmin = async () => (await currentUser()) !== null;
+
+/**
+ * Call at the top of every admin page and every admin action.
+ * With `need`, the account must hold that permission ("super" = the 총괄관리자 only).
+ */
+export async function requireAdmin(need?: Perm | "super"): Promise<Account> {
+  const user = await currentUser();
+  if (!user) redirect("/admin/login");
+  if (need && !(need === "super" ? user.role === "super" : can(user, need))) redirect("/admin?denied=1");
+  return user;
 }

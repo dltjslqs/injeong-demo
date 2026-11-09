@@ -235,3 +235,4 @@
 .pv-dl dd { margin: 0; font-weight: 700; }
 @media (max-width: 1000px) { .pf-wrap { grid-template-columns: minmax(0, 1fr); } .pf-side { position: static; order: -1; } }
 .ad-narrow { max-width: 440px; }
+.ad-me { font-weight: 600; }

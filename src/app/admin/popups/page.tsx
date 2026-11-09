@@ -8,7 +8,7 @@ import { ConfirmButton } from "../ui";
 export const metadata = { title: "팝업" };
 
 export default async function PopupsAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("popups");
   const { saved } = await searchParams;
   const [list, now] = await Promise.all([readPopups(), activePopup()]);
   return (

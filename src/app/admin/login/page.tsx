@@ -11,10 +11,14 @@ export default async function LoginPage() {
     <main className="ad-login">
       <ActionForm action={login} className="ad-card ad-login-card">
         <h1>인정건설 관리자</h1>
-        <p className="ad-muted">기술 칼럼, 시공 실적, 팝업을 관리합니다.</p>
+        <p className="ad-muted">담당자 계정으로 로그인해 주세요.</p>
+        <label className="ad-field">
+          <span>아이디</span>
+          <input name="id" autoComplete="username" autoCapitalize="none" spellCheck={false} required autoFocus />
+        </label>
         <label className="ad-field">
           <span>비밀번호</span>
-          <input type="password" name="password" autoComplete="current-password" required autoFocus />
+          <input type="password" name="password" autoComplete="current-password" required />
         </label>
         <Submit>로그인</Submit>
       </ActionForm>

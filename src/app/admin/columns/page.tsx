@@ -8,7 +8,7 @@ import { ConfirmButton } from "../ui";
 export const metadata = { title: "기술 칼럼" };
 
 export default async function ColumnsAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("columns");
   const { saved } = await searchParams;
   const [list, o] = await Promise.all([allColumns(), readColumns()]);
   const edited = new Set(o.items.map((c) => c.slug));

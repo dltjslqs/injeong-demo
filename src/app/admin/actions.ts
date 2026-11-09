@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 import type { Column } from "@/components/sites/injeong/columns";
 import { type Category, categories, type Project } from "@/components/sites/injeong/data";
 import { headers } from "next/headers";
-import { changePassword, endSession, passwordMatches, requireAdmin, startSession } from "@/lib/injeong/auth";
-import { MIN_PASSWORD } from "@/lib/injeong/cred";
+import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERMS } from "@/lib/injeong/accounts";
+import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
 import { isBuiltinColumn, isBuiltinProject, type Popup, readAuthor, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
@@ -33,37 +33,17 @@ const caller = async () => (await headers()).get("x-forwarded-for")?.split(",")[
 export async function login(_prev: FormState, fd: FormData): Promise<FormState> {
   const who = await caller();
   const t = tries.get(who);
-  if (t && t.until > Date.now()) return { message: `비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 뒤에 다시 시도해 주세요.` };
-  if (!(await passwordMatches(str(fd, "password")))) {
+  if (t && t.until > Date.now()) return { message: `아이디나 비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 뒤에 다시 시도해 주세요.` };
+  const account = await checkLogin(str(fd, "id").toLowerCase(), String(fd.get("password") ?? ""));
+  if (!account) {
     await new Promise((r) => setTimeout(r, 800)); // slows down guessing
     const n = (t && t.until === 0 ? t.n : 0) + 1;
     tries.set(who, n >= MAX_TRIES ? { n: 0, until: Date.now() + LOCK_MIN * 60000 } : { n, until: 0 });
-    return { message: n >= MAX_TRIES ? `비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${LOCK_MIN}분 뒤에 다시 시도해 주세요.` : `비밀번호가 맞지 않습니다. (${n}/${MAX_TRIES})` };
+    return { message: n >= MAX_TRIES ? `아이디나 비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${LOCK_MIN}분 뒤에 다시 시도해 주세요.` : `아이디나 비밀번호가 맞지 않습니다. (${n}/${MAX_TRIES})` };
   }
   tries.delete(who);
-  await startSession();
+  await startSession(account);
   redirect("/admin");
-}
-
-/** Changes the admin password; every other signed-in browser is signed out. */
-export async function savePassword(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
-  const now = str(fd, "current");
-  const next = String(fd.get("next") ?? "");
-  if (!(await passwordMatches(now))) {
-    await new Promise((r) => setTimeout(r, 800));
-    return { message: "지금 비밀번호가 맞지 않습니다." };
-  }
-  if (next.length < MIN_PASSWORD) return { message: `새 비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
-  if (next !== String(fd.get("again") ?? "")) return { message: "새 비밀번호 두 칸이 서로 다릅니다." };
-  if (next === now) return { message: "지금 비밀번호와 다른 것으로 정해 주세요." };
-  try {
-    await changePassword(next);
-    await startSession();
-  } catch (e) {
-    return fail(e);
-  }
-  redirect("/admin/password?saved=1");
 }
 
 export async function logout() {
@@ -71,10 +51,75 @@ export async function logout() {
   redirect("/admin/login");
 }
 
+/** Changes the signed-in account's own password; its other browsers are signed out. */
+export async function savePassword(_prev: FormState, fd: FormData): Promise<FormState> {
+  const me = await requireAdmin();
+  const now = String(fd.get("current") ?? "");
+  const next = String(fd.get("next") ?? "");
+  if (!checkPassword(me, now)) {
+    await new Promise((r) => setTimeout(r, 800));
+    return { message: "지금 비밀번호가 맞지 않습니다." };
+  }
+  if (next.length < MIN_PASSWORD) return { message: `새 비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
+  if (next !== String(fd.get("again") ?? "")) return { message: "새 비밀번호 두 칸이 서로 다릅니다." };
+  if (next === now) return { message: "지금 비밀번호와 다른 것으로 정해 주세요." };
+  try {
+    const updated: Account = { ...me, ...passwordFields(next) };
+    await saveAccounts((await accounts()).map((a) => (a.id === me.id ? updated : a)));
+    await startSession(updated);
+  } catch (e) {
+    return fail(e);
+  }
+  redirect("/admin/password?saved=1");
+}
+
+/* ---------- accounts (총괄관리자 only) ---------- */
+
+/** Adds a 담당자 account, or changes one's name, permissions and (when a new one is typed) password. */
+export async function saveAccount(_prev: FormState, fd: FormData): Promise<FormState> {
+  await requireAdmin("super");
+  const editing = str(fd, "editing");
+  const id = editing || str(fd, "id").toLowerCase();
+  const name = str(fd, "name");
+  const password = String(fd.get("password") ?? "");
+  const perms = PERMS.map((p) => p.key).filter((k) => fd.getAll("perms").includes(k));
+  if (!ID_RULE.test(id)) return { message: "아이디는 영문 소문자와 숫자로 3~20자입니다. (-, _ 가능)" };
+  if (!name) return { message: "이름을 적어 주세요." };
+  try {
+    const list = await accounts();
+    const prev = list.find((a) => a.id === id);
+    if (editing && !prev) return { message: "없는 계정입니다." };
+    if (!editing && prev) return { message: "이미 있는 아이디입니다." };
+    if (!editing && list.length >= MAX_ACCOUNTS) return { message: `계정은 ${MAX_ACCOUNTS}개까지 만들 수 있습니다.` };
+    if ((!prev || password) && password.length < MIN_PASSWORD) return { message: `비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
+    const isSuper = prev?.role === "super";
+    if (!isSuper && perms.length === 0) return { message: "맡길 메뉴를 하나 이상 골라 주세요." };
+    const next: Account = {
+      ...(prev ?? { id, role: "editor" as const, ver: "" }),
+      name,
+      perms: isSuper ? [] : perms,
+      ...(password ? passwordFields(password) : {}),
+    };
+    await saveAccounts(prev ? list.map((a) => (a.id === id ? next : a)) : [...list, next]);
+  } catch (e) {
+    return fail(e);
+  }
+  redirect("/admin/accounts?saved=1");
+}
+
+export async function removeAccount(fd: FormData) {
+  await requireAdmin("super");
+  const id = str(fd, "id");
+  const list = await accounts();
+  // the 총괄관리자 stays: there is always exactly one
+  await saveAccounts(list.filter((a) => a.id !== id || a.role === "super"));
+  redirect("/admin/accounts");
+}
+
 /* ---------- photos inside a column body ---------- */
 
 export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  await requireAdmin("columns");
   const f = file(fd, "photo");
   if (!f) return { message: "사진 파일을 골라 주세요." };
   try {
@@ -87,7 +132,7 @@ export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormS
 /* ---------- columns ---------- */
 
 export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  await requireAdmin("columns");
   const title = str(fd, "title");
   if (!title) return { message: "제목을 적어 주세요." };
   let blocks: ReturnType<typeof sanitizeBlocks> = [];
@@ -128,7 +173,7 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
 
 /** The columns' author: name, title and profile photo. */
 export async function saveAuthor(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  await requireAdmin("columns");
   const name = str(fd, "name");
   if (!name) return { message: "이름을 적어 주세요." };
   try {
@@ -144,7 +189,7 @@ export async function saveAuthor(_prev: FormState, fd: FormData): Promise<FormSt
 }
 
 export async function toggleColumn(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("columns");
   const slug = str(fd, "slug");
   const o = await readColumns();
   o.hidden = o.hidden.includes(slug) ? o.hidden.filter((s) => s !== slug) : [...o.hidden, slug];
@@ -155,7 +200,7 @@ export async function toggleColumn(fd: FormData) {
 
 /** A new column is removed; an edited built-in column goes back to its original text. */
 export async function removeColumn(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("columns");
   const slug = str(fd, "slug");
   const o = await readColumns();
   o.items = o.items.filter((c) => c.slug !== slug);
@@ -168,7 +213,7 @@ export async function removeColumn(fd: FormData) {
 /* ---------- projects ---------- */
 
 export async function saveProject(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  await requireAdmin("projects");
   const name = str(fd, "name");
   const cat = str(fd, "cat") as Category;
   const ongoing = Boolean(fd.get("ongoing"));
@@ -207,7 +252,7 @@ export async function saveProject(_prev: FormState, fd: FormData): Promise<FormS
 }
 
 export async function toggleProject(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("projects");
   const id = str(fd, "id");
   const o = await readProjects();
   o.hidden = o.hidden.includes(id) ? o.hidden.filter((s) => s !== id) : [...o.hidden, id];
@@ -217,7 +262,7 @@ export async function toggleProject(fd: FormData) {
 }
 
 export async function removeProject(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("projects");
   const id = str(fd, "id");
   const o = await readProjects();
   o.items = o.items.filter((p) => p.id !== id);
@@ -230,7 +275,7 @@ export async function removeProject(fd: FormData) {
 /* ---------- popups ---------- */
 
 export async function savePopup(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin();
+  await requireAdmin("popups");
   const title = str(fd, "title");
   if (!title) return { message: "팝업 제목을 적어 주세요." };
   const start = str(fd, "start");
@@ -264,7 +309,7 @@ export async function savePopup(_prev: FormState, fd: FormData): Promise<FormSta
 }
 
 export async function togglePopup(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("popups");
   const id = str(fd, "id");
   const list = await readPopups();
   await writeJSON("popups", list.map((p) => (p.id === id ? { ...p, active: !p.active } : p)));
@@ -273,7 +318,7 @@ export async function togglePopup(fd: FormData) {
 }
 
 export async function removePopup(fd: FormData) {
-  await requireAdmin();
+  await requireAdmin("popups");
   const id = str(fd, "id");
   await writeJSON("popups", (await readPopups()).filter((p) => p.id !== id));
   refresh();

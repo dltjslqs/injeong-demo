@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/injeong/auth";
-import { MIN_PASSWORD } from "@/lib/injeong/cred";
+import { MIN_PASSWORD } from "@/lib/injeong/accounts";
 import { savePassword } from "../actions";
 import { Shell } from "../shell";
 import { ActionForm, Submit } from "../ui";
@@ -14,7 +14,7 @@ export default async function PasswordPage({ searchParams }: { searchParams: Pro
     <Shell title="비밀번호 변경" here="/admin/password" action={<Link className="ad-btn" href="/admin">처음으로</Link>}>
       {saved === "1" && <p className="ad-ok" role="status">비밀번호를 바꿨습니다. 다른 기기에서 로그인해 둔 것은 모두 로그아웃됐습니다.</p>}
       <ActionForm action={savePassword} className="ad-form ad-narrow">
-        <p className="ad-muted">바꾸면 이 브라우저만 로그인이 유지되고, 다른 기기는 새 비밀번호로 다시 로그인해야 합니다.</p>
+        <p className="ad-muted">내 계정의 비밀번호를 바꿉니다. 바꾸면 이 브라우저만 로그인이 유지되고, 다른 기기는 새 비밀번호로 다시 로그인해야 합니다.</p>
         <label className="ad-field">
           <span>지금 비밀번호</span>
           <input type="password" name="current" autoComplete="current-password" required />

@@ -8,7 +8,7 @@ import { Board } from "./Board";
 export const metadata = { title: "시공 실적" };
 
 export default async function ProjectsAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("projects");
   const { saved } = await searchParams;
   const [list, o] = await Promise.all([allProjects(), readProjects()]);
   const edited = new Set(o.items.map((p) => p.id));

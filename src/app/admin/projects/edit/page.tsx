@@ -8,7 +8,7 @@ import { ProjectForm } from "../ProjectForm";
 export const metadata = { title: "실적 편집" };
 
 export default async function ProjectEdit({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("projects");
   const { id } = await searchParams;
   const p = id ? (await allProjects()).find((x) => x.id === id) : undefined;
   return (

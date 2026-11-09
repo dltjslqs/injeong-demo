@@ -8,7 +8,7 @@ import { ActionForm, Submit } from "../../ui";
 export const metadata = { title: "팝업 편집" };
 
 export default async function PopupEdit({ searchParams }: { searchParams: Promise<{ id?: string }> }) {
-  await requireAdmin();
+  await requireAdmin("popups");
   const { id } = await searchParams;
   const p = id ? (await readPopups()).find((x) => x.id === id) : undefined;
   return (
