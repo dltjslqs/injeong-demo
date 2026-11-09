@@ -1,10 +1,12 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { credMatches, readCred, writeCred } from "./cred";
 
 /**
- * One admin account: the password is ADMIN_PASSWORD, sessions are signed with ADMIN_SECRET.
- * Both live in the server's environment (.env.local locally), never in the code.
+ * One admin account. The password is ADMIN_PASSWORD until it is changed in the admin; from then on
+ * the stored record (see cred.ts) is the password. Sessions are signed with ADMIN_SECRET and carry
+ * the password's version, so changing the password signs every other browser out.
  */
 const COOKIE = "ij_admin";
 const DAYS = 7;
@@ -23,7 +25,12 @@ function same(a: string, b: string) {
   return x.length === y.length && timingSafeEqual(x, y);
 }
 
-export function passwordMatches(input: string) {
+/** "env" while the environment password is in force, else the stored record's version. */
+const version = async () => (await readCred(secret()))?.ver ?? "env";
+
+export async function passwordMatches(input: string) {
+  const cred = await readCred(secret());
+  if (cred) return credMatches(cred, input);
   const pw = process.env.ADMIN_PASSWORD;
   if (!pw) return false;
   // compare digests so the length of the real password is not leaked
@@ -31,9 +38,13 @@ export function passwordMatches(input: string) {
   return same(h(input), h(pw));
 }
 
+export async function changePassword(next: string) {
+  await writeCred(next, secret());
+}
+
 export async function startSession() {
   const exp = Date.now() + DAYS * 864e5;
-  const payload = `admin.${exp}`;
+  const payload = `admin.${exp}.${await version()}`;
   (await cookies()).set(COOKIE, `${payload}.${sign(payload)}`, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -52,9 +63,9 @@ export async function isAdmin() {
   if (!v) return false;
   const i = v.lastIndexOf(".");
   const payload = v.slice(0, i);
-  const exp = Number(payload.split(".")[1]);
+  const [, exp, ver] = payload.split(".");
   try {
-    return same(v.slice(i + 1), sign(payload)) && exp > Date.now();
+    return same(v.slice(i + 1), sign(payload)) && Number(exp) > Date.now() && ver === (await version());
   } catch {
     return false;
   }

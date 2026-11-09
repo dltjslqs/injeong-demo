@@ -22,6 +22,7 @@ export function Shell({ title, here, action, children }: { title: string; here: 
           </nav>
           <div className="ad-top-r">
             <Link href="/" target="_blank">홈페이지 보기</Link>
+            <Link href="/admin/password">비밀번호 변경</Link>
             <form action={logout}><button type="submit" className="ad-link">로그아웃</button></form>
           </div>
         </div>

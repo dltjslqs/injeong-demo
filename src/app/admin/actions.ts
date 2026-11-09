@@ -4,7 +4,9 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Column } from "@/components/sites/injeong/columns";
 import { type Category, categories, type Project } from "@/components/sites/injeong/data";
-import { endSession, passwordMatches, requireAdmin, startSession } from "@/lib/injeong/auth";
+import { headers } from "next/headers";
+import { changePassword, endSession, passwordMatches, requireAdmin, startSession } from "@/lib/injeong/auth";
+import { MIN_PASSWORD } from "@/lib/injeong/cred";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
 import { isBuiltinColumn, isBuiltinProject, type Popup, readAuthor, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
@@ -22,13 +24,46 @@ const fail = (e: unknown): FormState => ({ message: e instanceof Error ? e.messa
 
 /* ---------- login ---------- */
 
+// wrong passwords per address: after MAX_TRIES in a row the address waits LOCK_MIN minutes
+const MAX_TRIES = 5;
+const LOCK_MIN = 15;
+const tries = new Map<string, { n: number; until: number }>();
+const caller = async () => (await headers()).get("x-forwarded-for")?.split(",")[0].trim() || "local";
+
 export async function login(_prev: FormState, fd: FormData): Promise<FormState> {
-  if (!passwordMatches(str(fd, "password"))) {
+  const who = await caller();
+  const t = tries.get(who);
+  if (t && t.until > Date.now()) return { message: `비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 뒤에 다시 시도해 주세요.` };
+  if (!(await passwordMatches(str(fd, "password")))) {
     await new Promise((r) => setTimeout(r, 800)); // slows down guessing
-    return { message: "비밀번호가 맞지 않습니다." };
+    const n = (t && t.until === 0 ? t.n : 0) + 1;
+    tries.set(who, n >= MAX_TRIES ? { n: 0, until: Date.now() + LOCK_MIN * 60000 } : { n, until: 0 });
+    return { message: n >= MAX_TRIES ? `비밀번호를 ${MAX_TRIES}번 틀렸습니다. ${LOCK_MIN}분 뒤에 다시 시도해 주세요.` : `비밀번호가 맞지 않습니다. (${n}/${MAX_TRIES})` };
   }
+  tries.delete(who);
   await startSession();
   redirect("/admin");
+}
+
+/** Changes the admin password; every other signed-in browser is signed out. */
+export async function savePassword(_prev: FormState, fd: FormData): Promise<FormState> {
+  await requireAdmin();
+  const now = str(fd, "current");
+  const next = String(fd.get("next") ?? "");
+  if (!(await passwordMatches(now))) {
+    await new Promise((r) => setTimeout(r, 800));
+    return { message: "지금 비밀번호가 맞지 않습니다." };
+  }
+  if (next.length < MIN_PASSWORD) return { message: `새 비밀번호는 ${MIN_PASSWORD}자 이상으로 정해 주세요.` };
+  if (next !== String(fd.get("again") ?? "")) return { message: "새 비밀번호 두 칸이 서로 다릅니다." };
+  if (next === now) return { message: "지금 비밀번호와 다른 것으로 정해 주세요." };
+  try {
+    await changePassword(next);
+    await startSession();
+  } catch (e) {
+    return fail(e);
+  }
+  redirect("/admin/password?saved=1");
 }
 
 export async function logout() {
