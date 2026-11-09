@@ -24,6 +24,11 @@ export type Popup = {
   updatedAt: string;
 };
 
+/** Who signs the columns: shown with a photo at the top of every column. */
+export type Author = { name: string; role: string; photoUrl?: string };
+export const DEFAULT_AUTHOR: Author = { name: "김병철", role: "인정건설 이사" };
+export const readAuthor = async (): Promise<Author> => ({ ...DEFAULT_AUTHOR, ...(await readJSON<Partial<Author>>("author", {})) });
+
 export const readColumns = () => readJSON<Overlay<Column>>("columns", empty<Column>());
 export const readProjects = () => readJSON<Overlay<Project>>("projects", empty<Project>());
 export const readPopups = () => readJSON<Popup[]>("popups", []);

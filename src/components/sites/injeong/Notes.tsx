@@ -69,7 +69,8 @@ export async function NotesList() {
   const columns = await getColumns();
   const toItem = (c: Column): FeedItem => ({ slug: c.slug, title: c.title, sub: c.sub, cat: c.cat, date: c.date ?? COLUMN_DATE, cover: FEED_COVER[c.slug] ? `${BASE}/sites/injeong/${FEED_COVER[c.slug]}` : coverOf(c) });
   const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
-  const rest = columns.filter((c) => c.slug !== lead.slug);
+  // newest first, by the date each column went up
+  const rest = columns.filter((c) => c.slug !== lead.slug).sort((a, b) => (b.date ?? COLUMN_DATE).localeCompare(a.date ?? COLUMN_DATE));
   const cats = [...new Set(columns.map((c) => c.cat))];
   return (
     <section className="sec nf">

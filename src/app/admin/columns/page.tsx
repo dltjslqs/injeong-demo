@@ -13,7 +13,7 @@ export default async function ColumnsAdmin({ searchParams }: { searchParams: Pro
   const [list, o] = await Promise.all([allColumns(), readColumns()]);
   const edited = new Set(o.items.map((c) => c.slug));
   return (
-    <Shell title="기술 칼럼" here="/admin/columns" action={<Link className="ad-btn primary" href="/admin/columns/edit">새 칼럼 쓰기</Link>}>
+    <Shell title="기술 칼럼" here="/admin/columns" action={<div className="ad-row"><Link className="ad-btn" href="/admin/columns/author">작성자 프로필</Link><Link className="ad-btn primary" href="/admin/columns/edit">새 칼럼 쓰기</Link></div>}>
       <Saved show={saved === "1"} />
       <table className="ad-table">
         <thead><tr><th scope="col">제목</th><th scope="col">분류</th><th scope="col">상태</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>

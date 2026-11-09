@@ -12,6 +12,7 @@ export const columns: Column[] = [
  {
   "n": 1,
   "slug": "builder-drawings",
+  "date": "2026.05.12",
   "cat": "시공사 고르기",
   "series": 1,
   "cover": "s1",
@@ -157,6 +158,7 @@ export const columns: Column[] = [
  {
   "n": 2,
   "slug": "builder-envelope",
+  "date": "2026.05.24",
   "cat": "시공사 고르기",
   "series": 2,
   "cover": "s2",
@@ -321,6 +323,7 @@ export const columns: Column[] = [
  {
   "n": 3,
   "slug": "builder-proactive",
+  "date": "2026.06.05",
   "cat": "시공사 고르기",
   "series": 3,
   "cover": "s3",
@@ -462,6 +465,7 @@ export const columns: Column[] = [
  {
   "n": 4,
   "slug": "builder-check",
+  "date": "2026.06.17",
   "cat": "시공사 고르기",
   "series": 4,
   "cover": "s4",
@@ -666,6 +670,7 @@ export const columns: Column[] = [
  {
   "n": 5,
   "slug": "builder-red-flags",
+  "date": "2026.06.29",
   "cat": "시공사 고르기",
   "series": 5,
   "cover": "s5",
@@ -827,6 +832,7 @@ export const columns: Column[] = [
  {
   "n": 6,
   "slug": "factory-cost",
+  "date": "2026.07.11",
   "cat": "공장 신축",
   "title": "공장건축 견적, 평당 공사비만 보고 시작하면 왜 수억이 달라지나요?",
   "sub": "본체 밖에서 커지는 비용 5가지와 총사업비 잡는 법",
@@ -1096,6 +1102,7 @@ export const columns: Column[] = [
  {
   "n": 7,
   "slug": "factory-site",
+  "date": "2026.07.23",
   "cat": "공장 신축",
   "title": "공장부지 매입, 싸게 산 땅이 공사비를 수억 더 만드는 이유",
   "sub": "계약서에 도장 찍기 전에 확인할 6가지, 순서대로",
@@ -1392,6 +1399,7 @@ export const columns: Column[] = [
  {
   "n": 8,
   "slug": "factory-layout",
+  "date": "2026.08.04",
   "cat": "공장 신축",
   "title": "공장건축 설계, 설비 배치도 없이 시작하면 공사비가 커지는 이유",
   "sub": "설계 전에 확정해야 할 5가지와, 나중에 정해도 되는 것",
@@ -1637,6 +1645,7 @@ export const columns: Column[] = [
  {
   "n": 9,
   "slug": "factory-handover",
+  "date": "2026.08.16",
   "cat": "공장 신축",
   "title": "공장 준공 지연, 건물은 다 지었는데 생산을 못 하는 이유",
   "sub": "준공일이 아니라 생산개시일에서 거꾸로 일정 잡는 법",
@@ -1883,6 +1892,7 @@ export const columns: Column[] = [
  {
   "n": 10,
   "slug": "extension-live",
+  "date": "2026.08.28",
   "cat": "공장 증축",
   "title": "공장 증축, 생산라인을 멈추지 않고 공사할 수 있을까요?",
   "sub": "가동 중 증축에서 착공 전에 정해 둬야 할 6가지",
@@ -2136,6 +2146,7 @@ export const columns: Column[] = [
  {
   "n": 11,
   "slug": "extension-cost",
+  "date": "2026.09.09",
   "cat": "공장 증축",
   "title": "공장 증축 견적, 왜 신축보다 평당 단가가 높을까요?",
   "sub": "같은 면적인데 단가가 달라지는 다섯 가지 이유와 견적서 보는 법",
@@ -2364,6 +2375,7 @@ export const columns: Column[] = [
  {
   "n": 12,
   "slug": "extension-permit",
+  "date": "2026.09.21",
   "cat": "공장 증축",
   "title": "공장 증축, 땅이 남아 있어도 안 될 수 있습니다",
   "sub": "건폐율·용적률·주차·공장등록까지, 설계 전에 확인할 인허가 5가지",
@@ -2595,6 +2607,7 @@ export const columns: Column[] = [
  },
  {
   "slug": "officetel-yield",
+  "date": "2026.10.03",
   "cat": "오피스텔·사무용 건물",
   "title": "오피스텔 임대수익률, 왜 준공 후가 아니라 도면에서 정해지나요?",
   "sub": "전용률·천장고·주차·소음·관리비, 설계 단계에서 잡는 다섯 가지",
@@ -2852,6 +2865,7 @@ export const columns: Column[] = [
  },
  {
   "slug": "office-pf",
+  "date": "2026.10.15",
   "cat": "오피스텔·사무용 건물",
   "title": "사무용 건물 PF대출, 공사비는 맞췄는데 왜 돈이 모자라나요?",
   "sub": "승인과 인출의 차이, 금융비용, 기성 시점까지 자금 흐름표로 미리 보는 법",
@@ -3131,6 +3145,7 @@ export const columns: Column[] = [
  },
  {
   "slug": "building-defects",
+  "date": "2026.10.27",
   "cat": "오피스텔·사무용 건물",
   "title": "상업용 건물 하자, 왜 첫 장마와 첫 겨울에 터지나요?",
   "sub": "누수·역류·결로·균열·설비 하자의 원인과, 하자보수보증을 실제로 쓰는 법",

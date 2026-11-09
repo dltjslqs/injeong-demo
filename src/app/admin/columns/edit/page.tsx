@@ -59,8 +59,8 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
             <datalist id="cats">{CATS.map((x) => <option key={x} value={x} />)}</datalist>
           </label>
           <label className="ad-field">
-            <span>게시 연월 <em>예: 2026.11</em></span>
-            <input name="date" defaultValue={c?.date ?? ""} placeholder="비우면 이번 달" pattern="\d{4}\.\d{2}" />
+            <span>게시일 <em>예: 2026.11.09</em></span>
+            <input name="date" defaultValue={c?.date ?? ""} placeholder="비우면 오늘" pattern="\d{4}\.\d{2}(\.\d{2})?" />
           </label>
         </div>
         <fieldset className="ad-field">

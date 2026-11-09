@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ColumnArticle } from "@/components/sites/injeong/ColumnArticle";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
-import { getColumns, getProjects } from "@/lib/injeong/content";
+import { getColumns, getProjects, readAuthor } from "@/lib/injeong/content";
 
 // true on a server so columns written in the admin open without a rebuild;
 // the GitHub Pages workflow flips it to false for the static export.
@@ -25,7 +25,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
   if (!c) notFound();
   return (
     <>
-      <ColumnArticle c={c} columns={columns} projects={await getProjects()} />
+      <ColumnArticle c={c} columns={columns} projects={await getProjects()} author={await readAuthor()} />
       <CtaBand />
     </>
   );

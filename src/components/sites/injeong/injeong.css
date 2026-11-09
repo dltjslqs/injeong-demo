@@ -456,6 +456,13 @@
 .ij .art-hd h1 { margin-top: var(--space-xl); max-width: 24ch; font-size: var(--text-section); line-height: 1.25; overflow-wrap: break-word; min-width: 0; }
 .ij .art-sub { margin-top: var(--space-md); font-size: var(--text-lead); color: var(--color-ink-2); }
 .ij .art-hd .meta { margin-top: var(--space-lg); }
+/* the byline: the author's photo, name and title, then the series and date */
+.ij .art-by { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-lg); }
+.ij .art-by img, .ij .art-by-ph { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
+.ij .art-by-ph { display: grid; place-items: center; background: var(--color-paper); border: 1px solid var(--color-rule, transparent); color: var(--color-accent); font-weight: 600; font-size: var(--text-lg); }
+.ij .art-by b { font-weight: 600; }
+.ij .art-by-role { margin-left: var(--space-xs); color: var(--color-muted); }
+.ij .art-by-meta { display: flex; gap: var(--space-xs); margin-top: 2px; font-size: var(--text-sm); color: var(--color-muted); }
 .ij .art-body, .ij .art-hd .container { max-width: calc(46rem + 2 * var(--gutter)); }
 .ij .art-body { padding-block: var(--space-3xl) var(--section-gap-s); font-size: 1.0625rem; line-height: 1.85; }
 .ij .art-body > p + p { margin-top: 20px; }

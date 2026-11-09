@@ -2,9 +2,9 @@ import Link from "next/link";
 import { BASE } from "./base";
 import type { Block, Column } from "./columns";
 import { company, type Project, projectImg } from "./data";
+import type { Author } from "@/lib/injeong/content";
 
 export const COLUMN_DATE = "2026.11";
-export const COLUMN_AUTHOR = "인정건설 김병철 이사";
 
 /** The photo a column opens with: its first picture. */
 export const coverOf = (c: Column) => {
@@ -72,7 +72,7 @@ function Part({ b, last, projects }: { b: Block; last: boolean; projects: Projec
   }
 }
 
-export function ColumnArticle({ c, columns, projects }: { c: Column; columns: Column[]; projects: Project[] }) {
+export function ColumnArticle({ c, columns, projects, author }: { c: Column; columns: Column[]; projects: Project[]; author: Author }) {
   const i = columns.findIndex((x) => x.slug === c.slug);
   const prev = columns[i - 1];
   const next = columns[i + 1];
@@ -85,7 +85,13 @@ export function ColumnArticle({ c, columns, projects }: { c: Column; columns: Co
           <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/notes">기술 칼럼</Link></nav>
           <h1>{c.title}</h1>
           <p className="art-sub">{c.sub}</p>
-          <p className="meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}, {c.date ?? COLUMN_DATE}, {COLUMN_AUTHOR}</p>
+          <div className="art-by">
+            {author.photoUrl ? <img src={author.photoUrl} alt="" width={56} height={56} /> : <span className="art-by-ph" aria-hidden="true">{author.name.slice(0, 1)}</span>}
+            <span>
+              <b>{author.name}</b>{author.role && <span className="art-by-role">{author.role}</span>}
+              <span className="art-by-meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}<span className="num">{c.date ?? COLUMN_DATE}</span></span>
+            </span>
+          </div>
         </div>
       </header>
       <div className="container art-body">

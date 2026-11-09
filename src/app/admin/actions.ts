@@ -6,7 +6,7 @@ import type { Column } from "@/components/sites/injeong/columns";
 import { type Category, categories, type Project } from "@/components/sites/injeong/data";
 import { endSession, passwordMatches, requireAdmin, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
-import { isBuiltinColumn, isBuiltinProject, type Popup, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
+import { isBuiltinColumn, isBuiltinProject, type Popup, readAuthor, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
 export type FormState = { message?: string; url?: string } | null;
@@ -76,7 +76,7 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
       series: fd.get("series") ? Number(fd.get("series")) || undefined : undefined,
       cover: str(fd, "cover_id") || undefined,
       coverUrl,
-      date: str(fd, "date") || today().slice(0, 7).replace("-", "."),
+      date: str(fd, "date") || today().replaceAll("-", "."),
       title,
       sub: str(fd, "sub"),
       lede: (lede?.x ?? str(fd, "sub")).replace(/\*\*/g, ""),
@@ -89,6 +89,23 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
   }
   refresh();
   redirect("/admin/columns?saved=1");
+}
+
+/** The columns' author: name, title and profile photo. */
+export async function saveAuthor(_prev: FormState, fd: FormData): Promise<FormState> {
+  await requireAdmin();
+  const name = str(fd, "name");
+  if (!name) return { message: "이름을 적어 주세요." };
+  try {
+    const prev = await readAuthor();
+    const photo = file(fd, "photo");
+    const photoUrl = photo ? await saveImage(photo) : fd.get("removePhoto") ? undefined : prev.photoUrl;
+    await writeJSON("author", { name, role: str(fd, "role"), photoUrl });
+  } catch (e) {
+    return fail(e);
+  }
+  refresh();
+  redirect("/admin/columns/author?saved=1");
 }
 
 export async function toggleColumn(fd: FormData) {
