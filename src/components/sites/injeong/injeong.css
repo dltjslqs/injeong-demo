@@ -117,6 +117,14 @@
 .ij .hv-facts dd { margin-top: var(--space-2xs); font-size: var(--text-2xl); font-weight: 800; }
 .ij .hv-pause { min-width: 44px; min-height: 44px; padding-inline: var(--space-xs); border: 0; border-bottom: 2px solid var(--color-field-muted); background: transparent; color: var(--color-field-muted); font: inherit; font-size: var(--text-sm); font-weight: 700; cursor: pointer; transition: color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out); }
 .ij .hv-pause:hover { color: var(--color-field-ink); border-bottom-color: var(--color-field-ink); }
+/* opening-film drafts switch (review only) */
+.ij .hv-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.ij .hv-ab { display: inline-flex; padding: 3px; border: 1px solid color-mix(in oklab, var(--color-field-ink) 35%, transparent); border-radius: var(--radius-pill); background: color-mix(in oklab, var(--color-field) 55%, transparent); }
+.ij .hv-ab button { min-height: 38px; padding-inline: var(--space-sm); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-field-muted); font: inherit; font-size: var(--text-sm); font-weight: 700; cursor: pointer; transition: background-color var(--dur-short) var(--ease-out), color var(--dur-short) var(--ease-out); }
+.ij .hv-ab button:hover { color: var(--color-field-ink); }
+.ij .hv-ab button[aria-pressed="true"] { background: var(--color-field-ink); color: var(--color-field); }
+.ij .hv-ab button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .ij .hv-ab button { transition: none; } }
 .ij .hv :focus-visible, .ij .where :focus-visible { outline-color: var(--color-sky); }
 
 /* the record, right under the hero */

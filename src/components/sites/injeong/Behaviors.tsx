@@ -61,6 +61,32 @@ export function Behaviors() {
         pause.textContent = vid.paused ? "재생" : "멈춤";
         pause.setAttribute("aria-label", vid.paused ? "배경 영상 재생" : "배경 영상 멈춤");
       };
+      // opening-film drafts: A = the factory (hero.mp4), B = a completed public-institution headquarters (hero-b.mp4); ?hero=b opens B
+      const abBtns = Array.from(root.querySelectorAll<HTMLButtonElement>(".hv-ab button"));
+      const pics = root.querySelector<HTMLElement>(".hv-pics");
+      const setHero = (k: string, first = false) => {
+        const tag = k === "a" ? "" : `-${k}`;
+        const swap = (u: string) => u.replace(/hero(-[bc])?(-m|-4k|-poster)?\.(mp4|jpg)/, `hero${tag}$2.$3`);
+        abBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.hero === k)));
+        if (first && k === "a") return;
+        vid.querySelectorAll("source").forEach((s) => (s.src = swap(s.src)));
+        vid.poster = swap(vid.poster);
+        if (pics) pics.style.backgroundImage = swap(pics.style.backgroundImage);
+        vid.classList.remove("on");
+        vid.load();
+        if (!first) {
+          const u = new URL(location.href);
+          if (k !== "a") u.searchParams.set("hero", k);
+          else u.searchParams.delete("hero");
+          history.replaceState(history.state, "", u);
+        }
+      };
+      const asked = new URLSearchParams(location.search).get("hero");
+      setHero(asked === "b" ? "b" : "a", true);
+      abBtns.forEach((b) => on(b, "click", () => {
+        setHero(b.dataset.hero ?? "a");
+        if (!still) vid.play().catch(() => {});
+      }));
       if (still) vid.pause();
       else vid.play().catch(() => {});
       on(vid, "play", label);
