@@ -96,10 +96,15 @@ export function Behaviors() {
       if (vid.readyState >= 3) ready();
       on(vid, "playing", ready);
       // dip to dark across the loop seam so the jump back to the start never shows
+      // (only after the first loop: on the first play the clip comes straight up from the poster, no dip)
+      let looped = false, last = 0;
       on(vid, "timeupdate", () => {
-        const left = vid.duration - vid.currentTime;
-        vid.classList.toggle("seam", left < 0.9 || vid.currentTime < 0.5);
+        const t = vid.currentTime, left = vid.duration - t;
+        if (t < last) looped = true;
+        last = t;
+        vid.classList.toggle("seam", left < 0.9 || (looped && t < 0.5));
       });
+      on(vid, "loadstart", () => { looped = false; last = 0; });
       if (pause) on(pause, "click", () => (vid.paused ? vid.play().catch(() => {}) : vid.pause()));
       label();
     }
