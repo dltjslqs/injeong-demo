@@ -8,7 +8,7 @@ export function Close() {
       <div className="container close-in">
         <div>
           <h2>현실적인 견적 가이드를 받아보세요</h2>
-          <p className="lead">도면이 없거나 대략적인 부지 계획만 있어도 괜찮습니다. 현장 조건에 맞춘 인허가 검토와 가장 현실적인 견적 가이드를 함께 풀어드립니다.</p>
+          <p className="lead">도면이 없거나 대략적인 부지 계획만 있어도 괜찮습니다.<br className="br-pc" /> 현장 조건에 맞춘 인허가 검토와 견적을 함께 살펴드립니다.</p>
           <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
         </div>
         <dl className="close-dl">

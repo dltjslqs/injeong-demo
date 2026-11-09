@@ -20,7 +20,7 @@ export async function HeroIndex() {
       </div>
       <div className="container hv-in">
         <h1><span>무사고 책임준공,</span><br /><span className="h1-sub">1989년부터 증명해 온 건축주의 파트너</span></h1>
-        <p className="lead">깐깐한 교육청 시설부터 스마트 산업공장까지.<br />건축주의 눈높이에서 도면 너머 현장의 디테일까지 책임집니다.</p>
+        <p className="lead">깐깐한 교육청 시설부터 스마트 산업공장까지,<br />건축주의 눈높이에서 도면 너머 현장의 디테일까지 책임집니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
           <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
@@ -57,7 +57,7 @@ export async function RecentList() {
         <div className="head">
           <div>
             <h2 className="rv">지금도 충남 곳곳을 짓고 있습니다</h2>
-            <p className="lede">홍성 본사에서 천안·아산·예산·금산까지, 충남 전역에서 {done}곳을 준공했습니다. 지금 짓고 있는 현장은 {ongoing.length}곳입니다.</p>
+            <p className="lede">홍성 본사에서 천안·아산·예산·금산까지, 충남 전역에서 {done}곳을 준공했습니다.<br className="br-pc" /> 2026년에도 인정건설의 현장은 멈추지 않습니다.</p>
           </div>
           <Link className="link" href="/projects">시공 실적 전체 보기</Link>
         </div>

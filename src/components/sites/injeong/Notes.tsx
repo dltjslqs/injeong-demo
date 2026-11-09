@@ -42,7 +42,7 @@ export async function NotesSummary() {
         <div className="notes-head">
           <div>
             <h2>공사비를 절약하는 실무 인사이트</h2>
-            <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫. 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
+            <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫,<br className="br-pc" /> 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
           </div>
           <Link className="link" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
         </div>

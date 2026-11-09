@@ -9,7 +9,7 @@ export function Team() {
         <div className="team-head">
           <div>
             <h2>30년 관록의 검증된 기술인력</h2>
-            <p className="lede">30년 관록의 현장 소장과 검증된 기술 인력이 당신의 건물을 직접 짓고, 직접 책임집니다.</p>
+            <p className="lede">30년 관록의 현장 소장과 검증된 기술 인력이<br className="br-pc" /> 당신의 건물을 직접 짓고 직접 책임집니다.</p>
           </div>
         </div>
         <figure className="team-pic">

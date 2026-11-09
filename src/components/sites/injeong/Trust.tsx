@@ -17,7 +17,7 @@ export function Trust() {
         <div className="trust-head">
           <div>
             <h2>감사패로 증명하는 시공 역량</h2>
-            <p className="lede">공사를 마친 건축주와 발주처가 직접 전해준 감사패가 인정건설의 실력을 말해줍니다.</p>
+            <p className="lede">공사를 마친 건축주와 발주처가 직접 전해준 감사패가<br className="br-pc" /> 인정건설의 실력을 말해줍니다.</p>
           </div>
           <div className="pq-ctl">
             <span className="pq-count num" aria-live="polite">01 / {String(plaques.length).padStart(2, "0")}</span>

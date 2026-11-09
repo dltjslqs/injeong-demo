@@ -22,7 +22,7 @@ export async function Areas() {
         <div className="areas-head">
           <div>
             <h2>도면을 가장 정확한 현실로 만드는 시공 기술</h2>
-            <p className="lede">교육청의 까다로운 감리 기준부터 제조 라인의 특수 스펙까지, 인정건설이 1989년부터 쌓은 현장 노하우로 시공합니다.</p>
+            <p className="lede">교육청의 까다로운 감리 기준부터 제조 라인의 특수 스펙까지,<br className="br-pc" /> 인정건설이 1989년부터 쌓은 현장 노하우로 시공합니다.</p>
           </div>
           <Link className="link" href="/business">사업 분야 자세히</Link>
         </div>
