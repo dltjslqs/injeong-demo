@@ -8,8 +8,8 @@ export async function NowBuilding() {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">지금 시공하고 있는 공사</h2>
-            <p className="lede rv">지금 인정건설이 짓고 있는 현장입니다.</p>
+            <h2 className="h2 rv">2026년 시공 현장</h2>
+            <p className="lede rv">올해 인정건설이 맡아 짓고 있는 현장입니다.</p>
           </div>
         </div>
         <div className="og">

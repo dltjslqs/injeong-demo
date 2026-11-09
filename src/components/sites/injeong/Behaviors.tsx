@@ -102,7 +102,9 @@ export function Behaviors() {
         const t = vid.currentTime, left = vid.duration - t;
         if (t < last) looped = true;
         last = t;
-        vid.classList.toggle("seam", left < 0.9 || (looped && t < 0.5));
+        // B runs forward then back, so its loop has no seam to hide
+        const pingpong = new URLSearchParams(location.search).get("hero") === "b";
+        vid.classList.toggle("seam", !pingpong && (left < 0.9 || (looped && t < 0.5)));
       });
       on(vid, "loadstart", () => { looped = false; last = 0; });
       if (pause) on(pause, "click", () => (vid.paused ? vid.play().catch(() => {}) : vid.pause()));
