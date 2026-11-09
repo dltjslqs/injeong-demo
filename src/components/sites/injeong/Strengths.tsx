@@ -54,7 +54,6 @@ export function Strengths() {
     <section className="sec soft st-sec" id="strengths">
       <div className="container">
         <div className="st-head">
-          <p className="sec-label rv">인정건설이 다른 이유</p>
           <h2 className="h2 rv">건축주가 다시 인정건설을 찾는 4가지 원칙</h2>
           <p className="lede rv">착공 전 도면 검토부터 준공까지, 본사가 직접 챙기는 네 가지입니다.</p>
         </div>

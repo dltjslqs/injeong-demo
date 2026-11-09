@@ -37,7 +37,6 @@ export default function AboutPage() {
       <section className="sec">
         <div className="container hist">
           <div>
-            <p className="sec-label rv">인정건설이 걸어온 길</p>
             <h2 className="h2 rv">30년을 지켜온 발자취</h2>
             <p className="lede rv">시공사가 한 지역에서 수십 년간 이름을 지켜왔다는 것은, 지어온 건물마다 뒷말이 없었다는 가장 확실한 증거입니다.</p>
           </div>
@@ -83,7 +82,6 @@ export default function AboutPage() {
       <section className="sec soft">
         <div className="container visit">
           <div>
-            <p className="sec-label rv">Contact</p>
             <h2 className="h2 rv">연락처</h2>
             <p className="lede rv">전화 한 통, 도면 한 장이면 충분합니다. 편하게 연락 주세요.</p>
           </div>
