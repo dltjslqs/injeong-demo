@@ -312,3 +312,13 @@
 .av-side .ad-row { margin-top: 6px; }
 .av-side .ad-err { margin-top: 4px; }
 @media (max-width: 560px) { .av-pick { flex-direction: column; align-items: flex-start; } }
+
+/* writer profiles: 내 정보 summary, the profile block inside the account form, the small face in lists */
+.ad-me-info { margin-bottom: 8px; }
+.ad-h2-sub { margin: 0 0 12px !important; }
+.ad-section { padding-top: 20px; border-top: 1px solid var(--ad-rule) !important; gap: 14px; }
+.ad-static { display: flex; align-items: center; gap: 10px; min-height: 42px; font-weight: 600; }
+.ad-static em { font-style: normal; font-weight: 400; font-size: 13px; color: var(--ad-muted); }
+.ad-who { display: inline-flex; align-items: center; gap: 8px; }
+.ad-who img, .ad-who i { flex: none; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.ad-who i { display: grid; place-items: center; background: var(--ad-blue-soft); color: var(--ad-blue); font-style: normal; font-size: 13px; font-weight: 800; }

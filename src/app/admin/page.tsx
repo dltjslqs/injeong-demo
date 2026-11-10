@@ -25,7 +25,6 @@ export default async function AdminHome({ searchParams }: { searchParams: Promis
             <div className="ad-row">
               <Link className="ad-btn primary" href={c.add}>등록</Link>
               <Link className="ad-btn" href={c.href}>목록</Link>
-              {c.perm === "columns" && <Link className="ad-btn" href="/admin/columns/author">작성자 프로필</Link>}
             </div>
           </section>
         ))}

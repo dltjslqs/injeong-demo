@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERMS } from "@/lib/injeong/accounts";
 import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
-import { isBuiltinColumn, isBuiltinProject, type Popup, readAuthor, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
+import { type Author, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
 import { logBackup, takeSnapshot } from "@/lib/injeong/backup";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
@@ -115,9 +115,11 @@ export async function saveAccount(_prev: FormState, fd: FormData): Promise<FormS
       ...(password ? passwordFields(password) : {}),
     };
     await saveAccounts(prev ? list.map((a) => (a.id === id ? next : a)) : [...list, next]);
+    await writeProfile(id, fd, name);
   } catch (e) {
     return fail(e);
   }
+  refresh();
   redirect("/admin/accounts?saved=1");
 }
 
@@ -125,14 +127,16 @@ export async function saveAccount(_prev: FormState, fd: FormData): Promise<FormS
 export async function snapshotNow() {
   const me = await requireAdmin("super");
   const label = today();
+  let changed: string[];
   try {
-    const files = await takeSnapshot(label);
-    await logBackup({ kind: "manual", by: me.name, label, files, ok: true });
+    changed = await takeSnapshot(label);
+    await logBackup({ kind: "manual", by: me.name, label, files: changed.length, changed, ok: true });
   } catch (e) {
     await logBackup({ kind: "manual", by: me.name, label, ok: false, error: e instanceof Error ? e.message : String(e) });
     redirect("/admin/backup?failed=1");
   }
-  redirect("/admin/backup?saved=1");
+  // redirect() throws, so it stays outside the try above
+  redirect(changed.length ? "/admin/backup?saved=1" : "/admin/backup?same=1");
 }
 
 export async function removeAccount(fd: FormData) {
@@ -160,7 +164,7 @@ export async function uploadPhoto(_prev: FormState, fd: FormData): Promise<FormS
 /* ---------- columns ---------- */
 
 export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin("columns");
+  const me = await requireAdmin("columns");
   const title = str(fd, "title");
   if (!title) return { message: "제목을 입력해 주세요." };
   let blocks: ReturnType<typeof sanitizeBlocks> = [];
@@ -177,9 +181,13 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
     const prev = o.items.find((c) => c.slug === slug);
     const cover = file(fd, "cover");
     const coverUrl = cover ? await saveImage(cover) : fd.get("removeCover") ? undefined : str(fd, "coverUrl") || undefined;
+    // the 총괄관리자 picks the writer; a 담당자 keeps the column's writer, or signs a new one as themselves
+    const builtinAuthor = isBuiltinColumn(slug) ? MAIN_AUTHOR : undefined;
+    const author = me.role === "super" ? str(fd, "author") || MAIN_AUTHOR : prev?.author ?? builtinAuthor ?? me.id;
     const col: Column = {
       n: prev?.n ?? Date.now(),
       slug,
+      author,
       cat: str(fd, "cat") || "칼럼",
       series: fd.get("series") ? Number(fd.get("series")) || undefined : undefined,
       cover: str(fd, "cover_id") || undefined,
@@ -199,21 +207,29 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
   redirect("/admin/columns?saved=1");
 }
 
-/** The columns' author: name, title and profile photo. */
-export async function saveAuthor(_prev: FormState, fd: FormData): Promise<FormState> {
-  await requireAdmin("columns");
-  const name = str(fd, "name");
-  if (!name) return { message: "이름을 입력해 주세요." };
+/* ---------- writer profiles ---------- */
+
+/** Saves an account's writer profile from the form's pname / prole / photo / removePhoto fields. */
+async function writeProfile(id: string, fd: FormData, fallbackName: string) {
+  const profiles = await readProfiles();
+  const prev = await profileOf(id, profiles);
+  const photo = file(fd, "photo");
+  const photoUrl = photo ? await saveImage(photo) : fd.get("removePhoto") ? undefined : prev?.photoUrl;
+  const next: Author = { name: str(fd, "pname") || prev?.name || fallbackName, role: str(fd, "prole"), photoUrl };
+  await writeJSON("profiles", { ...profiles, [id]: next });
+}
+
+/** 내 정보: the signed-in account edits its own writer profile. */
+export async function saveMyProfile(_prev: FormState, fd: FormData): Promise<FormState> {
+  const me = await requireAdmin();
+  if (!str(fd, "pname")) return { message: "칼럼에 표시할 이름을 입력해 주세요." };
   try {
-    const prev = await readAuthor();
-    const photo = file(fd, "photo");
-    const photoUrl = photo ? await saveImage(photo) : fd.get("removePhoto") ? undefined : prev.photoUrl;
-    await writeJSON("author", { name, role: str(fd, "role"), photoUrl });
+    await writeProfile(me.id, fd, me.name);
   } catch (e) {
     return fail(e);
   }
   refresh();
-  redirect("/admin/columns/author?saved=1");
+  redirect("/admin/me?saved=1");
 }
 
 export async function toggleColumn(fd: FormData) {

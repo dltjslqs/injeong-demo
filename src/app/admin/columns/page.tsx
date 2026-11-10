@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/injeong/auth";
-import { allColumns, readColumns } from "@/lib/injeong/content";
+import { allColumns, MAIN_AUTHOR, profileOf, readColumns, readProfiles } from "@/lib/injeong/content";
 import { removeColumn, toggleColumn } from "../actions";
 import { Saved, Shell } from "../shell";
 import { ConfirmButton } from "../ui";
@@ -10,13 +10,15 @@ export const metadata = { title: "기술 칼럼" };
 export default async function ColumnsAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
   await requireAdmin("columns");
   const { saved } = await searchParams;
-  const [list, o] = await Promise.all([allColumns(), readColumns()]);
+  const [list, o, profiles] = await Promise.all([allColumns(), readColumns(), readProfiles()]);
+  const main = await profileOf(MAIN_AUTHOR, profiles);
+  const writer = (id?: string) => (id && profiles[id]?.name) || main?.name || "-";
   const edited = new Set(o.items.map((c) => c.slug));
   return (
     <Shell title="기술 칼럼" here="/admin/columns" action={<Link className="ad-btn primary" href="/admin/columns/edit">칼럼 등록</Link>}>
       <Saved show={saved === "1"} />
       <table className="ad-table">
-        <thead><tr><th scope="col">제목</th><th scope="col">분류</th><th scope="col">상태</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
+        <thead><tr><th scope="col">제목</th><th scope="col">작성자</th><th scope="col">분류</th><th scope="col">상태</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
         <tbody>
           {list.map((c) => (
             <tr key={c.slug} className={c.off ? "off" : undefined}>
@@ -24,6 +26,7 @@ export default async function ColumnsAdmin({ searchParams }: { searchParams: Pro
                 <Link href={`/admin/columns/edit?slug=${c.slug}`} className="ad-title">{c.title}</Link>
                 <span className="ad-muted ad-small">{c.date ?? "2026.11"}{c.series ? `, 시리즈 ${c.series}편` : ""}</span>
               </td>
+              <td>{writer(c.author)}</td>
               <td>{c.cat}</td>
               <td>
                 {c.off ? <span className="ad-tag">숨김</span> : <span className="ad-tag on">게시</span>}

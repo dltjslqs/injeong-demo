@@ -24,10 +24,6 @@ const NAV: Group[] = [
         icon: "doc",
         perm: "columns",
         desc: "기술 칼럼을 등록·수정하고, 홈페이지에서 숨기거나 다시 게시합니다.",
-        children: [
-          { href: "/admin/columns", label: "칼럼 목록", desc: "기술 칼럼을 등록·수정하고, 홈페이지에서 숨기거나 다시 게시합니다." },
-          { href: "/admin/columns/author", label: "작성자 프로필", desc: "모든 칼럼 제목 아래에 나오는 작성자의 사진, 이름, 직함입니다." },
-        ],
       },
       { href: "/admin/projects", label: "시공 실적", icon: "building", perm: "projects", desc: "준공·시공 중 현장을 등록하고 사진과 공사 개요를 수정합니다." },
       { href: "/admin/popups", label: "팝업", icon: "bell", perm: "popups", desc: "홈 첫 화면 오른쪽 위에 뜨는 공지입니다. 한 번에 하나만 표시됩니다." },
@@ -41,7 +37,16 @@ const NAV: Group[] = [
     ],
   },
 ];
-const ACCOUNT: Item = { href: "/admin/password", label: "비밀번호 변경", icon: "key", desc: "로그인한 계정의 비밀번호를 변경합니다. 변경하면 다른 기기는 모두 로그아웃됩니다." };
+const ACCOUNT: Item = {
+  href: "/admin/me",
+  label: "내 정보",
+  icon: "key",
+  desc: "내 계정 정보와, 내가 쓴 칼럼에 나오는 작성자 프로필입니다.",
+  children: [
+    { href: "/admin/me", label: "내 정보", desc: "내 계정 정보와, 내가 쓴 칼럼에 나오는 작성자 프로필입니다." },
+    { href: "/admin/password", label: "비밀번호 변경", desc: "로그인한 계정의 비밀번호를 변경합니다. 변경하면 다른 기기는 모두 로그아웃됩니다." },
+  ],
+};
 
 const ICONS = {
   home: "M4 11 12 4l8 7M6 9.5V20h12V9.5",
@@ -130,7 +135,7 @@ export async function Shell({ title, here, action, desc, children }: { title: st
         <p className="sb-me-name">{user.name}</p>
         <p className="sb-me-role">{roleLabel(user)}</p>
         <div className="sb-me-acts">
-          <Link href={ACCOUNT.href} className={item === ACCOUNT ? "on" : undefined}><Icon name="key" />비밀번호 변경</Link>
+          <Link href={ACCOUNT.href} className={item === ACCOUNT ? "on" : undefined}><Icon name="key" />내 정보·비밀번호</Link>
           <form action={logout}><button type="submit"><Icon name="out" />로그아웃</button></form>
         </div>
       </div>

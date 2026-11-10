@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { MIN_PASSWORD, PERMS } from "@/lib/injeong/accounts";
 import { accounts, requireAdmin } from "@/lib/injeong/auth";
+import { profileOf } from "@/lib/injeong/content";
+import { ProfileFields } from "../../ProfileFields";
 import { saveAccount } from "../../actions";
 import { Shell } from "../../shell";
 import { ActionForm, Submit } from "../../ui";
@@ -12,9 +14,10 @@ export default async function AccountEdit({ searchParams }: { searchParams: Prom
   const { id } = await searchParams;
   const a = id ? (await accounts()).find((x) => x.id === id) : undefined;
   const isSuper = a?.role === "super";
+  const profile = a ? await profileOf(a.id) : null;
   return (
     <Shell title={a ? "계정 수정" : "계정 등록"} here="/admin/accounts" action={<Link className="ad-btn" href="/admin/accounts">목록</Link>}>
-      <ActionForm action={saveAccount} className="ad-form ad-narrow">
+      <ActionForm action={saveAccount} className="ad-form">
         <input type="hidden" name="editing" value={a?.id ?? ""} />
         <label className="ad-field">
           <span>이름 <em>관리자 화면 상단에 표시</em></span>
@@ -38,6 +41,10 @@ export default async function AccountEdit({ searchParams }: { searchParams: Prom
             ))}
           </fieldset>
         )}
+        <fieldset className="ad-field ad-section">
+          <legend>작성자 프로필 <em>이 계정이 작성자인 칼럼의 제목 아래에 나옵니다. 본인이 내 정보에서 수정할 수도 있습니다.</em></legend>
+          <ProfileFields profile={profile} fallbackName={a?.name} />
+        </fieldset>
         {a && <p className="ad-muted">비밀번호를 변경하면 이 계정은 모든 기기에서 로그아웃됩니다. 새 비밀번호는 본인에게 직접 전달해 주세요.</p>}
         <div className="ad-row">
           <Submit>{a ? "저장" : "등록"}</Submit>

@@ -1,5 +1,5 @@
 import { currentUser } from "@/lib/injeong/auth";
-import { listSnapshots, listUploads, logBackup, readRaw, STORE_KEYS } from "@/lib/injeong/backup";
+import { listSnapshots, listUploads, logBackup, readAt, readRaw, STORE_KEYS } from "@/lib/injeong/backup";
 import { type ZipEntry, zipStream } from "@/lib/injeong/zip";
 
 export const dynamic = "force-dynamic";
@@ -9,6 +9,7 @@ const README = [
   "인정건설 홈페이지 백업",
   "",
   "data/     관리자에서 등록·수정한 내용 (칼럼, 시공 실적, 팝업, 작성자 프로필, 계정)",
+  "          서버 백업본(?snapshot=)을 받으면 바뀐 항목만 저장된 백업도 그 시점의 전체 내용으로 채워서 받습니다.",
   "uploads/  관리자에서 올린 사진",
   "",
   "accounts.json은 암호화되어 있어 서버의 ADMIN_SECRET 없이는 읽을 수 없습니다.",
@@ -21,13 +22,15 @@ export async function GET(req: Request) {
   const me = await currentUser();
   if (!me || me.role !== "super") return new Response("권한이 없습니다.", { status: 403 });
   const snapshot = new URL(req.url).searchParams.get("snapshot") ?? undefined;
-  if (snapshot && !(await listSnapshots()).includes(snapshot)) return new Response("없는 백업입니다.", { status: 404 });
+  const labels = snapshot ? await listSnapshots() : [];
+  if (snapshot && !labels.includes(snapshot)) return new Response("없는 백업입니다.", { status: 404 });
   await logBackup(snapshot ? { kind: "download-snapshot", by: me.name, label: snapshot, ok: true } : { kind: "download", by: me.name, ok: true });
 
   async function* entries(): AsyncGenerator<ZipEntry> {
     yield { name: "README.txt", data: Buffer.from(README, "utf8") };
     for (const key of STORE_KEYS) {
-      const body = await readRaw(key, snapshot);
+      // a snapshot holds only what changed; readAt fills in the rest from older ones, so the ZIP is complete
+      const body = snapshot ? await readAt(key, snapshot, labels) : await readRaw(key);
       if (body !== null) yield { name: `data/${key}.json`, data: Buffer.from(body, "utf8") };
     }
     if (snapshot) return;

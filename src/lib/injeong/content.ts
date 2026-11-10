@@ -24,10 +24,29 @@ export type Popup = {
   updatedAt: string;
 };
 
-/** Who signs the columns: shown with a photo at the top of every column. */
+/**
+ * Who signs a column: every admin account has its own writer profile (photo, name, title), kept in "profiles"
+ * by account id. A column names its writer in `author`; the built-in columns name none and are signed by
+ * MAIN_AUTHOR, the 총괄관리자 account, whose profile starts from the single profile the site used before.
+ */
 export type Author = { name: string; role: string; photoUrl?: string };
 export const DEFAULT_AUTHOR: Author = { name: "김병철", role: "인정건설 이사" };
-export const readAuthor = async (): Promise<Author> => ({ ...DEFAULT_AUTHOR, ...(await readJSON<Partial<Author>>("author", {})) });
+export const MAIN_AUTHOR = "admin";
+const readLegacyAuthor = async (): Promise<Author> => ({ ...DEFAULT_AUTHOR, ...(await readJSON<Partial<Author>>("author", {})) });
+export const readProfiles = () => readJSON<Record<string, Author>>("profiles", {});
+
+/** The writer profile of an account; the main account falls back to the old single profile. */
+export async function profileOf(id: string, profiles?: Record<string, Author>): Promise<Author | null> {
+  const p = (profiles ?? (await readProfiles()))[id];
+  if (p) return p;
+  return id === MAIN_AUTHOR ? readLegacyAuthor() : null;
+}
+
+/** Who signs this column: its writer's profile, or the main account's when it names none (or that account is gone). */
+export async function authorOf(c: Pick<Column, "author">): Promise<Author> {
+  const profiles = await readProfiles();
+  return (c.author && (await profileOf(c.author, profiles))) || (await profileOf(MAIN_AUTHOR, profiles)) || DEFAULT_AUTHOR;
+}
 
 export const readColumns = () => readJSON<Overlay<Column>>("columns", empty<Column>());
 export const readProjects = () => readJSON<Overlay<Project>>("projects", empty<Project>());

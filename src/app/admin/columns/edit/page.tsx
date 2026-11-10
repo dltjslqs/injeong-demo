@@ -3,9 +3,10 @@ import { coverOf } from "@/components/sites/injeong/ColumnArticle";
 import type { Block } from "@/components/sites/injeong/columns";
 import { BASE } from "@/components/sites/injeong/base";
 import { projectImg } from "@/components/sites/injeong/data";
-import { requireAdmin } from "@/lib/injeong/auth";
+import { can } from "@/lib/injeong/accounts";
+import { accounts, requireAdmin } from "@/lib/injeong/auth";
 import { blocksToDoc } from "@/lib/injeong/coldoc";
-import { allColumns, getProjects } from "@/lib/injeong/content";
+import { allColumns, getProjects, isBuiltinColumn, MAIN_AUTHOR, profileOf, readProfiles } from "@/lib/injeong/content";
 import { saveColumn } from "../../actions";
 import { Shell } from "../../shell";
 import { RichEditor } from "../../RichEditor";
@@ -25,9 +26,16 @@ const TEMPLATE: Block[] = [
 ];
 
 export default async function ColumnEdit({ searchParams }: { searchParams: Promise<{ slug?: string }> }) {
-  await requireAdmin("columns");
+  const me = await requireAdmin("columns");
   const { slug } = await searchParams;
   const c = slug ? (await allColumns()).find((x) => x.slug === slug) : undefined;
+  // who may sign a column: accounts that can write columns; the 총괄관리자 picks, a 담당자 signs as themselves
+  const profiles = await readProfiles();
+  const writers = await Promise.all(
+    (await accounts()).filter((a) => can(a, "columns")).map(async (a) => ({ id: a.id, label: (await profileOf(a.id, profiles))?.name ?? a.name, account: a.name })),
+  );
+  const authorId = c?.author ?? (c && isBuiltinColumn(c.slug) ? MAIN_AUTHOR : c ? MAIN_AUTHOR : me.id);
+  const authorName = writers.find((w) => w.id === authorId)?.label ?? "-";
   const projects = await getProjects();
   const doc = blocksToDoc(c ? c.blocks : TEMPLATE, {
     project: (id) => {
@@ -58,6 +66,19 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
             <input name="cat" defaultValue={c?.cat ?? "공장 신축"} list="cats" required />
             <datalist id="cats">{CATS.map((x) => <option key={x} value={x} />)}</datalist>
           </label>
+          {me.role === "super" ? (
+            <label className="ad-field">
+              <span>작성자 <em>칼럼 제목 아래에 이 사람의 프로필이 나옵니다</em></span>
+              <select name="author" defaultValue={authorId}>
+                {writers.map((w) => <option key={w.id} value={w.id}>{w.label}{w.label !== w.account ? ` (${w.account})` : ""}</option>)}
+              </select>
+            </label>
+          ) : (
+            <div className="ad-field">
+              <span>작성자</span>
+              <p className="ad-static">{authorName} <em>{c ? "작성자는 총괄관리자가 변경할 수 있습니다" : "내 프로필로 게시됩니다"}</em></p>
+            </div>
+          )}
           <label className="ad-field">
             <span>게시일 <em>예: 2026.11.09</em></span>
             <input name="date" defaultValue={c?.date ?? ""} placeholder="미입력 시 오늘 날짜" pattern="\d{4}\.\d{2}(\.\d{2})?" />

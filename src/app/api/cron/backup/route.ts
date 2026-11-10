@@ -12,12 +12,12 @@ export async function GET(req: Request) {
   const given = Buffer.from(req.headers.get("authorization") ?? "");
   const want = Buffer.from(`Bearer ${secret}`);
   if (!secret || given.length !== want.length || !timingSafeEqual(given, want)) return new Response("Unauthorized", { status: 401 });
-  // the month in Korea time
-  const label = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
+  // the day in Korea time, so it sorts with the ones taken by hand
+  const label = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
   try {
-    const files = await takeSnapshot(label);
-    await logBackup({ kind: "auto", by: "자동", label, files, ok: true });
-    return Response.json({ ok: true, label, files });
+    const changed = await takeSnapshot(label);
+    await logBackup({ kind: "auto", by: "자동", label, files: changed.length, changed, ok: true });
+    return Response.json({ ok: true, label, changed });
   } catch (e) {
     const error = e instanceof Error ? e.message : String(e);
     await logBackup({ kind: "auto", by: "자동", label, ok: false, error });

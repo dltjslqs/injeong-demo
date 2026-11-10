@@ -1,5 +1,5 @@
 import { requireAdmin } from "@/lib/injeong/auth";
-import { type BackupEvent, listSnapshots, readBackupLog } from "@/lib/injeong/backup";
+import { type BackupEvent, KEY_LABEL, listSnapshots, readBackupLog } from "@/lib/injeong/backup";
 import { snapshotNow } from "../actions";
 import { Shell } from "../shell";
 
@@ -25,16 +25,35 @@ const KIND: Record<BackupEvent["kind"], string> = {
   "download-snapshot": "백업본 내려받기",
 };
 
-export default async function BackupPage({ searchParams }: { searchParams: Promise<{ saved?: string; failed?: string }> }) {
+const names = (keys: string[]) => keys.map((k) => KEY_LABEL[k] ?? k).join(", ");
+
+/** What a history line touched: the items a backup saved, "변경 없음", or what was downloaded. */
+function target(e: BackupEvent) {
+  if (e.kind === "download") return "전체(사진 포함)";
+  const day = e.label ? e.label.replaceAll("-", ".") : "";
+  if (e.kind === "download-snapshot") return `${day} 백업본`;
+  if (!e.ok) return day || "-";
+  if (e.changed) return e.changed.length ? names(e.changed) : <span className="ad-muted">변경 없음, 저장 안 함</span>;
+  return e.files !== undefined ? `파일 ${e.files}개` : "-";
+}
+
+/** The items saved into one snapshot, from the history (older snapshots have no record). */
+function saved_items(log: BackupEvent[], label: string) {
+  const keys = [...new Set(log.filter((e) => e.label === label && e.ok && e.changed?.length).flatMap((e) => e.changed ?? []))];
+  return keys.length ? names(keys) : <span className="ad-muted">기록 없음</span>;
+}
+
+export default async function BackupPage({ searchParams }: { searchParams: Promise<{ saved?: string; failed?: string; same?: string }> }) {
   await requireAdmin("super");
-  const { saved, failed } = await searchParams;
+  const { saved, failed, same } = await searchParams;
   const [snapshots, log] = await Promise.all([listSnapshots(), readBackupLog()]);
   const lastAuto = log.find((e) => e.kind === "auto");
   const lastDownload = log.find((e) => e.kind === "download");
 
   return (
     <Shell title="백업" here="/admin/backup">
-      {saved === "1" && <p className="ad-ok" role="status">서버에 백업본을 저장했습니다.</p>}
+      {saved === "1" && <p className="ad-ok" role="status">바뀐 항목을 서버에 백업했습니다.</p>}
+      {same === "1" && <p className="ad-ok" role="status">마지막 백업 이후 바뀐 내용이 없어 새로 저장하지 않았습니다.</p>}
       {failed === "1" && <p className="ad-err" role="alert">백업에 실패했습니다. 아래 이력의 오류 내용을 확인해 주세요.</p>}
 
       <section className="ad-card ad-bk-setup">
@@ -54,8 +73,10 @@ export default async function BackupPage({ searchParams }: { searchParams: Promi
           </dd>
           <dt>백업 대상</dt>
           <dd>기술 칼럼, 시공 실적, 팝업, 작성자 프로필, 관리자 계정(암호화된 상태)</dd>
+          <dt>저장 방식</dt>
+          <dd>마지막 백업 이후 바뀐 항목만 저장합니다. 바뀐 내용이 없으면 백업본을 만들지 않고 이력에 「변경 없음」으로만 남깁니다. 백업본을 내려받으면 그 시점의 전체 내용으로 채워서 받습니다.</dd>
           <dt>보관</dt>
-          <dd>서버 저장소(Vercel Blob)에 최근 12개를 보관하고, 그보다 오래된 백업본은 자동으로 삭제합니다.</dd>
+          <dd>서버 저장소(Vercel Blob)에 최근 12개를 보관하고, 그보다 오래된 백업본은 자동으로 삭제합니다. 삭제할 때 남는 백업본이 필요로 하는 내용은 옮겨 두어 어느 백업본이든 전체를 받을 수 있습니다.</dd>
           <dt>사진</dt>
           <dd>등록한 사진은 한 번 올리면 바뀌지 않아 서버 백업본에는 넣지 않습니다. 사진까지 받으려면 「전체 백업 내려받기」를 이용해 주세요.</dd>
           <dt>복원</dt>
@@ -78,7 +99,7 @@ export default async function BackupPage({ searchParams }: { searchParams: Promi
         </section>
         <section className="ad-card">
           <h2>지금 백업</h2>
-          <p className="ad-muted">자동 백업을 기다리지 않고 지금 내용을 서버에 저장합니다. 같은 날 다시 누르면 그날 백업본을 덮어씁니다.</p>
+          <p className="ad-muted">자동 백업을 기다리지 않고, 마지막 백업 이후 바뀐 항목을 지금 서버에 저장합니다.</p>
           <form action={snapshotNow} className="ad-row">
             <button type="submit" className="ad-btn">지금 백업</button>
           </form>
@@ -90,11 +111,12 @@ export default async function BackupPage({ searchParams }: { searchParams: Promi
         <div className="ad-empty"><p>보관 중인 백업이 없습니다.</p></div>
       ) : (
         <table className="ad-table">
-          <thead><tr><th scope="col">백업 시점</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
+          <thead><tr><th scope="col">백업 시점</th><th scope="col">저장한 항목</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
           <tbody>
             {snapshots.map((s) => (
               <tr key={s}>
                 <td className="ad-num">{s.replaceAll("-", ".")}</td>
+                <td>{saved_items(log, s)}</td>
                 <td className="ad-acts"><a className="ad-btn" href={`/api/admin/backup?snapshot=${s}`} download>내려받기</a></td>
               </tr>
             ))}
@@ -114,7 +136,7 @@ export default async function BackupPage({ searchParams }: { searchParams: Promi
                 <td className="ad-num">{fmt(e.at)}</td>
                 <td>{KIND[e.kind]}</td>
                 <td>{e.by}</td>
-                <td className="ad-num">{e.kind === "download" ? "전체(사진 포함)" : e.label ? `${e.label.replaceAll("-", ".")}${e.files !== undefined ? ` (파일 ${e.files}개)` : ""}` : "-"}</td>
+                <td>{target(e)}</td>
                 <td>{e.ok ? <span className="ad-tag on">성공</span> : <><span className="ad-tag err">실패</span> <span className="ad-muted">{e.error}</span></>}</td>
               </tr>
             ))}

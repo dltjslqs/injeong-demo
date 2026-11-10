@@ -6,7 +6,7 @@ export type Block =
   | { t: "cover"; src: string }
   | { t: "pic"; src: string; cap?: string }
   | { t: "table"; head: string[]; rows: string[][] };
-export type Column = { n: number; slug: string; cat: string; series?: number; cover?: string; coverUrl?: string; date?: string; title: string; sub: string; lede: string; blocks: Block[] };
+export type Column = { n: number; slug: string; author?: string; cat: string; series?: number; cover?: string; coverUrl?: string; date?: string; title: string; sub: string; lede: string; blocks: Block[] };
 
 export const columns: Column[] = [
  {

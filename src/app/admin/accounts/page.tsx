@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MAX_ACCOUNTS, PERMS } from "@/lib/injeong/accounts";
 import { accounts, requireAdmin } from "@/lib/injeong/auth";
+import { type Author, profileOf, readProfiles } from "@/lib/injeong/content";
 import { removeAccount } from "../actions";
 import { Shell } from "../shell";
 import { ConfirmButton } from "../ui";
@@ -11,6 +12,8 @@ export default async function AccountsAdmin({ searchParams }: { searchParams: Pr
   await requireAdmin("super");
   const { saved } = await searchParams;
   const list = await accounts();
+  const stored = await readProfiles();
+  const profiles: Record<string, Author | null> = Object.fromEntries(await Promise.all(list.map(async (a) => [a.id, await profileOf(a.id, stored)] as const)));
   const full = list.length >= MAX_ACCOUNTS;
   return (
     <Shell
@@ -21,12 +24,20 @@ export default async function AccountsAdmin({ searchParams }: { searchParams: Pr
       {saved === "1" && <p className="ad-ok" role="status">저장했습니다. 변경한 권한은 즉시 적용됩니다.</p>}
       <p className="ad-note">총괄관리자 1명과 담당자 {MAX_ACCOUNTS - 1}명까지 등록할 수 있습니다. 담당자는 담당 메뉴만 조회·수정할 수 있습니다. ({list.length}/{MAX_ACCOUNTS})</p>
       <table className="ad-table">
-        <thead><tr><th scope="col">이름</th><th scope="col">아이디</th><th scope="col">담당 메뉴</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
+        <thead><tr><th scope="col">이름</th><th scope="col">아이디</th><th scope="col">작성자 프로필</th><th scope="col">담당 메뉴</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
         <tbody>
           {list.map((a) => (
             <tr key={a.id}>
               <td><Link href={`/admin/accounts/edit?id=${a.id}`} className="ad-title">{a.name}</Link></td>
               <td className="ad-num">{a.id}</td>
+              <td>
+                {profiles[a.id] ? (
+                  <span className="ad-who">
+                    {profiles[a.id]!.photoUrl ? <img src={profiles[a.id]!.photoUrl} alt="" /> : <i aria-hidden="true">{profiles[a.id]!.name.slice(0, 1)}</i>}
+                    {profiles[a.id]!.name}{profiles[a.id]!.role ? <span className="ad-muted">, {profiles[a.id]!.role}</span> : null}
+                  </span>
+                ) : <span className="ad-muted">미등록</span>}
+              </td>
               <td>
                 {a.role === "super"
                   ? <span className="ad-tag on">총괄관리자 (전체)</span>
