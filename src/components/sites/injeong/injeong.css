@@ -622,9 +622,9 @@
 .ij .hist.stack .lede { max-width: 52ch; }
 
 /* the admin's notice popup */
-/* notice card in the bottom-left corner; the page stays usable (the hero's A/B switch is bottom-right) */
-.ij .pop { position: fixed; left: var(--space-lg); bottom: var(--space-lg); z-index: 100; display: flex; flex-direction: column; width: 360px; max-height: calc(100svh - 2 * var(--space-lg)); overflow: hidden; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink); box-shadow: 0 16px 40px var(--color-cast); animation: pop-in var(--dur-short) var(--ease-out); }
-.ij .pop-img { display: block; width: 100%; height: auto; max-height: 44svh; object-fit: contain; background: var(--color-paper-2, var(--color-paper)); flex: none; }
+/* notice card in the bottom-right corner, away from the hero copy on the left; the page stays usable behind it */
+.ij .pop { position: fixed; right: var(--space-lg); bottom: var(--space-lg); z-index: 100; display: flex; flex-direction: column; width: 340px; max-height: calc(100svh - 2 * var(--space-lg)); overflow: hidden; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink); box-shadow: 0 16px 40px var(--color-cast); animation: pop-in var(--dur-short) var(--ease-out); }
+.ij .pop-img { display: block; width: 100%; height: auto; max-height: 38svh; object-fit: contain; background: var(--color-paper-2, var(--color-paper)); flex: none; }
 .ij .pop-bd { padding: 20px; overflow: auto; }
 .ij .pop-bd h2 { font-size: var(--text-lg, 1.125rem); line-height: 1.4; }
 .ij .pop-bd p { margin-top: 8px; color: var(--color-ink-2); white-space: pre-line; }
