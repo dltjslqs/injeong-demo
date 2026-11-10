@@ -11,16 +11,37 @@ const ROOT = path.join(process.cwd(), ".data", "injeong");
 // Vercel connects a Blob store either with a token or, on newer projects, with a store id (OIDC)
 const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 
+/** The store's public address for a file, read without credentials (the store is public). */
+function publicUrl(pathname: string): string | null {
+  const id = (process.env.BLOB_STORE_ID ?? process.env.BLOB_READ_WRITE_TOKEN?.split("_")[3] ?? "").replace(/^store_/, "").toLowerCase();
+  return id ? `https://${id}.public.blob.vercel-storage.com/${pathname}` : null;
+}
+
 export async function readJSON<T>(key: string, fallback: T): Promise<T> {
   try {
     if (blobOn()) {
-      const { head } = await import("@vercel/blob");
-      const meta = await head(`injeong/${key}.json`);
-      const res = await fetch(`${meta.url}?v=${Date.parse(String(meta.uploadedAt)) || Date.now()}`, { cache: "no-store" });
+      const { head, BlobNotFoundError } = await import("@vercel/blob");
+      const pathname = `injeong/${key}.json`;
+      let url: string | null;
+      try {
+        const meta = await head(pathname);
+        // the version in the address changes with every save, so the copy Next keeps is never out of date.
+        // Never cache: "no-store" here: it makes the site's pages fail to rebuild after a save.
+        url = `${meta.url}?v=${Date.parse(String(meta.uploadedAt)) || meta.etag}`;
+      } catch (e) {
+        if (e instanceof BlobNotFoundError) return fallback;
+        // no credentials while a page rebuilds in the background: read the public copy instead
+        console.error(`[store] head ${key}:`, e instanceof Error ? e.message : e);
+        url = publicUrl(pathname);
+        if (!url) return fallback;
+        url += `?v=${Math.floor(Date.now() / 60000)}`;
+      }
+      const res = await fetch(url, { cache: "force-cache" });
       return res.ok ? ((await res.json()) as T) : fallback;
     }
     return JSON.parse(await readFile(path.join(ROOT, `${key}.json`), "utf8")) as T;
-  } catch {
+  } catch (e) {
+    if (blobOn()) console.error(`[store] read ${key}:`, e instanceof Error ? e.message : e);
     return fallback;
   }
 }
