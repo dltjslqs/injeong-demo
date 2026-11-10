@@ -41,6 +41,21 @@ export function PopupModal({ popup }: { popup: Popup }) {
     setClosed(true);
   };
 
+  // line the card's right edge up with the phone number in the header (the header's width changes by screen size)
+  useEffect(() => {
+    if (!open) return;
+    const align = () => {
+      const tel = document.querySelector<HTMLElement>(".hd .tel");
+      const card = document.querySelector<HTMLElement>(".pop");
+      if (!card) return;
+      const r = tel?.getBoundingClientRect();
+      card.style.right = r && r.width > 0 ? `${document.documentElement.clientWidth - r.right}px` : "";
+    };
+    align();
+    window.addEventListener("resize", align);
+    return () => window.removeEventListener("resize", align);
+  }, [open]);
+
   useEffect(() => {
     if (!open) return;
     const esc = (e: KeyboardEvent) => { if (e.key === "Escape") setClosed(true); };
