@@ -5,10 +5,11 @@ import path from "node:path";
 /**
  * Where the admin's edits live.
  * - On a server with a disk (next start / standalone): .data/injeong/*.json, uploads in .data/injeong/uploads.
- * - On Vercel: set BLOB_READ_WRITE_TOKEN and the same keys go to Vercel Blob.
+ * - On Vercel: connect a Blob store (BLOB_READ_WRITE_TOKEN or BLOB_STORE_ID) and the same keys go to Vercel Blob.
  */
 const ROOT = path.join(process.cwd(), ".data", "injeong");
-const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+// Vercel connects a Blob store either with a token or, on newer projects, with a store id (OIDC)
+const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 
 export async function readJSON<T>(key: string, fallback: T): Promise<T> {
   try {

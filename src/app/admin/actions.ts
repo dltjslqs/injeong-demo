@@ -39,7 +39,7 @@ export async function login(_prev: FormState, fd: FormData): Promise<FormState> 
   const missing = [
     (process.env.ADMIN_SECRET ?? "").length < 32 && "ADMIN_SECRET(32자 이상)",
     !process.env.ADMIN_PASSWORD && "ADMIN_PASSWORD",
-    process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN && "BLOB_READ_WRITE_TOKEN(Storage의 Blob 연결)",
+    process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN && !process.env.BLOB_STORE_ID && "Blob 저장소 연결(Storage)",
   ].filter(Boolean);
   if (missing.length) return { message: `서버 설정이 완료되지 않았습니다. 환경 변수 ${missing.join(", ")}를 등록하고 다시 배포해 주세요.` };
   let account: Awaited<ReturnType<typeof checkLogin>>;

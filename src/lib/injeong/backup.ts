@@ -7,7 +7,8 @@ import path from "node:path";
  * because an uploaded photo never changes. The ZIP the 총괄관리자 downloads holds both.
  */
 const ROOT = path.join(process.cwd(), ".data", "injeong");
-const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+// Vercel connects a Blob store either with a token or, on newer projects, with a store id (OIDC)
+const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 
 /** Every data file, by key. The accounts file is stored encrypted and is backed up as it is. */
 export const STORE_KEYS = ["columns", "projects", "popups", "author", "accounts"] as const;
