@@ -9,6 +9,7 @@ import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERM
 import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
 import { isBuiltinColumn, isBuiltinProject, type Popup, readAuthor, readColumns, readPopups, readProjects } from "@/lib/injeong/content";
+import { takeSnapshot } from "@/lib/injeong/backup";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
 export type FormState = { message?: string; url?: string } | null;
@@ -105,6 +106,13 @@ export async function saveAccount(_prev: FormState, fd: FormData): Promise<FormS
     return fail(e);
   }
   redirect("/admin/accounts?saved=1");
+}
+
+/** Saves a dated copy of the data on the server, next to the monthly ones. */
+export async function snapshotNow() {
+  await requireAdmin("super");
+  await takeSnapshot(today());
+  redirect("/admin/backup?saved=1");
 }
 
 export async function removeAccount(fd: FormData) {

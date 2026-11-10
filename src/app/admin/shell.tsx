@@ -9,6 +9,7 @@ const nav: { href: string; label: string; perm?: Perm | "super" }[] = [
   { href: "/admin/projects", label: "시공 실적", perm: "projects" },
   { href: "/admin/popups", label: "팝업", perm: "popups" },
   { href: "/admin/accounts", label: "계정 관리", perm: "super" },
+  { href: "/admin/backup", label: "백업", perm: "super" },
 ];
 
 /** Frame for every signed-in admin page: the menus this account may use, the page title, then the page. */
