@@ -237,3 +237,16 @@
 .ad-narrow { max-width: 440px; }
 .ad-me { font-weight: 600; }
 .ad-h2 { margin: 40px 0 12px; font-size: 18px; }
+
+/* backup: the settings as a label/value list, two action cards, and the history */
+.ad-bk-setup { margin-bottom: 16px; }
+.ad-dl { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 10px 20px; margin: 4px 0 0; }
+.ad-dl dt { color: var(--ad-muted); font-weight: 700; }
+.ad-dl dd { margin: 0; color: var(--ad-ink); line-height: 1.6; }
+.ad-bk-acts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ad-tag.err { border-color: transparent; background: var(--ad-red-soft); color: var(--ad-red); }
+@media (max-width: 760px) {
+  .ad-dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .ad-dl dd { margin-bottom: 10px; }
+  .ad-bk-acts { grid-template-columns: minmax(0, 1fr); }
+}

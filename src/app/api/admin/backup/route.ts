@@ -1,5 +1,5 @@
 import { currentUser } from "@/lib/injeong/auth";
-import { listSnapshots, listUploads, readRaw, STORE_KEYS } from "@/lib/injeong/backup";
+import { listSnapshots, listUploads, logBackup, readRaw, STORE_KEYS } from "@/lib/injeong/backup";
 import { type ZipEntry, zipStream } from "@/lib/injeong/zip";
 
 export const dynamic = "force-dynamic";
@@ -22,6 +22,7 @@ export async function GET(req: Request) {
   if (!me || me.role !== "super") return new Response("권한이 없습니다.", { status: 403 });
   const snapshot = new URL(req.url).searchParams.get("snapshot") ?? undefined;
   if (snapshot && !(await listSnapshots()).includes(snapshot)) return new Response("없는 백업입니다.", { status: 404 });
+  await logBackup(snapshot ? { kind: "download-snapshot", by: me.name, label: snapshot, ok: true } : { kind: "download", by: me.name, ok: true });
 
   async function* entries(): AsyncGenerator<ZipEntry> {
     yield { name: "README.txt", data: Buffer.from(README, "utf8") };

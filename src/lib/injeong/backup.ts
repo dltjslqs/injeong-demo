@@ -1,5 +1,6 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { readJSON, writeJSON } from "./store";
 
 /**
  * Backups of what the admin writes (see store.ts for where it lives).
@@ -94,5 +95,32 @@ export async function listUploads(): Promise<{ name: string; read: () => Promise
     return (await readdir(dir)).map((name) => ({ name, read: async () => new Uint8Array(await readFile(path.join(dir, name))) }));
   } catch {
     return [];
+  }
+}
+
+/* ---------- history ---------- */
+
+/** One line of the backup history: an automatic or manual copy on the server, or a download. */
+export type BackupEvent = {
+  at: string; // ISO time
+  kind: "auto" | "manual" | "download" | "download-snapshot";
+  by: string; // the account's name, or "자동" for the monthly run
+  label?: string; // the snapshot it made or downloaded
+  files?: number; // data files copied
+  ok: boolean;
+  error?: string;
+};
+const KEEP_EVENTS = 200;
+
+/** The history, newest first. */
+export const readBackupLog = () => readJSON<BackupEvent[]>("backup-log", []);
+
+/** Adds a line to the history; a failure to write it never stops the backup itself. */
+export async function logBackup(e: Omit<BackupEvent, "at">): Promise<void> {
+  try {
+    const list = await readBackupLog();
+    await writeJSON("backup-log", [{ at: new Date().toISOString(), ...e }, ...list].slice(0, KEEP_EVENTS));
+  } catch (err) {
+    console.error("[backup-log]", err);
   }
 }

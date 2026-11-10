@@ -1,5 +1,5 @@
 import { timingSafeEqual } from "node:crypto";
-import { takeSnapshot } from "@/lib/injeong/backup";
+import { logBackup, takeSnapshot } from "@/lib/injeong/backup";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +14,13 @@ export async function GET(req: Request) {
   if (!secret || given.length !== want.length || !timingSafeEqual(given, want)) return new Response("Unauthorized", { status: 401 });
   // the month in Korea time
   const label = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 7);
-  const files = await takeSnapshot(label);
-  return Response.json({ ok: true, label, files });
+  try {
+    const files = await takeSnapshot(label);
+    await logBackup({ kind: "auto", by: "자동", label, files, ok: true });
+    return Response.json({ ok: true, label, files });
+  } catch (e) {
+    const error = e instanceof Error ? e.message : String(e);
+    await logBackup({ kind: "auto", by: "자동", label, ok: false, error });
+    return Response.json({ ok: false, label, error }, { status: 500 });
+  }
 }
