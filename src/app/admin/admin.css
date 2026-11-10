@@ -250,3 +250,18 @@
   .ad-dl dd { margin-bottom: 10px; }
   .ad-bk-acts { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* author photo: the round picture the columns show, clickable and a drop target */
+.av-pick { display: flex; align-items: center; gap: 28px; padding: 20px; border: 1px solid var(--ad-rule); border-radius: 10px; background: var(--ad-bg); }
+.av-circle { position: relative; flex: none; display: grid; place-items: center; width: 128px; height: 128px; border: 2px dashed var(--ad-rule); border-radius: 50%; background: var(--ad-card); cursor: pointer; transition: border-color 0.15s ease, background-color 0.15s ease; }
+.av-circle:hover, .av-circle.over { border-color: var(--ad-blue); background: var(--ad-blue-soft); }
+.av-circle:has(input:focus-visible) { outline: 2px solid var(--ad-focus); outline-offset: 3px; }
+.av-circle img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.av-initial { font-size: 44px; font-weight: 800; color: var(--ad-muted); }
+.av-cam { position: absolute; right: 2px; bottom: 2px; display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid var(--ad-card); border-radius: 50%; background: var(--ad-blue); color: #fff; }
+.av-circle input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.av-side { display: grid; gap: 6px; min-width: 0; }
+.av-title { font-weight: 800; color: var(--ad-ink); }
+.av-side .ad-row { margin-top: 6px; }
+.av-side .ad-err { margin-top: 4px; }
+@media (max-width: 560px) { .av-pick { flex-direction: column; align-items: flex-start; } }

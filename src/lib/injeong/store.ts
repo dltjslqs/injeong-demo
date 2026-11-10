@@ -17,29 +17,58 @@ function publicUrl(pathname: string): string | null {
   return id ? `https://${id}.public.blob.vercel-storage.com/${pathname}` : null;
 }
 
-export async function readJSON<T>(key: string, fallback: T): Promise<T> {
+/*
+ * On Blob every save is a new file, injeong/data/<key>/<time>.json, and a read takes the newest one from the
+ * store's list. Overwriting one file was not enough: the CDN in front of the store can hand back the old copy for
+ * up to a minute, so a list read right after "중지" or "삭제" still showed the old state.
+ * Each save also refreshes injeong/<key>.json, the older single-file layout, which is read only when the list
+ * cannot be reached (and is where data saved before this change still lives).
+ */
+const VERSIONS_KEPT = 5;
+const versionsPrefix = (key: string) => `injeong/data/${key}/`;
+
+/** The newest saved text of a key, or null when nothing was saved. */
+export async function readText(key: string): Promise<string | null> {
+  if (!blobOn()) {
+    try {
+      return await readFile(path.join(ROOT, `${key}.json`), "utf8");
+    } catch {
+      return null;
+    }
+  }
+  const { head, list, BlobNotFoundError } = await import("@vercel/blob");
+  const legacy = `injeong/${key}.json`;
+  let url: string | null = null;
   try {
-    if (blobOn()) {
-      const { head, BlobNotFoundError } = await import("@vercel/blob");
-      const pathname = `injeong/${key}.json`;
-      let url: string | null;
+    const { blobs } = await list({ prefix: versionsPrefix(key) });
+    // names start with the save time, zero-padded, so the largest name is the newest save
+    const newest = blobs.sort((x, y) => (x.pathname < y.pathname ? 1 : -1))[0];
+    if (newest) url = newest.url; // a version is never overwritten, so any cached copy of it is current
+    else {
       try {
-        const meta = await head(pathname);
-        // the version in the address changes with every save, so the copy Next keeps is never out of date.
-        // Never cache: "no-store" here: it makes the site's pages fail to rebuild after a save.
+        const meta = await head(legacy);
         url = `${meta.url}?v=${Date.parse(String(meta.uploadedAt)) || meta.etag}`;
       } catch (e) {
-        if (e instanceof BlobNotFoundError) return fallback;
-        // no credentials while a page rebuilds in the background: read the public copy instead
-        console.error(`[store] head ${key}:`, e instanceof Error ? e.message : e);
-        url = publicUrl(pathname);
-        if (!url) return fallback;
-        url += `?v=${Math.floor(Date.now() / 60000)}`;
+        if (e instanceof BlobNotFoundError) return null;
+        throw e;
       }
-      const res = await fetch(url, { cache: "force-cache" });
-      return res.ok ? ((await res.json()) as T) : fallback;
     }
-    return JSON.parse(await readFile(path.join(ROOT, `${key}.json`), "utf8")) as T;
+  } catch (e) {
+    // no credentials while a page rebuilds in the background: read the public single-file copy
+    console.error(`[store] list ${key}:`, e instanceof Error ? e.message : e);
+    const pub = publicUrl(legacy);
+    if (!pub) return null;
+    url = `${pub}?v=${Math.floor(Date.now() / 60000)}`;
+  }
+  // never cache: "no-store" here: it stops the site's pages from rebuilding after a save
+  const res = await fetch(url, { cache: "force-cache" });
+  return res.ok ? await res.text() : null;
+}
+
+export async function readJSON<T>(key: string, fallback: T): Promise<T> {
+  try {
+    const text = await readText(key);
+    return text === null ? fallback : (JSON.parse(text) as T);
   } catch (e) {
     if (blobOn()) console.error(`[store] read ${key}:`, e instanceof Error ? e.message : e);
     return fallback;
@@ -49,8 +78,17 @@ export async function readJSON<T>(key: string, fallback: T): Promise<T> {
 export async function writeJSON(key: string, value: unknown): Promise<void> {
   const body = JSON.stringify(value, null, 2);
   if (blobOn()) {
-    const { put } = await import("@vercel/blob");
+    const { del, list, put } = await import("@vercel/blob");
+    const name = `${String(Date.now()).padStart(15, "0")}-${randomBytes(3).toString("hex")}.json`;
+    await put(`${versionsPrefix(key)}${name}`, body, { access: "public", addRandomSuffix: false, contentType: "application/json" });
     await put(`injeong/${key}.json`, body, { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType: "application/json", cacheControlMaxAge: 60 });
+    try {
+      const { blobs } = await list({ prefix: versionsPrefix(key) });
+      const old = blobs.sort((x, y) => (x.pathname < y.pathname ? 1 : -1)).slice(VERSIONS_KEPT);
+      if (old.length) await del(old.map((b) => b.url));
+    } catch (e) {
+      console.error(`[store] prune ${key}:`, e instanceof Error ? e.message : e);
+    }
     return;
   }
   await mkdir(ROOT, { recursive: true });

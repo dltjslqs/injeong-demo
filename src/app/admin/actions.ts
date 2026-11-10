@@ -339,8 +339,10 @@ export async function savePopup(_prev: FormState, fd: FormData): Promise<FormSta
 export async function togglePopup(fd: FormData) {
   await requireAdmin("popups");
   const id = str(fd, "id");
+  // the button sends the state it asks for, so a second click (or a slow page) cannot flip it back
+  const active = str(fd, "active") === "1";
   const list = await readPopups();
-  await writeJSON("popups", list.map((p) => (p.id === id ? { ...p, active: !p.active } : p)));
+  await writeJSON("popups", list.map((p) => (p.id === id ? { ...p, active } : p)));
   refresh();
   redirect("/admin/popups");
 }

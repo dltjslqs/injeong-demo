@@ -1,6 +1,6 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { readJSON, writeJSON } from "./store";
+import { readJSON, readText, writeJSON } from "./store";
 
 /**
  * Backups of what the admin writes (see store.ts for where it lives).
@@ -18,7 +18,8 @@ const LABEL = /^\d{4}-\d{2}(-\d{2})?$/;
 
 /** The stored text of one key, from a snapshot when a label is given; null when there is none. */
 export async function readRaw(key: string, snapshot?: string): Promise<string | null> {
-  const rel = snapshot ? `backups/${snapshot}/${key}.json` : `${key}.json`;
+  if (!snapshot) return readText(key).catch(() => null);
+  const rel = `backups/${snapshot}/${key}.json`;
   try {
     if (blobOn()) {
       const { head } = await import("@vercel/blob");

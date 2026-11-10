@@ -33,7 +33,7 @@ export default async function PopupsAdmin({ searchParams }: { searchParams: Prom
                 </td>
                 <td className="ad-acts">
                   <Link className="ad-btn" href={`/admin/popups/edit?id=${p.id}`}>수정</Link>
-                  <form action={togglePopup}><input type="hidden" name="id" value={p.id} /><button type="submit" className="ad-btn">{p.active ? "중지" : "사용"}</button></form>
+                  <form action={togglePopup}><input type="hidden" name="id" value={p.id} /><input type="hidden" name="active" value={p.active ? "0" : "1"} /><button type="submit" className="ad-btn">{p.active ? "중지" : "사용"}</button></form>
                   <form action={removePopup}><input type="hidden" name="id" value={p.id} /><ConfirmButton message="이 팝업을 삭제할까요?">삭제</ConfirmButton></form>
                 </td>
               </tr>
