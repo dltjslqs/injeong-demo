@@ -35,7 +35,20 @@ export async function login(_prev: FormState, fd: FormData): Promise<FormState> 
   const who = await caller();
   const t = tries.get(who);
   if (t && t.until > Date.now()) return { message: `아이디 또는 비밀번호를 ${MAX_TRIES}회 잘못 입력했습니다. ${Math.ceil((t.until - Date.now()) / 60000)}분 후 다시 시도해 주세요.` };
-  const account = await checkLogin(str(fd, "id").toLowerCase(), String(fd.get("password") ?? ""));
+  // a server that is not set up yet says so, instead of failing with a blank error page
+  const missing = [
+    (process.env.ADMIN_SECRET ?? "").length < 32 && "ADMIN_SECRET(32자 이상)",
+    !process.env.ADMIN_PASSWORD && "ADMIN_PASSWORD",
+    process.env.VERCEL && !process.env.BLOB_READ_WRITE_TOKEN && "BLOB_READ_WRITE_TOKEN(Storage의 Blob 연결)",
+  ].filter(Boolean);
+  if (missing.length) return { message: `서버 설정이 완료되지 않았습니다. 환경 변수 ${missing.join(", ")}를 등록하고 다시 배포해 주세요.` };
+  let account: Awaited<ReturnType<typeof checkLogin>>;
+  try {
+    account = await checkLogin(str(fd, "id").toLowerCase(), String(fd.get("password") ?? ""));
+  } catch (e) {
+    console.error("[admin login]", e);
+    return { message: "계정 정보를 읽지 못했습니다. ADMIN_SECRET 값이 처음 설정한 값과 같은지 확인해 주세요." };
+  }
   if (!account) {
     await new Promise((r) => setTimeout(r, 800)); // slows down guessing
     const n = (t && t.until === 0 ? t.n : 0) + 1;
