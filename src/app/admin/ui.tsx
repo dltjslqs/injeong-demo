@@ -1,16 +1,23 @@
 "use client";
 
-import { useActionState } from "react";
+import { startTransition, useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import type { FormState } from "./actions";
+import { shrinkForm } from "./shrink";
 
 type Action = (prev: FormState, fd: FormData) => Promise<FormState>;
 
-/** A form wired to a server action; shows the action's error message above the buttons. */
+/** A form wired to a server action; photos are made smaller first; shows the action's error message above the buttons. */
 export function ActionForm({ action, children, className }: { action: Action; children: React.ReactNode; className?: string }) {
   const [state, run] = useActionState(action, null);
   return (
-    <form action={run} className={className}>
+    <form
+      action={async (fd) => {
+        await shrinkForm(fd);
+        startTransition(() => run(fd));
+      }}
+      className={className}
+    >
       {children}
       {state?.message && <p className="ad-err" role="alert">{state.message}</p>}
     </form>

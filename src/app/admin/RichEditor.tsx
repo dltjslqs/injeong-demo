@@ -8,6 +8,7 @@ import StarterKit from "@tiptap/starter-kit";
 import { useRef, useState } from "react";
 import { type DocNode, docToBlocks } from "@/lib/injeong/coldoc";
 import { uploadPhoto } from "./actions";
+import { shrinkImage } from "./shrink";
 
 /** The contact box with the 견적 문의 button: one editable line, drawn as a box in the editor. */
 const AskBox = Node.create({
@@ -50,7 +51,7 @@ export function RichEditor({ initial }: { initial: DocNode }) {
     setError(null);
     for (const f of imgs) {
       const fd = new FormData();
-      fd.set("photo", f);
+      fd.set("photo", await shrinkImage(f));
       const res = await uploadPhoto(null, fd);
       if (res?.url) {
         // a photo is its own block: put it after the paragraph, list or table the cursor is in, never inside it
