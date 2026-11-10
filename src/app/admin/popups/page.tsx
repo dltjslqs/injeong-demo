@@ -14,7 +14,7 @@ export default async function PopupsAdmin({ searchParams }: { searchParams: Prom
   return (
     <Shell title="팝업" here="/admin/popups" action={<Link className="ad-btn primary" href="/admin/popups/edit">팝업 등록</Link>}>
       <Saved show={saved === "1"} />
-      <p className="ad-muted">홈 첫 화면에는 팝업이 하나만 표시됩니다. 사용 중이고 기간에 해당하는 팝업 가운데 맨 위의 것이 표시됩니다.</p>
+      <p className="ad-note">사용 중이고 게시 기간에 해당하는 팝업 가운데 목록 맨 위의 것이 표시됩니다.</p>
       {list.length === 0 ? (
         <div className="ad-empty">
           <p>등록된 팝업이 없습니다.</p>

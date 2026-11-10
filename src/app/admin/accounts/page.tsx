@@ -19,7 +19,7 @@ export default async function AccountsAdmin({ searchParams }: { searchParams: Pr
       action={full ? <span className="ad-muted">계정 한도({MAX_ACCOUNTS}개)에 도달했습니다</span> : <Link className="ad-btn primary" href="/admin/accounts/edit">계정 등록</Link>}
     >
       {saved === "1" && <p className="ad-ok" role="status">저장했습니다. 변경한 권한은 즉시 적용됩니다.</p>}
-      <p className="ad-muted">총괄관리자 1명과 담당자 {MAX_ACCOUNTS - 1}명까지 등록할 수 있습니다. 담당자는 담당 메뉴만 조회·수정할 수 있습니다. ({list.length}/{MAX_ACCOUNTS})</p>
+      <p className="ad-note">총괄관리자 1명과 담당자 {MAX_ACCOUNTS - 1}명까지 등록할 수 있습니다. 담당자는 담당 메뉴만 조회·수정할 수 있습니다. ({list.length}/{MAX_ACCOUNTS})</p>
       <table className="ad-table">
         <thead><tr><th scope="col">이름</th><th scope="col">아이디</th><th scope="col">담당 메뉴</th><th scope="col"><span className="ad-sr">관리</span></th></tr></thead>
         <tbody>

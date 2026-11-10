@@ -6,17 +6,16 @@ import { Saved, Shell } from "../../shell";
 import { ActionForm, Submit } from "../../ui";
 import { AvatarPicker } from "./AvatarPicker";
 
-export const metadata = { title: "칼럼 작성자 프로필" };
+export const metadata = { title: "작성자 프로필" };
 
 export default async function AuthorEdit({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
   await requireAdmin("columns");
   const { saved } = await searchParams;
   const a = await readAuthor();
   return (
-    <Shell title="칼럼 작성자 프로필" here="/admin/columns" action={<Link className="ad-btn" href="/admin/columns">목록</Link>}>
+    <Shell title="작성자 프로필" here="/admin/columns/author">
       <Saved show={saved === "1"} />
       <ActionForm action={saveAuthor} className="ad-form">
-        <p className="ad-muted">모든 칼럼 제목 아래에 사진, 이름, 직함이 함께 나옵니다.</p>
         <AvatarPicker current={a.photoUrl} initial={a.name.slice(0, 1) || "?"} />
         <div className="ad-grid2">
           <label className="ad-field">

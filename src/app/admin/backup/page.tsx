@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { requireAdmin } from "@/lib/injeong/auth";
 import { type BackupEvent, listSnapshots, readBackupLog } from "@/lib/injeong/backup";
 import { snapshotNow } from "../actions";
@@ -34,7 +33,7 @@ export default async function BackupPage({ searchParams }: { searchParams: Promi
   const lastDownload = log.find((e) => e.kind === "download");
 
   return (
-    <Shell title="백업" here="/admin/backup" action={<Link className="ad-btn" href="/admin">홈으로</Link>}>
+    <Shell title="백업" here="/admin/backup">
       {saved === "1" && <p className="ad-ok" role="status">서버에 백업본을 저장했습니다.</p>}
       {failed === "1" && <p className="ad-err" role="alert">백업에 실패했습니다. 아래 이력의 오류 내용을 확인해 주세요.</p>}
 
