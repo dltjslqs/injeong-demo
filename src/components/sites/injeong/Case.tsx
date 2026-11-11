@@ -3,8 +3,8 @@ import { BASE } from "./base";
 import { projectImg } from "./data";
 import { getProjects } from "@/lib/injeong/content";
 
-// ㈜동신포리마, four projects in a row: on the left the projects themselves (photo, thumbnails, a 1차→4차 line
-// read from data.ts), on the right the four reasons as an accordion, one open at a time (Behaviors).
+// ㈜동신포리마, eleven projects since 2008: on the left the projects themselves (photo with its caption and a
+// year line read from data.ts), on the right the four reasons as an accordion, one open at a time (Behaviors).
 // Without scripting the latest project shows and all four reasons are open.
 const reasons = [
   {
@@ -31,43 +31,54 @@ const reasons = [
 
 // the latest project's own photo is plain, so the dusk shot of the same plant stands in as its main image
 const hero: Record<string, string> = { p18: "case-2.jpg" };
-const short = (name: string) => name.replace("㈜동신포리마 ", "").replace(/\(주(\d)동·(\d)동\)/, " $1·$2동").replace(/\s*(신축|증축)공사$/, " $1");
+const short = (name: string) =>
+  name
+    .replace("㈜동신포리마 ", "")
+    .replace(/\(주(\d)동·(\d)동\)/, " $1·$2동")
+    .replace(/공사(\(\d{4}\))?$/, "")
+    .trim();
 
 export async function Case() {
   const runs = (await getProjects()).filter((p) => p.client === "㈜동신포리마" && !p.ongoing).reverse();
   const last = runs.length - 1;
+  const since = runs[0]?.done.slice(0, 4);
   return (
     <section className="case">
       <div className="container">
         <div className="case-head">
           <div>
-            <h2>건축주가 4번 연속 인정건설을 찾은 이유</h2>
+            <h2>건축주가 {since}년부터 {runs.length}번 인정건설을 찾은 이유</h2>
             <p className="lede">설계 오류를 찾아내고 예산은 아끼는 검증된 4가지 차별화 요소</p>
           </div>
         </div>
         <div className="case-in">
           <div className="case-pic">
             <div className="cs-stage">
-              {runs.map((p, i) => (
-                <img key={p.id} className={i === last ? "cs on" : "cs"} src={p.img && hero[p.img] ? `${BASE}/sites/injeong/works/${hero[p.img]}` : projectImg(p)} alt={`㈜동신포리마 ${short(p.name)}`} width={1600} height={1200} loading="lazy" />
-              ))}
-              <span className="cs-badge"><b className="num">{runs.length}회</b> 연속 의뢰</span>
+              {runs.map((p, i) =>
+                projectImg(p) ? (
+                    <img key={p.id} className={i === last ? "cs on" : "cs"} src={p.img && hero[p.img] ? `${BASE}/sites/injeong/works/${hero[p.img]}` : projectImg(p)} alt={`㈜동신포리마 ${short(p.name)}`} width={1600} height={1200} loading="lazy" />
+                ) : (
+                  <div key={p.id} className={i === last ? "cs cs-none on" : "cs cs-none"} role="img" aria-label={`㈜동신포리마 ${short(p.name)}, 사진 자료 없음`}>
+                    <b className="num">{p.done.slice(0, 4)}</b>
+                    <span>{short(p.name)}</span>
+                  </div>
+                ),
+              )}
+              <span className="cs-badge"><b className="num">{runs.length}회</b> 의뢰</span>
             </div>
-            <div className="cs-thumbs" role="group" aria-label="㈜동신포리마 공사 사진 고르기">
+            <p className="cs-caps" aria-live="polite">
               {runs.map((p, i) => (
-                <button key={p.id} type="button" data-run={i} aria-pressed={i === last ? "true" : "false"} aria-label={`${i + 1}차 ${short(p.name)} 사진 보기`}>
-                  <img src={projectImg(p)} alt="" width={400} height={300} loading="lazy" />
-                </button>
+                <span key={p.id} className={i === last ? "cs-cap on" : "cs-cap"}>
+                  <b className="num">{i + 1}차</b> <span className="num">{p.done}</span> {short(p.name)}
+                </span>
               ))}
-            </div>
-            <ol className="cs-steps">
+            </p>
+            <ol className="cs-steps" style={{ "--n": runs.length } as React.CSSProperties}>
               {runs.map((p, i) => (
                 <li key={p.id} className={i === last ? "on" : undefined}>
                   <button type="button" data-run={i} aria-label={`${i + 1}차 ${p.done} ${short(p.name)}`}>
                     <i aria-hidden="true" />
-                    <b>{i + 1}차</b>
-                    <span className="num">{p.done}</span>
-                    <span>{short(p.name)}</span>
+                    <span className="num">{p.done.slice(0, 4)}</span>
                   </button>
                 </li>
               ))}

@@ -15,10 +15,13 @@ export function Message() {
           <p className="rv">도면 뒤로 물러서거나 담당자를 바꾸며 책임을 미루지 않습니다. 설계의 빈틈은 착공 전에 먼저 잡고, 공기와 품질에서는 단 1%도 타협하지 않습니다.</p>
           <p className="rv">공사 중에 생기는 문제는 감추지 않고 먼저 말씀드리겠습니다. 불편한 소식을 먼저 전하는 것이 결국 건축주의 돈과 시간을 지키는 길이라고 믿습니다.</p>
           <p className="rv">계약서에 서명한 그 신뢰 그대로, 완공 뒤에도 대표와 현장 기술진이 끝까지 책임지겠습니다. 이름 석자를 걸고, 진심을 다해 짓겠습니다.</p>
-          <div className="sig rv"><span>{company.name} 대표이사</span><b>{company.ceo}</b></div>
+          <div className="sig rv">
+            <span>{company.name} 대표이사 {company.ceo}</span>
+            <img className="sig-img" src={`${BASE}/sites/injeong/ceo-sign.png`} alt={`${company.ceo} 서명`} width={640} height={295} loading="lazy" />
+          </div>
         </div>
         <figure className="gr-pic rv">
-          <img src={`${BASE}/sites/injeong/greeting.jpg`} alt="도면 위에 놓인 인정건설 안전모, 창밖으로 보이는 공사 현장" loading="lazy" />
+          <img src={`${BASE}/sites/injeong/ceo.jpg`} alt={`${company.name} 대표이사 ${company.ceo}`} width={1200} height={1500} loading="lazy" />
         </figure>
       </div>
     </section>

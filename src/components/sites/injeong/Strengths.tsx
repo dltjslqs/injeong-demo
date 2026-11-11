@@ -1,6 +1,6 @@
 import { BASE } from "./base";
 
-// The four reasons from the home page's 4번 연속 section, told in full on the about page:
+// The four reasons from the home page's 동신포리마 section, told in full on the about page:
 // photograph and text in alternating rows. Copy from the 11/5 brief; absolute claims ("ZERO", "완벽히") left out.
 const items = [
   {

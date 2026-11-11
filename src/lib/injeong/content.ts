@@ -1,5 +1,5 @@
 import { columns as builtinColumns, type Column } from "@/components/sites/injeong/columns";
-import { type Category, type Project, projects as builtinProjects, RECORD_SCALE } from "@/components/sites/injeong/data";
+import { type Category, type Project, projects as builtinProjects } from "@/components/sites/injeong/data";
 import { readJSON } from "./store";
 
 /**
@@ -83,20 +83,13 @@ export async function getProjects(): Promise<Project[]> {
   return (await allProjects()).filter((p) => !p.off);
 }
 
-/**
- * Completed-project counts shown on the site: the projects listed here, plus the unlisted ones the
- * company asked to reflect (RECORD_SCALE applied to the original list only, so each new entry counts once).
- */
+/** Completed-project counts shown on the site: every listed project, counted once. */
 export function doneCount(list: Project[], cat?: Category) {
-  const listed = list.filter((p) => !p.ongoing && (!cat || p.cat === cat)).length;
-  const base = builtinProjects.filter((p) => !p.ongoing && (!cat || p.cat === cat)).length;
-  return listed + base * (RECORD_SCALE - 1);
+  return list.filter((p) => !p.ongoing && (!cat || p.cat === cat)).length;
 }
 
 export function totalCount(list: Project[], cat?: Category) {
-  const listed = list.filter((p) => !cat || p.cat === cat).length;
-  const base = builtinProjects.filter((p) => !p.ongoing && (!cat || p.cat === cat)).length;
-  return listed + base * (RECORD_SCALE - 1);
+  return list.filter((p) => !cat || p.cat === cat).length;
 }
 
 /** The popup to show today (Korea time), if any. */

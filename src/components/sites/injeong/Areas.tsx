@@ -10,7 +10,7 @@ const areas: { cat: Category; title: string; img: string; desc: string; ex: stri
   { cat: "공공", title: "공공·의료", img: "p02", desc: "청사와 문화·체육, 의료 시설", ex: ["금산 역사문화박물관", "한국국토정보공사 아산지사"] },
   { cat: "산업", title: "산업시설", img: "area-industry", desc: "공장 신축과 자재창고 증축", ex: ["제조공장 신축", "자재창고 증축"] },
   { cat: "군", title: "군 시설", img: "p14", desc: "부대 시설과 창고, 검사장", ex: ["탄약검사장 신축", "물자창고 신축 2곳"] },
-  { cat: "민간", title: "민간·실내건축", img: "p08", desc: "교회와 근린생활시설, 다가구주택", ex: ["교회 신·증축", "실내건축 시설 개선"] },
+  { cat: "민간", title: "민간·실내건축", img: "p08", desc: "교회와 어린이집, 판매·금융 시설", ex: ["교회 신·증축", "어린이집·농협 매장 신축"] },
 ];
 
 export async function Areas() {

@@ -175,17 +175,15 @@
 .ij .cs-more:hover { background: var(--color-field); }
 .ij .cs-more:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 3px; }
 
-/* left: the projects; main photo, a badge, thumbnails, the 1차-4차 line */
+/* left: the projects; main photo, a badge, the shown project's caption, a year line with one dot per project */
 .ij .cs-stage { position: relative; }
 .ij .cs-badge { position: absolute; z-index: 1; top: var(--space-md); right: var(--space-md); padding: 8px 14px; border-radius: 4px; background: var(--color-field); color: var(--color-field-ink); font-size: var(--text-lg); font-weight: 600; }
 .ij .cs-badge b { color: var(--color-sky); }
-.ij .cs-thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-sm); margin-top: var(--space-sm); }
-.ij .cs-thumbs button { padding: 0; border: 2px solid transparent; border-radius: var(--radius-card); overflow: clip; background: var(--color-paper-3); cursor: pointer; aspect-ratio: 4 / 3; opacity: 0.65; transition: opacity var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out); }
-.ij .cs-thumbs button img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ij .cs-thumbs button:hover, .ij .cs-thumbs button[aria-pressed="true"] { opacity: 1; }
-.ij .cs-thumbs button[aria-pressed="true"] { border-color: var(--color-accent); }
-.ij .cs-thumbs button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
-.ij .cs-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: var(--space-lg); }
+.ij .cs-caps { margin-top: var(--space-sm); min-height: 1.6em; font-size: var(--text-sm); color: var(--color-ink-2); }
+.ij .cs-cap { display: none; }
+.ij .cs-cap.on { display: inline; }
+.ij .cs-cap b { color: var(--color-accent); font-weight: 600; }
+.ij .cs-steps { display: grid; grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); margin-top: var(--space-lg); }
 .ij .cs-steps li { position: relative; }
 .ij .cs-steps li::before { content: ""; position: absolute; top: 9px; left: 0; right: 0; height: 3px; background: var(--color-paper-3); }
 .ij .cs-steps li:first-child::before { left: 50%; }
@@ -200,12 +198,16 @@
 .ij .cs-steps span { font-size: var(--text-sm); line-height: 1.4; }
 .ij .cs-steps li.on b, .ij .cs-steps li.on span { color: var(--color-ink); font-weight: 500; }
 .ij .cs-steps button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; border-radius: 6px; }
-@media (max-width: 40rem) { .ij .cs-steps span:last-child { display: none; } .ij .cs-badge { font-size: var(--text-md); top: var(--space-sm); right: var(--space-sm); } }
-@media (prefers-reduced-motion: reduce) { .ij .case-why.acc-on li.open .cw-body { animation: none; } .ij .case-why li, .ij .case-why button::after, .ij .cw-t, .ij .cs-thumbs button, .ij .cs-steps i, .ij .cs-more { transition: none; } }
+@media (max-width: 40rem) { .ij .cs-steps li:not(:first-child):not(:last-child):not(.on) span { visibility: hidden; } .ij .cs-badge { font-size: var(--text-md); top: var(--space-sm); right: var(--space-sm); } }
+@media (prefers-reduced-motion: reduce) { .ij .case-why.acc-on li.open .cw-body { animation: none; } .ij .case-why li, .ij .case-why button::after, .ij .cw-t, .ij .cs-steps i, .ij .cs-more { transition: none; } }
 .ij .case-txt > .link { display: inline-block; margin-top: var(--space-lg); }
 .ij .cs-stage { position: relative; aspect-ratio: 4 / 3; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
 .ij .cs-stage .cs { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 900ms var(--ease-out); }
 .ij .cs-stage .cs.on { opacity: 1; }
+/* a project with no picture shows its year and name on the plain stage */
+.ij .cs-stage .cs-none { display: grid; place-content: center; gap: 8px; padding: var(--space-xl); background: var(--color-field); color: var(--color-field-ink); text-align: center; }
+.ij .cs-none b { font-size: var(--text-3xl, 2.5rem); line-height: 1; }
+.ij .cs-none span { font-size: var(--text-lg); }
 @media (prefers-reduced-motion: reduce) { .ij .cs-stage .cs { transition: none; } }
 .ij .case-pic figcaption, .ij .notes-pic figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 
@@ -316,6 +318,27 @@
 .ij .pf h3 { font-size: var(--text-lg); line-height: 1.35; min-height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* one line per row in every card, so the six rows sit at the same height across the grid */
 .ij .pf dd { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* the full list of completed projects under the photo cards */
+.ij .rl { margin-top: var(--section-gap-s); }
+.ij .rl-h { font-size: var(--text-xl); font-weight: 600; }
+.ij .rl-sub { margin-top: 8px; color: var(--color-muted); font-size: var(--text-sm); }
+.ij .rl-wrap { margin-top: var(--space-lg); overflow-x: auto; border-top: 2px solid var(--color-ink); }
+.ij .rl table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.ij .rl th, .ij .rl td { padding: 14px 12px; border-bottom: 1px solid var(--color-rule); text-align: left; vertical-align: top; }
+.ij .rl thead th { color: var(--color-muted); font-weight: 600; white-space: nowrap; }
+.ij .rl tbody th { font-weight: 600; color: var(--color-ink); }
+.ij .rl td { color: var(--color-ink-2); }
+.ij .rl td.num { white-space: nowrap; }
+.ij .rl tr[hidden] { display: none; }
+@media (max-width: 40rem) {
+  .ij .rl thead { display: none; }
+  .ij .rl tr { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 2px 12px; padding: 14px 0; border-bottom: 1px solid var(--color-rule); }
+  .ij .rl th, .ij .rl td { padding: 0; border: 0; }
+  .ij .rl tbody th { grid-column: 2; grid-row: 1; }
+  .ij .rl td:first-child { grid-row: 1 / span 2; }
+  .ij .rl td:nth-child(3) { grid-column: 2; }
+  .ij .rl td:nth-child(4), .ij .rl td:nth-child(5) { display: none; }
+}
 .ij .more { margin-top: var(--space-2xl); }
 
 /* 발주처 구성: bars of real counts */
@@ -339,8 +362,10 @@
 .ij .gr blockquote { font-size: var(--text-section); font-weight: 700; line-height: 1.25; letter-spacing: var(--tracking-display); text-wrap: balance; overflow-wrap: break-word; min-width: 0; }
 .ij .gr p { margin-top: var(--space-xl); max-width: 56ch; color: var(--color-ink-2); line-height: 1.95; }
 .ij .gr .sig { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); margin-top: var(--space-2xl); padding-top: var(--space-lg); border-top: 1px solid var(--color-rule); max-width: 56ch; color: var(--color-ink-2); font-weight: 500; }
-.ij .gr .sig b { font-size: var(--text-2xl); font-weight: 700; letter-spacing: 0.08em; color: var(--color-ink); }
-@media (max-width: 60rem) { .ij .gr .gr-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } .ij .gr .gr-pic { aspect-ratio: 16 / 10; } }
+.ij .gr .sig { align-items: center; }
+.ij .gr .sig-img { display: block; width: auto; height: 56px; }
+@media (max-width: 60rem) { .ij .gr .gr-grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-2xl); } .ij .gr .gr-pic { width: min(100%, 420px); } }
+.ij .gr .gr-pic img { object-position: 50% 20%; }
 
 /* 회사소개: history, credentials, office */
 .ij .hist, .ij .visit { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl) var(--gap-columns); align-items: start; }

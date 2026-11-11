@@ -175,16 +175,16 @@ export function Behaviors() {
       open(0);
     }
 
-    // case projects: a thumbnail or a step on the 1차-4차 line shows that project's photo
+    // case projects: a step on the year line shows that project's photo and caption
     const runBtns = Array.from(root.querySelectorAll<HTMLButtonElement>(".case [data-run]"));
     if (runBtns.length) {
       const slides = Array.from(root.querySelectorAll<HTMLElement>(".case .cs"));
       const steps = Array.from(root.querySelectorAll<HTMLElement>(".case .cs-steps li"));
-      const thumbs = Array.from(root.querySelectorAll<HTMLButtonElement>(".case .cs-thumbs button"));
+      const caps = Array.from(root.querySelectorAll<HTMLElement>(".case .cs-cap"));
       const pick = (n: number) => {
         slides.forEach((x, k) => x.classList.toggle("on", k === n));
         steps.forEach((x, k) => { x.classList.toggle("on", k === n); x.classList.toggle("past", k < n); });
-        thumbs.forEach((x, k) => x.setAttribute("aria-pressed", k === n ? "true" : "false"));
+        caps.forEach((x, k) => x.classList.toggle("on", k === n));
       };
       runBtns.forEach((btn) => on(btn, "click", () => pick(Number(btn.dataset.run))));
       pick(slides.length - 1);
@@ -192,7 +192,8 @@ export function Behaviors() {
 
     // works filter
     const tabs = root.querySelectorAll<HTMLButtonElement>(".tabs button");
-    const cards = root.querySelectorAll<HTMLElement>(".pf article");
+    // the photo cards and the full list's rows filter together
+    const cards = root.querySelectorAll<HTMLElement>(".pf article, .rl tbody tr");
     tabs.forEach((b) => {
       on(b, "click", () => {
         tabs.forEach((x) => {
