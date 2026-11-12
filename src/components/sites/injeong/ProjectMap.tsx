@@ -24,8 +24,8 @@ export async function ProjectMap() {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">지역별 시공 실적</h2>
-            <p className="lede rv">홍성 본사를 중심으로 {by.size}개 시·군에서 {placed.length}건을 지었습니다.<br className="br-pc" /> 지역을 누르면 그곳의 실적이 나옵니다.</p>
+            <h2 className="h2 rv">가까이 있어서, 끝까지 책임집니다</h2>
+            <p className="lede rv">인정건설이 지은 건물은 모두 홍성 본사에서 차로 닿는 곳에 있습니다.<br className="br-pc" /> 공사 중에도, 준공 뒤에도 대표와 현장 기술진이 직접 찾아가 책임집니다.</p>
           </div>
         </div>
         <div className="pm-in">
