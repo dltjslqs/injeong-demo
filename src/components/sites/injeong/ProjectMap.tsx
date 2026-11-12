@@ -24,13 +24,13 @@ export async function ProjectMap() {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">충남 어디에 지었나</h2>
-            <p className="lede rv">홍성을 중심으로 충남 {by.size}개 시·군에 {placed.length}건을 지었습니다.<br className="br-pc" /> 시·군을 누르면 그곳의 실적이 나옵니다.</p>
+            <h2 className="h2 rv">지역별 시공 실적</h2>
+            <p className="lede rv">홍성 본사를 중심으로 {by.size}개 시·군에서 {placed.length}건을 지었습니다.<br className="br-pc" /> 지역을 누르면 그곳의 실적이 나옵니다.</p>
           </div>
         </div>
         <div className="pm-in">
           <div className="pm-map">
-            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} role="img" aria-label={`충청남도 시·군별 실적 지도. ${ranked.map(([r, l]) => `${r} ${l.length}건`).join(", ")}`}>
+            <svg viewBox={`0 0 ${MAP_W} ${MAP_H}`} role="img" aria-label={`시·군별 시공 실적 지도. ${ranked.map(([r, l]) => `${r} ${l.length}건`).join(", ")}`}>
               {regions.map((r) => {
                 const n = by.get(r.name)?.length ?? 0;
                 return <path key={r.name} d={r.d} className={`pm-r s${step(n)}${r.name === first ? " on" : ""}`} data-region={n ? r.name : undefined} />;
@@ -56,7 +56,7 @@ export async function ProjectMap() {
             </div>
             {ranked.map(([r, l]) => (
               <div key={r} className="pm-list" data-list={r} aria-live="polite">
-                <p className="pm-list-h"><b>충남 {r}</b> <span className="num">{l.length}건</span></p>
+                <p className="pm-list-h"><b>{r}</b> <span className="num">{l.length}건</span></p>
                 <ul>
                   {l.map((p) => (
                     <li key={p.id}>
