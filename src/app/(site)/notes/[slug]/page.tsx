@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ColumnArticle } from "@/components/sites/injeong/ColumnArticle";
+import { ColumnArticle, coverOf } from "@/components/sites/injeong/ColumnArticle";
+import { pageMeta, SITE_URL } from "@/lib/injeong/site";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { authorOf, getColumns, getProjects } from "@/lib/injeong/content";
 
@@ -15,7 +16,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const c = (await getColumns()).find((x) => x.slug === slug);
-  return c ? { title: c.title, description: c.lede } : {};
+  if (!c) return {};
+  // the description is the column's one-line answer, not its greeting
+  return pageMeta({ title: c.title, description: c.sub, path: `/notes/${c.slug}`, image: coverOf(c), type: "article" });
 }
 
 export default async function ColumnPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -26,7 +29,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
   const author = await authorOf(c);
   // structured data for search engines: the article and where it sits on the site.
   // Addresses become absolute once NEXT_PUBLIC_SITE_URL is set (after the domain is connected).
-  const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const site = SITE_URL;
   const iso = (c.date ?? "").replace(/\./g, "-");
   const ld = [
     {

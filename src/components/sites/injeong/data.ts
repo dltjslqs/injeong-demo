@@ -128,5 +128,9 @@ export const projects: Project[] = [
 ];
 
 
+/** What a project's photo shows, for screen readers, image search and AI: name, place, year, and whether it is a drawing. */
+export const projectAlt = (p: Project) =>
+  [p.name, p.region ? `충남 ${p.region}` : "", p.ongoing ? "시공 중" : `${p.done.slice(0, 4)}년 준공`, p.imgNote ?? ""].filter(Boolean).join(", ");
+
 /** A project's photo: the admin's upload if there is one, else the shipped file. */
 export const projectImg = (p: Project) => p.imgUrl ?? (p.img ? `${BASE}/sites/injeong/works/${p.img}.jpg` : undefined);

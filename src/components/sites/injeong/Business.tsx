@@ -42,7 +42,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
         <div className="svc four">
           {fields.map((f) => (
             <article className="rv" key={f.title}>
-              <div className="im" style={{ backgroundImage: `url(${BASE}/sites/injeong/works/${f.img}.jpg)` }} />
+              <div className="im"><img src={`${BASE}/sites/injeong/works/${f.img}.jpg`} alt={`${f.title} 시공 사례`} width={1800} height={1344} loading="lazy" decoding="async" /></div>
               <div className="bd">
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>

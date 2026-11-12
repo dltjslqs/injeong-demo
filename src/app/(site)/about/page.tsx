@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMeta } from "@/lib/injeong/site";
 import { BASE } from "@/components/sites/injeong/base";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
@@ -7,7 +8,11 @@ import { PageHead } from "@/components/sites/injeong/PageHead";
 import { Strengths } from "@/components/sites/injeong/Strengths";
 import { Trust } from "@/components/sites/injeong/Trust";
 
-export const metadata: Metadata = { title: "회사소개" };
+export const metadata: Metadata = pageMeta({
+  title: "회사소개",
+  description: "1989년 홍성에서 시작해 2003년 종합건설 법인이 된 ㈜인정건설. 대표 인사말, 연혁, 건축공사업·실내건축공사업 면허와 2026년 시공능력평가를 확인하세요.",
+  path: "/about",
+});
 
 // 제출서류(26.11.03) 01. 증빙서류의 원본 PDF를 그대로 이미지로 옮긴 것
 const certs = [
@@ -20,10 +25,11 @@ const certs = [
 const history = [
   ["1989", "홍성에서 개인 건설업 시작"],
   ["2003", "㈜인정건설 법인 전환, 건축공사업 등록"],
+  ["2008", "㈜동신포리마 P공장 신축 (이후 2025년까지 같은 기업 공장 공사 11번)"],
   ["2017", "한국국토정보공사 아산지사 사옥 준공"],
   ["2018", "금산 역사문화박물관 준공"],
   ["2021", "㈜텔콘알에프제약 공장 증축 준공, 군 탄약검사장 준공"],
-  ["2023", "㈜동신포리마 자재창고 증축 준공 (이후 2025년까지 4차례 연속 시공)"],
+  ["2023", "㈜동신포리마 자재창고 증축 준공"],
   ["2024", "실내건축공사업 등록"],
   ["2025", "고덕국민체육센터 준공, 동신포리마 신원단공장 준공"],
   ["2026", "천안업성2초등학교 교사 신축공사 착공 (총 178억, 공동도급)"],
