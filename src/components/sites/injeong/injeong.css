@@ -453,7 +453,9 @@
 .ij .fq .ask a { display: block; margin-top: var(--space-2xs); font-size: var(--text-2xl); font-weight: 700; color: var(--color-field); }
 .ij .fq .ask span { display: block; margin-top: var(--space-2xs); font-size: var(--text-sm); color: var(--color-muted); }
 .ij .fq details { border-bottom: 1px solid var(--color-rule); }
-.ij .fq details:first-child { border-top: 2px solid var(--color-field); }
+.ij .fq-group + .fq-group { margin-top: var(--space-3xl); }
+.ij .fq-group { scroll-margin-top: calc(var(--bar-h) + var(--space-lg)); }
+.ij .fq-h { padding-bottom: var(--space-sm); border-bottom: 2px solid var(--color-field); font-size: var(--text-md); font-weight: 600; color: var(--color-muted); }
 .ij .fq summary { list-style: none; cursor: pointer; display: flex; align-items: flex-start; gap: var(--space-md); padding-block: var(--space-lg); font-size: var(--text-lg); font-weight: 600; }
 .ij .fq summary::-webkit-details-marker { display: none; }
 .ij .fq summary .q { font-family: var(--font-outlier); font-weight: 600; color: var(--color-muted); }
@@ -464,6 +466,16 @@
 .ij .fq details[open] .pm::after { transform: rotate(0deg); }
 .ij .fq summary:hover .t { color: var(--color-accent); }
 .ij .fq .a { padding: 0 var(--space-xl) var(--space-lg); color: var(--color-ink-2); line-height: 1.7; }
+.ij .fq-more { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--space-sm); font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; }
+.ij .fq-more::after { content: ""; width: 6px; height: 6px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: rotate(45deg); }
+.ij .fq-more:hover { text-decoration-color: currentColor; }
+/* the left column stays in view while the questions scroll, with a jump list by stage */
+@media (min-width: 60.01rem) { .ij .fq-side { position: sticky; top: calc(var(--bar-h) + var(--space-xl)); } }
+.ij .fq-nav { display: grid; margin-top: var(--space-xl); border-top: 1px solid var(--color-rule); }
+.ij .fq-nav a { display: flex; justify-content: space-between; align-items: center; min-height: 44px; border-bottom: 1px solid var(--color-rule); font-weight: 500; color: var(--color-ink-2); }
+.ij .fq-nav a span { font-size: var(--text-sm); color: var(--color-muted); }
+.ij .fq-nav a:hover { color: var(--color-accent); }
+@media (max-width: 60rem) { .ij .fq-nav { display: flex; flex-wrap: wrap; gap: 8px; border: 0; } .ij .fq-nav a { min-height: 40px; padding: 0 14px; gap: 8px; border: 1px solid var(--color-rule); border-radius: var(--radius-card); } }
 
 /* 견적 문의: the form on seven columns, the contact card on five */
 .ij .ct { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gap-columns); align-items: stretch; }
