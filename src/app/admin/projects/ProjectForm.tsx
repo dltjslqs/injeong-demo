@@ -18,6 +18,7 @@ export type ProjectInit = {
   period: string;
   done: string;
   ongoing: boolean;
+  region?: string;
   img?: string;
   imgUrl?: string;
   photo?: string; // what the site shows now
@@ -33,7 +34,7 @@ const withCommas = (s: string) => {
 };
 
 /** Project editor: grouped fields on the left, the card as the site will show it on the right. */
-export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { key: string; label: string }[] }) {
+export function ProjectForm({ init, cats, regions }: { init: ProjectInit | null; cats: { key: string; label: string }[]; regions: readonly string[] }) {
   const [period0, period1] = (init?.period ?? "").split(/\s*[–-]\s*/);
   const [f, setF] = useState({
     name: init?.name ?? "",
@@ -48,6 +49,7 @@ export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { 
     end: toMonth(period1 ?? ""),
     done: toMonth(init?.ongoing ? "" : init?.done ?? ""),
     ongoing: init?.ongoing ?? false,
+    region: init?.region ?? "",
   });
   const [preview, setPreview] = useState<string | undefined>(init?.photo);
   const [removed, setRemoved] = useState(false);
@@ -130,6 +132,12 @@ export function ProjectForm({ init, cats }: { init: ProjectInit | null; cats: { 
             <label className="ad-field"><span>발주처</span><input name="client" value={f.client} onChange={set("client")} required placeholder="예: 충청남도 홍성교육지원청" /></label>
             <label className="ad-field"><span>용도</span><input name="use" value={f.use} onChange={set("use")} placeholder="예: 공장, 초등학교" /></label>
             <label className="ad-field"><span>규모</span><input name="scale" value={f.scale} onChange={set("scale")} placeholder="예: 지하 1층 · 지상 3층" /></label>
+            <label className="ad-field"><span>지역 <em>실적 지도에 표시. 군 시설은 지도에 나오지 않습니다</em></span>
+              <select name="region" value={f.region} onChange={set("region")}>
+                <option value="">선택 안 함 (지도에 표시 안 됨)</option>
+                {regions.map((r) => <option key={r} value={r}>충남 {r}</option>)}
+              </select>
+            </label>
           </div>
         </section>
 

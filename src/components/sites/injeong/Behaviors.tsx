@@ -207,6 +207,27 @@ export function Behaviors() {
       });
     });
 
+    // project map: a region on the map, its label or its button shows that region's list
+    const pm = root.querySelector<HTMLElement>(".pm");
+    if (pm) {
+      const lists = Array.from(pm.querySelectorAll<HTMLElement>(".pm-list"));
+      const btns = Array.from(pm.querySelectorAll<HTMLButtonElement>(".pm-tabs button"));
+      const shapes = Array.from(pm.querySelectorAll<SVGElement>(".pm-r"));
+      const labels = Array.from(pm.querySelectorAll<SVGElement>(".pm-l"));
+      const show = (r: string) => {
+        lists.forEach((l) => { l.hidden = l.dataset.list !== r; });
+        btns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.region === r)));
+        shapes.forEach((sh) => sh.classList.toggle("on", sh.dataset.region === r));
+        labels.forEach((g) => g.classList.toggle("on", g.dataset.region === r));
+      };
+      pm.classList.add("pm-js");
+      pm.querySelectorAll<HTMLElement | SVGElement>("[data-region]").forEach((el) => {
+        on(el as HTMLElement, "click", () => show((el as HTMLElement).dataset.region!));
+      });
+      const firstBtn = btns.find((b) => b.getAttribute("aria-pressed") === "true") ?? btns[0];
+      if (firstBtn) show(firstBtn.dataset.region!);
+    }
+
     // inquiry form (posts to this app's own /api/inquiry only)
     const form = document.getElementById("ij-form") as HTMLFormElement | null;
     if (form) {

@@ -23,9 +23,36 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
   const columns = await getColumns();
   const c = columns.find((x) => x.slug === slug);
   if (!c) notFound();
+  const author = await authorOf(c);
+  // structured data for search engines: the article and where it sits on the site.
+  // Addresses become absolute once NEXT_PUBLIC_SITE_URL is set (after the domain is connected).
+  const site = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const iso = (c.date ?? "").replace(/\./g, "-");
+  const ld = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: c.title,
+      description: c.sub,
+      ...(iso ? { datePublished: iso } : {}),
+      author: { "@type": "Person", name: author.name, ...(author.role ? { jobTitle: author.role } : {}) },
+      publisher: { "@type": "Organization", name: "㈜인정건설" },
+      ...(site ? { mainEntityOfPage: `${site}/notes/${c.slug}` } : {}),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "홈", ...(site ? { item: `${site}/` } : {}) },
+        { "@type": "ListItem", position: 2, name: "기술 칼럼", ...(site ? { item: `${site}/notes` } : {}) },
+        { "@type": "ListItem", position: 3, name: c.title },
+      ],
+    },
+  ];
   return (
     <>
-      <ColumnArticle c={c} columns={columns} projects={await getProjects()} author={await authorOf(c)} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
+      <ColumnArticle c={c} columns={columns} projects={await getProjects()} author={author} />
       <CtaBand />
     </>
   );

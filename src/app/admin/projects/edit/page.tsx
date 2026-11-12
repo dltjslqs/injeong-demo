@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { categories, projectImg } from "@/components/sites/injeong/data";
+import { categories, REGIONS, projectImg } from "@/components/sites/injeong/data";
 import { requireAdmin } from "@/lib/injeong/auth";
 import { allProjects } from "@/lib/injeong/content";
 import { Shell } from "../../shell";
@@ -16,6 +16,7 @@ export default async function ProjectEdit({ searchParams }: { searchParams: Prom
       <ProjectForm
         init={p ? { ...p, ongoing: Boolean(p.ongoing), photo: projectImg(p) } : null}
         cats={categories.map((c) => ({ key: c.key, label: c.label }))}
+        regions={REGIONS}
       />
     </Shell>
   );

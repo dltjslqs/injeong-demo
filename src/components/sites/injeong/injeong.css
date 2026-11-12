@@ -318,6 +318,47 @@
 .ij .pf h3 { font-size: var(--text-lg); line-height: 1.35; min-height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* one line per row in every card, so the six rows sit at the same height across the grid */
 .ij .pf dd { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 실적 지도: 충남 map on the left, the chosen region's projects on the right */
+.ij .pm { background: var(--color-paper-2); }
+.ij .pm-in { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }
+.ij .pm-map svg { display: block; width: 100%; height: auto; }
+.ij .pm-r { stroke: var(--color-paper); stroke-width: 2; stroke-linejoin: round; transition: fill var(--dur-short) var(--ease-out); }
+.ij .pm-r.s0 { fill: var(--color-paper-3); }
+.ij .pm-r.s1 { fill: oklch(86% 0.045 256); }
+.ij .pm-r.s2 { fill: oklch(76% 0.075 256); }
+.ij .pm-r.s3 { fill: oklch(65% 0.1 257); }
+.ij .pm-r.s4 { fill: oklch(55% 0.12 257); }
+.ij .pm-r.s5 { fill: var(--color-accent); }
+.ij .pm-r[data-region] { cursor: pointer; }
+.ij .pm-r[data-region]:hover { fill: var(--color-field); }
+.ij .pm-r.on { fill: var(--color-field); }
+.ij .pm-l { pointer-events: none; }
+.ij .pm-l.has { pointer-events: auto; cursor: pointer; }
+.ij .pm-l text { text-anchor: middle; font-family: inherit; }
+.ij .pm-name { font-size: 22px; font-weight: 600; fill: var(--color-muted); }
+.ij .pm-n { font-size: 34px; font-weight: 700; fill: var(--color-field); }
+.ij .pm-l.has .pm-name { fill: var(--color-ink-2); }
+/* dark fills (the busiest regions and the chosen one) take light labels */
+.ij .pm-l.s4 .pm-name, .ij .pm-l.s5 .pm-name, .ij .pm-l.on .pm-name { fill: var(--color-sky); }
+.ij .pm-l.s4 .pm-n, .ij .pm-l.s5 .pm-n, .ij .pm-l.on .pm-n { fill: var(--color-paper); }
+.ij .pm-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.ij .pm-tabs button { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink-2); font: inherit; font-size: var(--text-sm); font-weight: 600; cursor: pointer; }
+.ij .pm-tabs button span { color: var(--color-muted); font-weight: 500; }
+.ij .pm-tabs button[aria-pressed="true"] { border-color: var(--color-field); background: var(--color-field); color: var(--color-field-ink); }
+.ij .pm-tabs button[aria-pressed="true"] span { color: var(--color-sky); }
+.ij .pm-tabs button:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.ij .pm-list { margin-top: var(--space-xl); }
+.ij .pm-list + .pm-list { margin-top: var(--space-xl); }
+.ij .pm-js .pm-list[hidden] { display: none; }
+.ij .pm-list-h { font-size: var(--text-lg); }
+.ij .pm-list-h span { margin-left: 6px; color: var(--color-muted); font-size: var(--text-sm); }
+.ij .pm-list ul { margin-top: var(--space-sm); border-top: 2px solid var(--color-ink); list-style: none; padding: 0; max-height: 440px; overflow-y: auto; }
+.ij .pm-list li { display: grid; grid-template-columns: 4.5em minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--color-rule); font-size: var(--text-sm); }
+.ij .pm-list li span:first-child { color: var(--color-muted); }
+.ij .pm-note { margin-top: var(--space-lg); font-size: var(--text-sm); color: var(--color-muted); }
+@media (max-width: 60rem) { .ij .pm-in { grid-template-columns: minmax(0, 1fr); gap: var(--space-xl); } .ij .pm-map { max-width: 520px; } }
+@media (prefers-reduced-motion: reduce) { .ij .pm-r { transition: none; } }
+
 /* the full list of completed projects under the photo cards */
 .ij .rl { margin-top: var(--section-gap-s); }
 .ij .rl-h { font-size: var(--text-xl); font-weight: 600; }
@@ -512,6 +553,37 @@
 .ij .art-ask p { font-weight: 500; }
 .ij .art-ask .btns { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 .ij .art-back { margin-top: var(--space-xl); }
+/* column upgrades: copy link in the byline, the order of the piece, what was built, what to read next */
+.ij .art-by { flex-wrap: wrap; }
+.ij .art-copy { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; min-height: 40px; padding: 0 14px; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink-2); font: inherit; font-size: var(--text-sm); font-weight: 500; cursor: pointer; }
+.ij .art-copy:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.ij .art-copy:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.ij .art-toc { margin-bottom: var(--space-2xl); padding: var(--space-lg); border-radius: var(--radius-card); background: var(--color-paper-2); }
+.ij .art-toc p { font-size: var(--text-sm); font-weight: 600; color: var(--color-muted); }
+.ij .art-toc ol { margin-top: var(--space-sm); padding-left: 1.4em; font-size: var(--text-md); line-height: 1.7; }
+.ij .art-toc li + li { margin-top: 4px; }
+.ij .art-toc a { color: var(--color-ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 0.25em; }
+.ij .art-toc a:hover { color: var(--color-accent); text-decoration-color: currentColor; }
+.ij .art-body h2[id] { scroll-margin-top: calc(var(--bar-h) + var(--space-lg)); }
+.ij .art-built, .ij .art-more { margin-top: var(--space-3xl); padding-top: var(--space-xl); border-top: 1px solid var(--color-rule); }
+.ij .art-built h2, .ij .art-more h2 { margin-top: 0; font-size: var(--text-xl); }
+.ij .art-built ul, .ij .art-more ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-lg) var(--gap-columns); margin-top: var(--space-lg); padding: 0; list-style: none; }
+.ij .art-built li, .ij .art-more a { display: grid; gap: 6px; align-content: start; font-size: var(--text-sm); line-height: 1.5; }
+.ij .art-built-pic, .ij .art-more-pic { display: block; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
+.ij .art-built-pic img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.ij .art-more-pic img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.ij .art-built b, .ij .art-more b { font-weight: 600; font-size: var(--text-md); color: var(--color-ink); }
+.ij .art-built li .num, .ij .art-more-cat { color: var(--color-muted); }
+.ij .art-built .link { display: inline-block; margin-top: var(--space-lg); font-size: var(--text-sm); }
+.ij .art-more a:hover b { color: var(--color-accent); }
+@media (max-width: 40rem) { .ij .art-built ul, .ij .art-more ul { grid-template-columns: minmax(0, 1fr); } .ij .art-copy { margin-left: 0; } }
+/* column list: chips and the search box on one line */
+.ij .nf-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-md); margin-top: var(--space-3xl); }
+.ij .nf-bar .nf-chips { margin-top: 0; }
+.ij .nf-search { display: flex; align-items: center; gap: 8px; width: min(320px, 100%); min-height: 44px; padding: 0 14px; border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-muted); }
+.ij .nf-search:focus-within { border-color: var(--color-accent); outline: 2px solid var(--color-focus); outline-offset: 1px; }
+.ij .nf-search input { flex: 1; min-width: 0; border: 0; background: none; font: inherit; color: var(--color-ink); outline: none; }
+.ij .nf-none { margin-top: var(--space-xl); color: var(--color-muted); }
 
 .ij .nrows h3 a:hover { color: var(--color-accent); }
 .ij .notes-all { display: inline-block; margin-top: var(--space-lg); }

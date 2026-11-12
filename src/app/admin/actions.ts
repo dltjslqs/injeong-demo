@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERMS } from "@/lib/injeong/accounts";
 import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
-import { type Author, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
+import { type Author, allProjects, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
 import { logBackup, takeSnapshot } from "@/lib/injeong/backup";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
@@ -267,6 +267,8 @@ export async function saveProject(_prev: FormState, fd: FormData): Promise<FormS
   try {
     const o = await readProjects();
     const id = str(fd, "id") || `u-${Date.now().toString(36)}`;
+    // the project as it is now, so fields the form does not show (the 조감도 note, a period like 「약 3개월」) survive an edit
+    const before = (await allProjects()).find((x) => x.id === id);
     const photo = file(fd, "photo");
     const imgUrl = photo ? await saveImage(photo) : fd.get("removePhoto") ? undefined : str(fd, "imgUrl") || undefined;
     const opt = (k: string) => str(fd, k) || undefined;
@@ -280,10 +282,13 @@ export async function saveProject(_prev: FormState, fd: FormData): Promise<FormS
       area: opt("area"),
       cost: opt("cost"),
       share: opt("share"),
-      period: str(fd, "period"),
+      period: str(fd, "period") || before?.period || "",
       done: ongoing ? "시공 중" : str(fd, "done"),
       img: imgUrl ? undefined : opt("img"),
       imgUrl,
+      // a new photo is a real photo; otherwise keep what the picture was labelled as
+      imgNote: photo ? undefined : before?.imgNote,
+      region: opt("region"),
       ongoing: ongoing || undefined,
     };
     o.items = [...o.items.filter((x) => x.id !== id), p];

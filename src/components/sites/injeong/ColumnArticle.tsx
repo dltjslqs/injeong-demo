@@ -3,6 +3,7 @@ import { BASE } from "./base";
 import type { Block, Column } from "./columns";
 import { company, type Project, projectImg } from "./data";
 import type { Author } from "@/lib/injeong/content";
+import { CopyLink } from "./CopyLink";
 
 export const COLUMN_DATE = "2026.11";
 
@@ -56,11 +57,11 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
   );
 }
 
-function Part({ b, last, projects }: { b: Block; last: boolean; projects: Project[] }) {
+function Part({ b, k, last, projects }: { b: Block; k: number; last: boolean; projects: Project[] }) {
   switch (b.t) {
     case "p": return <p className={last ? "art-end" : undefined}><Rich x={b.x} /></p>;
     case "q": return <p className="art-q"><Rich x={b.x} /></p>;
-    case "h2": return <h2>{b.x}</h2>;
+    case "h2": return <h2 id={`s${k}`}>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
     case "img": return <Pic id={b.id} projects={projects} />;
     case "pic": return <figure className="art-pic"><img src={b.src} alt={b.cap ?? ""} loading="lazy" />{b.cap && <figcaption>{b.cap}</figcaption>}</figure>;
@@ -72,12 +73,33 @@ function Part({ b, last, projects }: { b: Block; last: boolean; projects: Projec
   }
 }
 
+/** Minutes to read: Korean prose at about 500 characters a minute. */
+export function readMinutes(c: Column) {
+  const text = c.blocks.map((b) => ("x" in b ? b.x : "items" in b ? b.items.join(" ") : "rows" in b ? b.rows.flat().join(" ") : "")).join(" ");
+  return Math.max(1, Math.round(text.replace(/\s+/g, "").length / 500));
+}
+
+// which projects show under a column, by the column's category
+const PROJECT_CATS: Record<string, string[]> = {
+  "공장 신축": ["산업"],
+  "공장 증축": ["산업"],
+  "오피스텔·사무용 건물": ["공공", "민간"],
+  "시공사 고르기": ["산업", "공공", "교육"],
+};
+
 export function ColumnArticle({ c, columns, projects, author }: { c: Column; columns: Column[]; projects: Project[]; author: Author }) {
   const i = columns.findIndex((x) => x.slug === c.slug);
   const prev = columns[i - 1];
   const next = columns[i + 1];
   // the closing line is the last paragraph before the final call-to-action
   const lastP = c.blocks.map((b) => b.t).lastIndexOf("p");
+  const toc = c.blocks.map((b, k) => (b.t === "h2" ? { k, x: b.x } : null)).filter((x) => x !== null);
+  // more to read: the same category first, then the newest of the rest
+  const others = columns.filter((x) => x.slug !== c.slug);
+  const related = [...others.filter((x) => x.cat === c.cat), ...others.filter((x) => x.cat !== c.cat)].slice(0, 3);
+  // projects of the kind the column is about, newest first, ones with a picture
+  const cats = PROJECT_CATS[c.cat] ?? ["산업", "공공"];
+  const built = projects.filter((p) => !p.ongoing && cats.includes(p.cat) && projectImg(p)).slice(0, 3);
   return (
     <article className="art">
       <header className="art-hd">
@@ -89,17 +111,55 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             {author.photoUrl ? <img src={author.photoUrl} alt="" width={56} height={56} /> : <span className="art-by-ph" aria-hidden="true">{author.name.slice(0, 1)}</span>}
             <span>
               <b>{author.name}</b>{author.role && <span className="art-by-role">{author.role}</span>}
-              <span className="art-by-meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}<span className="num">{c.date ?? COLUMN_DATE}</span></span>
+              <span className="art-by-meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}<span className="num">{c.date ?? COLUMN_DATE}</span><span>{readMinutes(c)}분 읽기</span></span>
             </span>
+            <CopyLink />
           </div>
         </div>
       </header>
       <div className="container art-body">
-        {c.blocks.map((b, k) => <Part key={k} b={b} last={k === lastP} projects={projects} />)}
+        {toc.length > 2 && (
+          <nav className="art-toc" aria-label="이 글의 순서">
+            <p>이 글의 순서</p>
+            <ol>
+              {toc.map((t) => <li key={t.k}><a href={`#s${t.k}`}>{t.x.replace(/^\d+\.\s*/, "")}</a></li>)}
+            </ol>
+          </nav>
+        )}
+        {c.blocks.map((b, k) => <Part key={k} b={b} k={k} last={k === lastP} projects={projects} />)}
+        {built.length > 0 && (
+          <section className="art-built" aria-labelledby="art-built-h">
+            <h2 id="art-built-h">이런 현장을 직접 지었습니다</h2>
+            <ul>
+              {built.map((p) => (
+                <li key={p.id}>
+                  <span className="art-built-pic"><img src={projectImg(p)} alt="" width={600} height={450} loading="lazy" /></span>
+                  <b>{p.name}</b>
+                  <span className="num">{p.done.slice(0, 4)}년 준공{p.area ? `, 연면적 ${p.area}` : ""}</span>
+                </li>
+              ))}
+            </ul>
+            <Link className="link" href="/projects">시공 실적 전체 보기</Link>
+          </section>
+        )}
         <nav className="art-nav" aria-label="다른 칼럼">
           {prev ? <Link href={`/notes/${prev.slug}`}><span>이전 칼럼</span><b>{prev.title}</b></Link> : <span />}
           {next ? <Link href={`/notes/${next.slug}`} className="nx"><span>다음 칼럼</span><b>{next.title}</b></Link> : <span />}
         </nav>
+        <section className="art-more" aria-labelledby="art-more-h">
+          <h2 id="art-more-h">함께 읽으면 좋은 칼럼</h2>
+          <ul>
+            {related.map((x) => (
+              <li key={x.slug}>
+                <Link href={`/notes/${x.slug}`}>
+                  <span className="art-more-pic"><img src={coverOf(x)} alt="" width={800} height={500} loading="lazy" /></span>
+                  <span className="art-more-cat">{x.cat}</span>
+                  <b>{x.title}</b>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
         <p className="art-back"><Link className="link" href="/notes">기술 칼럼 목록으로</Link></p>
       </div>
     </article>
