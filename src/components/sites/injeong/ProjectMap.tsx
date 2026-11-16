@@ -24,8 +24,8 @@ export async function ProjectMap() {
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">가까이 있어서, 끝까지 책임집니다</h2>
-            <p className="lede rv">인정건설이 지은 건물은 모두 홍성 본사에서 차로 닿는 곳에 있습니다.<br className="br-pc" /> 공사 중에도, 준공 뒤에도 대표와 현장 기술진이 직접 찾아가 책임집니다.</p>
+            <h2 className="h2 rv">1989년부터 이어 온 인정건설,<br />지역 곳곳에 남았습니다</h2>
+            <p className="lede rv">홍성에서 시작한 현장이 천안과 아산, 금산과 당진까지 이어졌습니다.<br className="br-pc" /> 지도 위 한 곳 한 곳이 지금도 그 자리에서 쓰이고 있는 건물입니다.</p>
           </div>
         </div>
         <div className="pm-in">
