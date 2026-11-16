@@ -351,6 +351,16 @@
 @media (max-width: 60rem) { .ij .sy-intro, .ij .sy-era { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 40rem) { .ij .sy-items li { grid-template-columns: 3.5rem minmax(0, 1fr); } .ij .tabs-bar .container { gap: var(--space-lg); } }
 @media (prefers-reduced-motion: reduce) { .ij .tabs-bar a { transition: none; } }
+/* 일하는 모습: text beside a large photo and a smaller one, sides swapping row by row */
+.ij .ws-row { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--space-2xl) var(--gap-columns); align-items: center; padding-block: var(--space-2xl); border-top: 1px solid var(--color-rule); }
+.ij .ws-row.flip { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); }
+.ij .ws-row.flip .ws-txt { order: 2; }
+.ij .ws-key { font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); }
+.ij .ws-txt h3 { margin-top: var(--space-sm); font-size: var(--text-2xl); line-height: 1.35; }
+.ij .ws-txt p:last-child { margin-top: var(--space-sm); max-width: 34ch; color: var(--color-ink-2); line-height: 1.75; }
+.ij .ws-pic { margin: 0; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
+.ij .ws-pic img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+@media (max-width: 60rem) { .ij .ws-row, .ij .ws-row.flip { grid-template-columns: minmax(0, 1fr); } .ij .ws-row.flip .ws-txt { order: 0; } }
 .ij .vd { background: var(--color-paper-2); }
 .ij .vd-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl) var(--gap-columns); margin: 0; padding: 0; list-style: none; }
 .ij .vd-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-field); }

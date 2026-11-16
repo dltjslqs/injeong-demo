@@ -152,3 +152,61 @@ export async function VideoList() {
     </section>
   );
 }
+
+/*
+ * 일하는 모습 (회사 이야기 탭): three scenes from the photos the company sent on 2026.11.10, site to office.
+ * The text says only what the photo shows and what the site already promises elsewhere.
+ */
+const SCENES = [
+  {
+    key: "현장",
+    title: "도면과 현장을 그 자리에서 맞춥니다",
+    text: "시공 중인 현장에서 기술진이 도면을 들고 실제 위치와 치수를 확인합니다. 도면과 다른 곳은 공사가 진행되기 전에 잡습니다.",
+    pics: [
+      { src: "life/site-1.jpg", alt: "인정건설 기술진이 공사 현장에서 태블릿 도면을 보며 위치를 가리키는 모습" },
+    ],
+  },
+  {
+    key: "현장사무실",
+    title: "큰 화면에 도면을 띄우고 함께 봅니다",
+    text: "현장사무실에 도면을 띄워 놓고 소장과 기술진이 공정과 다음 작업을 함께 정합니다. 누가 무엇을 언제 하는지, 회의에서 정하고 시작합니다.",
+    pics: [
+      { src: "life/office-1.jpg", alt: "현장사무실에서 대형 화면에 도면을 띄우고 회의하는 인정건설 현장 직원들" },
+    ],
+  },
+  {
+    key: "본사",
+    title: "현장 보고는 홍성 본사로 모입니다",
+    text: "본사 회의실에서 현장별 공정과 비용을 함께 점검하고, 필요한 결정은 바로 현장에 내려보냅니다. 현장을 외부에 맡겨 두지 않고 본사가 직접 챙깁니다.",
+    pics: [
+      { src: "life/hq-1.jpg", alt: "홍성 본사 회의실에서 서류를 검토하는 인정건설 직원들" },
+    ],
+  },
+];
+
+export function WorkScenes() {
+  return (
+    <section className="sec ws">
+      <div className="container">
+        <div className="head">
+          <div>
+            <h2 className="h2 rv">현장에서 본사까지, 인정건설이 일하는 모습</h2>
+            <p className="lede rv">꾸민 사진이 아니라 지금 짓고 있는 현장과 사무실의 하루입니다.</p>
+          </div>
+        </div>
+        {SCENES.map((sc, i) => (
+          <article className={i % 2 ? "ws-row flip" : "ws-row"} key={sc.key}>
+            <div className="ws-txt rv">
+              <p className="ws-key">{sc.key}</p>
+              <h3>{sc.title}</h3>
+              <p>{sc.text}</p>
+            </div>
+            <figure className="ws-pic rv">
+              <img src={`${BASE}/sites/injeong/${sc.pics[0].src}`} alt={sc.pics[0].alt} width={2000} height={1500} loading="lazy" decoding="async" />
+            </figure>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
