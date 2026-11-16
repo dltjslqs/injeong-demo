@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageMeta } from "@/lib/injeong/site";
 import { BASE } from "@/components/sites/injeong/base";
+import { AboutTabs } from "@/components/sites/injeong/AboutTabs";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company } from "@/components/sites/injeong/data";
 import { Message } from "@/components/sites/injeong/Message";
@@ -22,37 +23,13 @@ const certs = [
   { file: "capacity-2026", name: "시공능력평가액 확인서", note: "2026년도, 대한건설협회" },
 ];
 
-const history = [
-  ["1989", "홍성에서 개인 건설업 시작"],
-  ["2003", "㈜인정건설 법인 전환, 건축공사업 등록"],
-  ["2008", "㈜동신포리마 P공장 신축 (이후 2025년까지 같은 기업 공장 공사 11번)"],
-  ["2017", "한국국토정보공사 아산지사 사옥 준공"],
-  ["2018", "금산 역사문화박물관 준공"],
-  ["2021", "㈜텔콘알에프제약 공장 증축 준공, 군 탄약검사장 준공"],
-  ["2023", "㈜동신포리마 자재창고 증축 준공"],
-  ["2024", "실내건축공사업 등록"],
-  ["2025", "고덕국민체육센터 준공, 동신포리마 신원단공장 준공"],
-  ["2026", "천안업성2초등학교 교사 신축공사 착공 (총 178억, 공동도급)"],
-];
 
 export default function AboutPage() {
   return (
     <>
       <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" />
+      <AboutTabs />
       <Message />
-      <section className="sec">
-        <div className="container hist">
-          <div>
-            <h2 className="h2 rv">30년을 지켜온 발자취</h2>
-            <p className="lede rv">시공사가 한 지역에서 수십 년간 이름을 지켜왔다는 것은, 지어온 건물마다 뒷말이 없었다는 가장 확실한 증거입니다.</p>
-          </div>
-          <ol>
-            {history.map(([y, t]) => (
-              <li className="rv" key={y}><b className="num">{y}</b><span>{t}</span></li>
-            ))}
-          </ol>
-        </div>
-      </section>
       <Strengths />
       <section className="sec">
         <div className="container hist stack">
