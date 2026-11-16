@@ -52,6 +52,28 @@ export const readColumns = () => readJSON<Overlay<Column>>("columns", empty<Colu
 export const readProjects = () => readJSON<Overlay<Project>>("projects", empty<Project>());
 export const readPopups = () => readJSON<Popup[]>("popups", []);
 
+/** A YouTube video shown on the 이야기 page (현장 인터뷰, 회사 소개 영상). */
+export type Video = {
+  id: string;
+  title: string;
+  youtubeId: string;
+  date: string; // YYYY-MM-DD
+  desc: string;
+  series?: string; // e.g. 현장 인터뷰 1편
+  off?: boolean;
+};
+export const readVideos = () => readJSON<Video[]>("videos", []);
+/** Published videos, newest first. */
+export const getVideos = async () => (await readVideos()).filter((v) => !v.off).sort((a, b) => (a.date < b.date ? 1 : -1));
+
+/** The 11-character video id from any YouTube address (watch, youtu.be, shorts, embed, live) or the id itself. */
+export function youtubeIdOf(input: string): string | null {
+  const s = input.trim();
+  if (/^[\w-]{11}$/.test(s)) return s;
+  const m = s.match(/(?:youtu\.be\/|[?&]v=|\/(?:shorts|embed|live)\/)([\w-]{11})/);
+  return m ? m[1] : null;
+}
+
 export const isBuiltinColumn = (slug: string) => builtinColumns.some((c) => c.slug === slug);
 export const isBuiltinProject = (id: string) => builtinProjects.some((p) => p.id === id);
 

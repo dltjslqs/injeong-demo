@@ -7,7 +7,7 @@ export const revalidate = 3600;
 
 /** Only pages that may rank: the six site pages and every published column. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const pages = ["", "/about", "/business", "/projects", "/notes", "/contact"].map((p) => ({
+  const pages = ["", "/about", "/story", "/business", "/projects", "/notes", "/contact"].map((p) => ({
     url: `${ORIGIN}${p}`,
     changeFrequency: "monthly" as const,
     priority: p === "" ? 1 : 0.8,

@@ -321,6 +321,37 @@
 .ij .pf h3 { font-size: var(--text-lg); line-height: 1.35; min-height: 2.7em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 /* one line per row in every card, so the six rows sit at the same height across the grid */
 .ij .pf dd { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* 이야기: chapters down a year line, a picture beside the ones that have one; then the videos */
+.ij .st-list { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--color-rule); }
+.ij .st-item { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-md); padding: 0 0 var(--space-3xl) var(--space-2xl); }
+.ij .st-item.has-pic { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: var(--space-2xl); align-items: start; }
+.ij .st-item::before { content: ""; position: absolute; left: -9px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--color-paper); border: 3px solid var(--color-accent); }
+.ij .st-year { grid-column: 1 / -1; font-size: var(--text-lg); font-weight: 700; color: var(--color-accent); line-height: 1.2; }
+.ij .st-txt h2 { font-size: var(--text-2xl); line-height: 1.35; }
+.ij .st-txt p { margin-top: var(--space-sm); max-width: 40ch; color: var(--color-ink-2); line-height: 1.8; }
+.ij .st-pic { margin: 0; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
+.ij .st-pic img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.ij .st-quote { margin: var(--space-xl) 0 0; padding: var(--space-2xl) 0 0 var(--space-2xl); }
+.ij .st-quote p { font-size: var(--text-section); font-weight: 700; line-height: 1.3; }
+.ij .st-quote footer { display: flex; flex-wrap: wrap; gap: var(--space-md); align-items: baseline; margin-top: var(--space-md); color: var(--color-muted); }
+.ij .vd { background: var(--color-paper-2); }
+.ij .vd-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2xl) var(--gap-columns); margin: 0; padding: 0; list-style: none; }
+.ij .vd-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-field); }
+.ij .vd-poster { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: pointer; }
+.ij .vd-poster img { width: 100%; height: 100%; object-fit: cover; }
+.ij .vd-play { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: oklch(24% 0.066 259 / 0.82); color: var(--color-paper); transition: background-color var(--dur-short) var(--ease-out); }
+.ij .vd-poster:hover .vd-play { background: var(--color-accent); }
+.ij .vd-poster:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.ij .vd-frame { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ij .vd-meta { display: flex; gap: var(--space-sm); margin-top: var(--space-md); font-size: var(--text-sm); color: var(--color-muted); }
+.ij .vd-meta span:first-child:not(.num) { color: var(--color-accent); font-weight: 600; }
+.ij .vd-grid h3 { margin-top: 6px; font-size: var(--text-lg); line-height: 1.4; }
+.ij .vd-desc { margin-top: 6px; font-size: var(--text-sm); color: var(--color-ink-2); line-height: 1.6; }
+.ij .vd-empty { padding: var(--space-2xl); border: 1px dashed var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper); color: var(--color-ink-2); }
+@media (max-width: 60rem) { .ij .st-item.has-pic { grid-template-columns: minmax(0, 1fr); } .ij .vd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 40rem) { .ij .st-item { padding-left: var(--space-lg); } .ij .vd-grid { grid-template-columns: minmax(0, 1fr); } .ij .st-quote { padding-left: var(--space-lg); } }
+@media (prefers-reduced-motion: reduce) { .ij .vd-play { transition: none; } }
+
 /* 실적 지도: 충남 map on the left, the chosen region's projects on the right */
 .ij .pm { background: var(--color-paper-2); }
 .ij .pm-in { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--space-3xl); align-items: start; }

@@ -14,7 +14,7 @@ const ROOT = path.join(process.cwd(), ".data", "injeong");
 const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 
 /** Every data file, by key. The accounts file is stored encrypted and is backed up as it is. */
-export const STORE_KEYS = ["columns", "projects", "popups", "profiles", "author", "accounts"] as const;
+export const STORE_KEYS = ["columns", "projects", "popups", "videos", "profiles", "author", "accounts"] as const;
 const KEEP_SNAPSHOTS = 12;
 const LABEL = /^\d{4}-\d{2}(-\d{2})?$/;
 
@@ -165,4 +165,4 @@ export async function logBackup(e: Omit<BackupEvent, "at">): Promise<void> {
 }
 
 /** What each key is called on the admin screens. */
-export const KEY_LABEL: Record<string, string> = { columns: "기술 칼럼", projects: "시공 실적", popups: "팝업", profiles: "작성자 프로필", author: "작성자 프로필(이전 방식)", accounts: "관리자 계정" };
+export const KEY_LABEL: Record<string, string> = { columns: "기술 칼럼", projects: "시공 실적", popups: "팝업", videos: "영상", profiles: "작성자 프로필", author: "작성자 프로필(이전 방식)", accounts: "관리자 계정" };

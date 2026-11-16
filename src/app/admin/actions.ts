@@ -8,7 +8,7 @@ import { headers } from "next/headers";
 import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERMS } from "@/lib/injeong/accounts";
 import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
-import { type Author, allProjects, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
+import { type Author, allProjects, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readVideos, type Video, youtubeIdOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
 import { logBackup, takeSnapshot } from "@/lib/injeong/backup";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
@@ -374,4 +374,45 @@ export async function removePopup(fd: FormData) {
   await writeJSON("popups", (await readPopups()).filter((p) => p.id !== id));
   refresh();
   redirect("/admin/popups");
+}
+
+/* ---------- videos (이야기 page) ---------- */
+
+export async function saveVideo(_prev: FormState, fd: FormData): Promise<FormState> {
+  await requireAdmin("columns");
+  const title = str(fd, "title");
+  if (!title) return { message: "영상 제목을 입력해 주세요." };
+  const youtubeId = youtubeIdOf(str(fd, "url"));
+  if (!youtubeId) return { message: "유튜브 주소를 확인해 주세요. 예: https://youtu.be/영상번호" };
+  const date = str(fd, "date");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { message: "게시일을 선택해 주세요." };
+  try {
+    const list = await readVideos();
+    const id = str(fd, "id") || `v-${Date.now().toString(36)}`;
+    const prev = list.find((v) => v.id === id);
+    const v: Video = { id, title, youtubeId, date, desc: str(fd, "desc"), series: str(fd, "series") || undefined, off: prev?.off };
+    await writeJSON("videos", [v, ...list.filter((x) => x.id !== id)]);
+  } catch (e) {
+    return fail(e);
+  }
+  refresh();
+  redirect("/admin/videos?saved=1");
+}
+
+export async function toggleVideo(fd: FormData) {
+  await requireAdmin("columns");
+  const id = str(fd, "id");
+  // the button sends the state it asks for, so a repeated click cannot flip it back
+  const off = str(fd, "off") === "1";
+  await writeJSON("videos", (await readVideos()).map((v) => (v.id === id ? { ...v, off: off || undefined } : v)));
+  refresh();
+  redirect("/admin/videos");
+}
+
+export async function removeVideo(fd: FormData) {
+  await requireAdmin("columns");
+  const id = str(fd, "id");
+  await writeJSON("videos", (await readVideos()).filter((v) => v.id !== id));
+  refresh();
+  redirect("/admin/videos");
 }

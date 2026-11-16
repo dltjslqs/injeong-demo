@@ -5,6 +5,7 @@ import { NavLinks } from "./NavLinks";
 
 export const menu = [
   { href: "/about", label: "회사소개" },
+  { href: "/story", label: "이야기" },
   { href: "/business", label: "사업 분야" },
   { href: "/projects", label: "시공 실적" },
   { href: "/notes", label: "기술 칼럼" },
