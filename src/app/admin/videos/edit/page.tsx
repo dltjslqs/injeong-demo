@@ -28,11 +28,11 @@ export default async function VideoEdit({ searchParams }: { searchParams: Promis
           </label>
           <label className="ad-field wide">
             <span>제목</span>
-            <input name="title" defaultValue={v?.title} required maxLength={80} placeholder="예: 기초를 박는 날, PHC 파일 항타 현장" />
+            <input name="title" defaultValue={v?.title} required maxLength={80} placeholder="예: 천안업성2초 현장 점검, 월요일 본사 공정 회의" />
           </label>
           <label className="ad-field">
-            <span>시리즈 <em>선택</em></span>
-            <input name="series" defaultValue={v?.series} maxLength={30} placeholder="예: 현장 인터뷰 1편" />
+            <span>분류 <em>선택. 영상 위에 작게 표시</em></span>
+            <input name="series" defaultValue={v?.series} maxLength={30} placeholder="예: 현장, 회의, 현장 인터뷰 1편" />
           </label>
           <label className="ad-field">
             <span>게시일</span>

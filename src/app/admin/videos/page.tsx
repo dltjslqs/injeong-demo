@@ -14,10 +14,10 @@ export default async function VideosAdmin({ searchParams }: { searchParams: Prom
   return (
     <Shell title="영상" here="/admin/videos" action={<Link className="ad-btn primary" href="/admin/videos/edit">영상 등록</Link>}>
       <Saved show={saved === "1"} />
-      <p className="ad-note">유튜브에 올린 영상의 주소만 등록하면 홈페이지 「이야기」 페이지에 최신순으로 나옵니다.</p>
+      <p className="ad-note">유튜브에 올린 영상의 주소만 등록하면 홈페이지 회사소개 「회사 이야기」 탭에 최신순으로 나옵니다.</p>
       {list.length === 0 ? (
         <div className="ad-empty">
-          <p>등록된 영상이 없습니다. 영상이 없으면 이야기 페이지에 「준비 중」 안내가 나옵니다.</p>
+          <p>등록된 영상이 없습니다. 영상이 없으면 「회사 이야기」 탭에 준비 중 안내가 나옵니다.</p>
           <Link className="ad-btn primary" href="/admin/videos/edit">영상 등록</Link>
         </div>
       ) : (

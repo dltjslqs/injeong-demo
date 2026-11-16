@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     changeFrequency: "yearly" as const,
     priority: 0.6,
   }));
-  // the videos tab only once it has a video to show
-  const videos = (await getVideos()).length ? [{ url: `${ORIGIN}/about/videos`, changeFrequency: "monthly" as const, priority: 0.6 }] : [];
+  // the 회사 이야기 tab only once it has a video to show
+  const videos = (await getVideos()).length ? [{ url: `${ORIGIN}/about/stories`, changeFrequency: "monthly" as const, priority: 0.6 }] : [];
   return [...pages, ...videos, ...columns];
 }

@@ -125,17 +125,17 @@ export async function VideoList() {
     embedUrl: `https://www.youtube-nocookie.com/embed/${v.youtubeId}`,
   }));
   return (
-    <section className="sec vd" id="videos">
+    <section className="sec vd" id="stories">
       {ld.length > 0 && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />}
       <div className="container">
         <div className="head">
           <div>
-            <h2 className="h2 rv">현장에서 직접 들려드립니다</h2>
-            <p className="lede rv">글과 사진으로 다 전하지 못하는 현장 이야기를 영상으로 담습니다.<br className="br-pc" /> 현장소장과 기술진이 직접 공사 과정을 설명합니다.</p>
+            <h2 className="h2 rv">영상으로 보는 인정건설</h2>
+            <p className="lede rv">현장 점검부터 본사 회의까지, 인정건설이 일하는 모습을 그대로 담았습니다.<br className="br-pc" /> 사람과 현장을 보시면 어떤 회사인지 더 잘 아실 수 있습니다.</p>
           </div>
         </div>
         {videos.length === 0 ? (
-          <p className="vd-empty rv">첫 영상을 준비하고 있습니다. 인정건설 현장을 찾아가는 인터뷰 시리즈가 곧 올라옵니다.</p>
+          <p className="vd-empty rv">첫 영상을 준비하고 있습니다. 현장과 본사에서 일하는 모습을 곧 올리겠습니다.</p>
         ) : (
           <ul className="vd-grid">
             {videos.map((v) => (

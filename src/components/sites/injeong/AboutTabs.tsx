@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const TABS = [
   { href: "/about", label: "회사 개요" },
   { href: "/about/story", label: "걸어온 길" },
-  { href: "/about/videos", label: "현장 영상" },
+  { href: "/about/stories", label: "회사 이야기" },
 ];
 
 /** The three parts of 회사소개, as tabs under its header; each tab is its own page and address. */
