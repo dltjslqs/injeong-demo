@@ -322,3 +322,9 @@
 .ad-who { display: inline-flex; align-items: center; gap: 8px; }
 .ad-who img, .ad-who i { flex: none; width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
 .ad-who i { display: grid; place-items: center; background: var(--ad-blue-soft); color: var(--ad-blue); font-style: normal; font-size: 13px; font-weight: 800; }
+
+/* story post photos in the form: a row of thumbnails, each with a 유지 tick */
+.ad-photos { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.ad-photos li { display: grid; gap: 4px; width: 120px; }
+.ad-photos img { width: 120px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid var(--ad-rule); }
+.ad-photos .ad-check { font-size: 13px; }

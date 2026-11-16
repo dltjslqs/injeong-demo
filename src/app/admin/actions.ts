@@ -3,12 +3,13 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Column } from "@/components/sites/injeong/columns";
+import { STORY_CATS, type StoryCat, type StoryPost } from "@/components/sites/injeong/stories";
 import { type Category, categories, type Project } from "@/components/sites/injeong/data";
 import { headers } from "next/headers";
 import { type Account, ID_RULE, MAX_ACCOUNTS, MIN_PASSWORD, passwordFields, PERMS } from "@/lib/injeong/accounts";
 import { accounts, checkLogin, checkPassword, endSession, requireAdmin, saveAccounts, startSession } from "@/lib/injeong/auth";
 import { sanitizeBlocks } from "@/lib/injeong/coldoc";
-import { type Author, allProjects, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readVideos, type Video, youtubeIdOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
+import { type Author, allProjects, isBuiltinColumn, isBuiltinProject, MAIN_AUTHOR, type Popup, profileOf, readStories, youtubeIdOf, readColumns, readPopups, readProfiles, readProjects } from "@/lib/injeong/content";
 import { logBackup, takeSnapshot } from "@/lib/injeong/backup";
 import { saveImage, writeJSON } from "@/lib/injeong/store";
 
@@ -376,43 +377,59 @@ export async function removePopup(fd: FormData) {
   redirect("/admin/popups");
 }
 
-/* ---------- videos (이야기 page) ---------- */
+/* ---------- 회사 이야기 posts ---------- */
 
-export async function saveVideo(_prev: FormState, fd: FormData): Promise<FormState> {
+export async function saveStory(_prev: FormState, fd: FormData): Promise<FormState> {
   await requireAdmin("columns");
   const title = str(fd, "title");
-  if (!title) return { message: "영상 제목을 입력해 주세요." };
-  const youtubeId = youtubeIdOf(str(fd, "url"));
-  if (!youtubeId) return { message: "유튜브 주소를 확인해 주세요. 예: https://youtu.be/영상번호" };
+  if (!title) return { message: "제목을 입력해 주세요." };
+  const cat = str(fd, "cat") as StoryCat;
+  if (!STORY_CATS.includes(cat)) return { message: "분류를 선택해 주세요." };
   const date = str(fd, "date");
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { message: "게시일을 선택해 주세요." };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { message: "날짜를 선택해 주세요." };
+  const body = String(fd.get("body") ?? "").replace(/\r\n/g, "\n").trim();
+  if (!body) return { message: "본문을 입력해 주세요." };
+  const ytRaw = str(fd, "youtube");
+  const youtube = ytRaw ? youtubeIdOf(ytRaw) : null;
+  if (ytRaw && !youtube) return { message: "유튜브 주소를 확인해 주세요. 예: https://youtu.be/영상번호" };
   try {
-    const list = await readVideos();
-    const id = str(fd, "id") || `v-${Date.now().toString(36)}`;
-    const prev = list.find((v) => v.id === id);
-    const v: Video = { id, title, youtubeId, date, desc: str(fd, "desc"), series: str(fd, "series") || undefined, off: prev?.off };
-    await writeJSON("videos", [v, ...list.filter((x) => x.id !== id)]);
+    const o = await readStories();
+    const id = str(fd, "id") || `s-${Date.now().toString(36)}`;
+    const coverFile = file(fd, "cover");
+    const cover = coverFile ? await saveImage(coverFile) : str(fd, "coverUrl");
+    if (!cover) return { message: "대표 사진을 선택해 주세요." };
+    // photos already on the post stay unless unticked; new ones are added after them
+    const kept = fd.getAll("keep").map(String).filter(Boolean);
+    const added: string[] = [];
+    for (const f of fd.getAll("photos")) if (f instanceof File && f.size > 0) added.push(await saveImage(f));
+    const post: StoryPost = { id, title, sub: str(fd, "sub"), cat, date, cover, photos: [...kept, ...added].slice(0, 30), body, youtube: youtube ?? undefined };
+    o.items = [...o.items.filter((x) => x.id !== id), post];
+    await writeJSON("stories", o);
   } catch (e) {
     return fail(e);
   }
   refresh();
-  redirect("/admin/videos?saved=1");
+  redirect("/admin/stories?saved=1");
 }
 
-export async function toggleVideo(fd: FormData) {
+export async function toggleStory(fd: FormData) {
   await requireAdmin("columns");
   const id = str(fd, "id");
-  // the button sends the state it asks for, so a repeated click cannot flip it back
   const off = str(fd, "off") === "1";
-  await writeJSON("videos", (await readVideos()).map((v) => (v.id === id ? { ...v, off: off || undefined } : v)));
+  const o = await readStories();
+  o.hidden = off ? [...new Set([...o.hidden, id])] : o.hidden.filter((x) => x !== id);
+  await writeJSON("stories", o);
   refresh();
-  redirect("/admin/videos");
+  redirect("/admin/stories");
 }
 
-export async function removeVideo(fd: FormData) {
+/** Deletes a post the admin wrote; for a shipped post it only drops the edits (원본 복원). */
+export async function removeStory(fd: FormData) {
   await requireAdmin("columns");
   const id = str(fd, "id");
-  await writeJSON("videos", (await readVideos()).filter((v) => v.id !== id));
+  const o = await readStories();
+  o.items = o.items.filter((x) => x.id !== id);
+  await writeJSON("stories", o);
   refresh();
-  redirect("/admin/videos");
+  redirect("/admin/stories");
 }

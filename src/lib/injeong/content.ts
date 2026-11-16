@@ -1,5 +1,6 @@
 import { columns as builtinColumns, type Column } from "@/components/sites/injeong/columns";
 import { type Category, type Project, projects as builtinProjects } from "@/components/sites/injeong/data";
+import { builtinStories, type StoryPost } from "@/components/sites/injeong/stories";
 import { readJSON } from "./store";
 
 /**
@@ -52,19 +53,17 @@ export const readColumns = () => readJSON<Overlay<Column>>("columns", empty<Colu
 export const readProjects = () => readJSON<Overlay<Project>>("projects", empty<Project>());
 export const readPopups = () => readJSON<Popup[]>("popups", []);
 
-/** A YouTube video shown on the 이야기 page (현장 인터뷰, 회사 소개 영상). */
-export type Video = {
-  id: string;
-  title: string;
-  youtubeId: string;
-  date: string; // YYYY-MM-DD
-  desc: string;
-  series?: string; // e.g. 현장 인터뷰 1편
-  off?: boolean;
-};
-export const readVideos = () => readJSON<Video[]>("videos", []);
-/** Published videos, newest first. */
-export const getVideos = async () => (await readVideos()).filter((v) => !v.off).sort((a, b) => (a.date < b.date ? 1 : -1));
+/** 회사 이야기 posts: the shipped ones with the admin's edits laid over, plus the admin's own. */
+export const readStories = () => readJSON<Overlay<StoryPost>>("stories", empty<StoryPost>());
+export async function allStories(): Promise<(StoryPost & { off: boolean; builtin: boolean })[]> {
+  const o = await readStories();
+  const edited = new Map(o.items.map((x) => [x.id, x]));
+  const builtin = builtinStories.map((x) => ({ ...(edited.get(x.id) ?? x), builtin: true }));
+  const added = o.items.filter((x) => !builtinStories.some((b) => b.id === x.id)).map((x) => ({ ...x, builtin: false }));
+  return [...added, ...builtin].map((x) => ({ ...x, off: o.hidden.includes(x.id) })).sort((x, y) => (x.date < y.date ? 1 : -1));
+}
+/** Published posts, newest first. */
+export const getStories = async () => (await allStories()).filter((x) => !x.off);
 
 /** The 11-character video id from any YouTube address (watch, youtu.be, shorts, embed, live) or the id itself. */
 export function youtubeIdOf(input: string): string | null {

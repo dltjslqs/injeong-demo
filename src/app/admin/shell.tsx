@@ -26,7 +26,7 @@ const NAV: Group[] = [
         desc: "기술 칼럼을 등록·수정하고, 홈페이지에서 숨기거나 다시 게시합니다.",
       },
       { href: "/admin/projects", label: "시공 실적", icon: "building", perm: "projects", desc: "준공·시공 중 현장을 등록하고 사진과 공사 개요를 수정합니다." },
-      { href: "/admin/videos", label: "영상", icon: "play", perm: "columns", desc: "회사소개 「회사 이야기」 탭에 나오는 유튜브 영상입니다. 현장, 회의, 행사 등 무엇이든 유튜브 주소만 등록하면 됩니다." },
+      { href: "/admin/stories", label: "회사 이야기", icon: "play", perm: "columns", desc: "워크샵, 현장 활동, 행사, 수상 소식을 사진과 글로 올립니다. 회사소개 「회사 이야기」 탭에 나옵니다." },
       { href: "/admin/popups", label: "팝업", icon: "bell", perm: "popups", desc: "홈 첫 화면 오른쪽 위에 뜨는 공지입니다. 한 번에 하나만 표시됩니다." },
     ],
   },
