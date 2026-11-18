@@ -82,7 +82,8 @@ export async function allColumns(): Promise<(Column & { off: boolean; builtin: b
   const edited = new Map(o.items.map((c) => [c.slug, c]));
   const added = o.items.filter((c) => !isBuiltinColumn(c.slug)).sort((a, b) => b.n - a.n);
   const builtin = builtinColumns.map((c) => edited.get(c.slug) ?? c);
-  return [...added.map((c) => ({ ...c, builtin: false })), ...builtin.map((c) => ({ ...c, builtin: true }))].map((c) => ({ ...c, off: o.hidden.includes(c.slug) }));
+  // withheld: built-in columns the company asked to hold back (rev1 review, 2026.11.19); they stay hidden until the text is edited in the admin
+  return [...added.map((c) => ({ ...c, builtin: false })), ...builtin.map((c) => ({ ...c, builtin: true }))].map((c) => ({ ...c, off: o.hidden.includes(c.slug) || Boolean(c.withheld) }));
 }
 
 export async function getColumns(): Promise<Column[]> {
