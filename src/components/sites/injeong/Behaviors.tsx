@@ -316,7 +316,6 @@ export function Behaviors() {
           fail(prof ? "필수 항목(성함·연락처)과 개인정보 동의를 확인해 주세요." : "필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
           return;
         }
-        files.forEach((f) => fd.append("files", f, f.name));
         if (process.env.NEXT_PUBLIC_STATIC_DEMO === "1") {
           // the GitHub Pages preview has no server, so nothing is sent
           form.innerHTML =
@@ -328,24 +327,71 @@ export function Behaviors() {
           btn.textContent = "전송하고 있습니다";
         }
         say("", false);
-        // XMLHttpRequest (not fetch) so large drawings can show upload progress
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", `${BASE}/api/inquiry`);
-        xhr.upload.onprogress = (p) => {
-          if (btn && p.lengthComputable && files.length) btn.textContent = `파일 올리는 중 ${Math.round((p.loaded / p.total) * 100)}%`;
+        const done = () => {
+          form.innerHTML =
+            '<div class="done"><b>신청이 정상적으로 전달되었습니다.</b><p>담당자가 내용과 첨부 자료를 검토한 뒤 영업일 기준 하루 안에 전화드립니다. 일정이 급하시면 대표전화 <a href="tel:041-633-9942">041-633-9942</a>를 이용해 주세요.</p></div>';
         };
-        xhr.onload = () => {
-          let j: { message?: string } = {};
-          try {
-            j = JSON.parse(xhr.responseText);
-          } catch {}
-          if (xhr.status >= 200 && xhr.status < 300) {
-            form.innerHTML =
-              '<div class="done"><b>신청이 정상적으로 전달되었습니다.</b><p>담당자가 내용과 첨부 자료를 검토한 뒤 영업일 기준 하루 안에 전화드립니다. 일정이 급하시면 대표전화 <a href="tel:041-633-9942">041-633-9942</a>를 이용해 주세요.</p></div>';
-          } else fail(j.message || "전송에 실패했습니다. 다시 한번 눌러 주세요.");
+
+        // without a store (local development) the files go with the form itself
+        const sendMultipart = () => {
+          files.forEach((f) => fd.append("files", f, f.name));
+          // XMLHttpRequest (not fetch) so large drawings can show upload progress
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", `${BASE}/api/inquiry`);
+          xhr.upload.onprogress = (p) => {
+            if (btn && p.lengthComputable && files.length) btn.textContent = `파일 올리는 중 ${Math.round((p.loaded / p.total) * 100)}%`;
+          };
+          xhr.onload = () => {
+            let j: { message?: string } = {};
+            try {
+              j = JSON.parse(xhr.responseText);
+            } catch {}
+            if (xhr.status >= 200 && xhr.status < 300) done();
+            else fail(j.message || "전송에 실패했습니다. 다시 한번 눌러 주세요.");
+          };
+          xhr.onerror = () => fail("연결이 원활하지 않습니다. 잠시 뒤 다시 보내 주세요.");
+          xhr.send(fd);
         };
-        xhr.onerror = () => fail("연결이 원활하지 않습니다. 잠시 뒤 다시 보내 주세요.");
-        xhr.send(fd);
+
+        // on the server: each file goes straight to the store, then the form goes as JSON with their links
+        const send = async () => {
+          const uploaded: { name: string; url: string; size: number }[] = [];
+          if (files.length) {
+            // a server without a store (local development) answers 501 here: send the old way
+            const ready = await fetch(`${BASE}/api/inquiry/upload`).then((r) => r.ok).catch(() => false);
+            if (!ready) return sendMultipart();
+            const { uploadPresigned } = await import("@vercel/blob/client");
+            const day = new Date().toISOString().slice(0, 10).replaceAll("-", "");
+            const total = files.reduce((a, f) => a + f.size, 0);
+            let doneBytes = 0;
+            for (const f of files) {
+              // the store name keeps only safe characters; the original name travels in the form
+              const safe = `${f.name.slice(0, f.name.lastIndexOf(".")).replace(/[^\w가-힣-]+/g, "_").slice(0, 60) || "file"}.${extOf(f.name)}`;
+              try {
+                const r = await uploadPresigned(`inquiry/${day}/${safe}`, f, {
+                  access: "public",
+                  handleUploadUrl: `${BASE}/api/inquiry/upload`,
+                  onUploadProgress: (p) => {
+                    if (btn) btn.textContent = `파일 올리는 중 ${Math.round(((doneBytes + p.loaded) / total) * 100)}%`;
+                  },
+                });
+                uploaded.push({ name: f.name, url: r.url, size: f.size });
+                doneBytes += f.size;
+              } catch {
+                return fail(`${f.name}을(를) 올리지 못했습니다. 다시 한번 눌러 주세요.`);
+              }
+            }
+          }
+          if (btn) btn.textContent = "전송하고 있습니다";
+          const body: Record<string, unknown> = Object.fromEntries(Array.from(fd.entries()).filter(([, v]) => typeof v === "string"));
+          body.files = uploaded;
+          const res = await fetch(`${BASE}/api/inquiry`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }).catch(() => null);
+          if (!res) return fail("연결이 원활하지 않습니다. 잠시 뒤 다시 보내 주세요.");
+          if (res.ok) return done();
+          const j = (await res.json().catch(() => ({}))) as { message?: string };
+          fail(j.message || "전송에 실패했습니다. 다시 한번 눌러 주세요.");
+        };
+        void send();
       });
     }
 

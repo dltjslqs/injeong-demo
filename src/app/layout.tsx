@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   openGraph: { siteName: SITE_NAME, locale: "ko_KR", type: "website", images: [{ url: "/sites/injeong/og.jpg", width: 1200, height: 630 }] },
   twitter: { card: "summary_large_image" },
   formatDetection: { telephone: false },
+  // search console ownership checks (Google Search Console, 네이버 서치어드바이저): the codes they give, set on the server
+  verification: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+    ...(process.env.NAVER_SITE_VERIFICATION ? { other: { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION } } : {}),
+  },
 };
 
 export default function RootLayout({

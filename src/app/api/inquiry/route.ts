@@ -2,10 +2,24 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { extOf, MB, UPLOAD } from "@/components/sites/injeong/upload";
+import { deliverInquiry, type InquiryFile } from "@/lib/injeong/inquiry";
 
-// Inquiries are only validated and stored on this machine (.uploads/inquiries).
-// Connect this to the company's mail/CRM and file storage before going live.
+/*
+ * Quote requests. On the server the form sends JSON: the fields and the attachments it has already
+ * uploaded to the Blob store (see ./upload). Without a store (local development) it sends multipart
+ * with the files, which are kept in .uploads/inquiries. Either way deliverInquiry keeps and mails it.
+ */
 const STORE = path.join(process.cwd(), ".uploads", "inquiries");
+const FIELDS = ["type", "size", "region", "name", "phone", "msg", "profile", "agree"];
+// attachments must be in this site's own store, under inquiry/
+const ownFile = (u: string) => {
+  try {
+    const x = new URL(u);
+    return x.protocol === "https:" && x.hostname.endsWith(".blob.vercel-storage.com") && x.pathname.startsWith("/inquiry/");
+  } catch {
+    return false;
+  }
+};
 
 const bad = (message: string, status = 400) => NextResponse.json({ message }, { status });
 
@@ -13,9 +27,22 @@ export async function POST(req: Request) {
   // the reference clone still posts JSON; the 인정건설 form posts multipart with attachments
   if (!(req.headers.get("content-type") ?? "").includes("multipart/form-data")) {
     const d = (await req.json().catch(() => null)) as Record<string, unknown> | null;
-    if (!d || !d.type || !d.name || !d.phone || !d.agree) return bad("필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
-    console.log("[inquiry]", d);
-    return NextResponse.json({ ok: true });
+    if (!d) return bad("전송된 내용을 읽지 못했습니다. 다시 보내 주세요.");
+    const fields: Record<string, string> = {};
+    for (const k of FIELDS) if (typeof d[k] === "string") fields[k] = (d[k] as string).slice(0, 4000);
+    if (fields.profile === "1" && !fields.type) fields.type = "회사 자료(지명원) 요청";
+    if (!fields.type || !fields.name || !fields.phone || fields.agree !== "1") return bad("필수 항목(공사 종류·성함·연락처)과 개인정보 동의를 확인해 주세요.");
+    const raw = Array.isArray(d.files) ? (d.files as unknown[]) : [];
+    if (raw.length > UPLOAD.maxFiles) return bad(`첨부는 최대 ${UPLOAD.maxFiles}개까지 받을 수 있습니다.`);
+    const files: InquiryFile[] = [];
+    for (const x of raw) {
+      const f = x as { name?: unknown; url?: unknown; size?: unknown };
+      if (typeof f.name !== "string" || typeof f.url !== "string" || !ownFile(f.url)) return bad("첨부 파일 정보가 올바르지 않습니다. 다시 보내 주세요.");
+      files.push({ name: f.name.slice(0, 200), url: f.url, size: Number(f.size) || 0 });
+    }
+    const r = await deliverInquiry(fields, files);
+    if (!r.kept && !r.mailed) return bad("일시적인 문제로 접수하지 못했습니다. 대표전화 041-633-9942로 연락 주세요.", 503);
+    return NextResponse.json({ ok: true, files: files.length });
   }
 
   const fd = await req.formData().catch(() => null);
@@ -50,5 +77,7 @@ export async function POST(req: Request) {
   }
   await writeFile(path.join(dir, "inquiry.json"), JSON.stringify({ ...fields, files: saved, receivedAt: new Date().toISOString() }, null, 2));
   console.log("[inquiry]", id, fields.type, fields.name, `${saved.length} file(s)`);
+  // local development: the files stay on this machine, the mail lists their names
+  await deliverInquiry(fields, files.map((f) => ({ name: f.name, size: f.size })));
   return NextResponse.json({ ok: true, files: saved.length });
 }
