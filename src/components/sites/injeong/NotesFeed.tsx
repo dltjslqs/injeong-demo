@@ -23,7 +23,7 @@ export function NotesFeed({ featured, items, cats }: { featured: FeedItem; items
   return (
     <>
       <Link href={`/notes/${featured.slug}`} className="nf-hero">
-        <span className="nf-hero-pic"><img src={featured.cover} alt="" width={1600} height={1000} /></span>
+        <span className="nf-hero-pic"><img src={featured.cover} alt={`${featured.title} 대표 이미지`} width={1600} height={1000} /></span>
         <span className="nf-hero-txt">
           <span className="nf-badge">필독 가이드</span>
           <b className="nf-hero-t">{featured.title}</b>
@@ -51,7 +51,7 @@ export function NotesFeed({ featured, items, cats }: { featured: FeedItem; items
         {list.map((n) => (
           <li key={n.slug}>
             <Link href={`/notes/${n.slug}`} className="nf-card">
-              <span className="nf-pic"><img src={n.cover} alt="" width={800} height={500} loading="lazy" /></span>
+              <span className="nf-pic"><img src={n.cover} alt={`${n.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
               <span className="nf-meta"><span>{n.cat}</span><span className="num">{n.date}</span></span>
               <b className="nf-t">{n.title}</b>
               <span className="nf-s">{n.sub}</span>

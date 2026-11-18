@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { crumbs, itemList, JsonLd, webPage } from "@/components/sites/injeong/JsonLd";
 import { getProjects } from "@/lib/injeong/content";
 import { pageMeta } from "@/lib/injeong/site";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
@@ -13,12 +14,15 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "시공 실적",
     description: `2004년부터 충남에서 준공한 공장·학교·공공시설 ${done}건과 지금 시공 중인 현장. 발주처, 규모, 연면적, 공사비와 시·군별 실적 지도를 함께 보여 드립니다.`,
     path: "/projects",
+    image: "/sites/injeong/og/projects.jpg",
   });
 }
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const done = (await getProjects()).filter((p) => !p.ongoing);
   return (
     <>
+      <JsonLd nodes={[webPage("CollectionPage", "/projects", "시공 실적", `2004년부터 충남에서 준공한 공장·학교·공공시설 ${done.length}건과 지금 시공 중인 현장`, { mainEntity: itemList(done.map((p) => ({ name: p.name }))) }), crumbs([["시공 실적", "/projects"]])]} />
       <PageHead en="PROJECTS" title="시공 실적" desc="지금 시공 중인 현장과 2004년부터 준공한 실적입니다. 발주처와 공사 금액을 그대로 적었습니다." img="p12" />
       <NowBuilding />
       <ProjectMap />

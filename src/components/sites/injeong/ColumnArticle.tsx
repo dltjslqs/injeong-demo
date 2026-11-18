@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BASE } from "./base";
 import type { Block, Column } from "./columns";
-import { company, type Project, projectImg } from "./data";
+import { company, type Project, projectImg, projectAlt } from "./data";
 import type { Author } from "@/lib/injeong/content";
 import { CopyLink } from "./CopyLink";
 
@@ -57,7 +57,7 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
   );
 }
 
-function Part({ b, k, last, projects }: { b: Block; k: number; last: boolean; projects: Project[] }) {
+function Part({ b, k, last, projects, title }: { b: Block; k: number; last: boolean; projects: Project[]; title: string }) {
   switch (b.t) {
     case "p": return <p className={last ? "art-end" : undefined}><Rich x={b.x} /></p>;
     case "q": return <p className="art-q"><Rich x={b.x} /></p>;
@@ -65,7 +65,7 @@ function Part({ b, k, last, projects }: { b: Block; k: number; last: boolean; pr
     case "ask": return <Ask lead={b.x} />;
     case "img": return <Pic id={b.id} projects={projects} />;
     case "pic": return <figure className="art-pic"><img src={b.src} alt={b.cap ?? ""} loading="lazy" />{b.cap && <figcaption>{b.cap}</figcaption>}</figure>;
-    case "cover": return <figure className="art-pic"><img src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt="" width={1536} height={864} /></figure>;
+    case "cover": return <figure className="art-pic"><img src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt={`${title} 대표 이미지`} width={1536} height={864} /></figure>;
     case "h3": return <h3>{b.x}</h3>;
     case "ul": return <ul className="art-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ul>;
     case "ol": return <ol className="art-list num-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ol>;
@@ -108,7 +108,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
           <h1>{c.title}</h1>
           <p className="art-sub">{c.sub}</p>
           <div className="art-by">
-            {author.photoUrl ? <img src={author.photoUrl} alt="" width={56} height={56} /> : <span className="art-by-ph" aria-hidden="true">{author.name.slice(0, 1)}</span>}
+            {author.photoUrl ? <img src={author.photoUrl} alt={`${author.name} 사진`} width={56} height={56} /> : <span className="art-by-ph" aria-hidden="true">{author.name.slice(0, 1)}</span>}
             <span>
               <b>{author.name}</b>{author.role && <span className="art-by-role">{author.role}</span>}
               <span className="art-by-meta">{c.series ? `${c.cat} ${c.series}편` : c.cat}<span className="num">{c.date ?? COLUMN_DATE}</span><span>{readMinutes(c)}분 읽기</span></span>
@@ -126,14 +126,14 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             </ol>
           </nav>
         )}
-        {c.blocks.map((b, k) => <Part key={k} b={b} k={k} last={k === lastP} projects={projects} />)}
+        {c.blocks.map((b, k) => <Part key={k} b={b} k={k} last={k === lastP} projects={projects} title={c.title} />)}
         {built.length > 0 && (
           <section className="art-built" aria-labelledby="art-built-h">
             <h2 id="art-built-h">이런 현장을 직접 지었습니다</h2>
             <ul>
               {built.map((p) => (
                 <li key={p.id}>
-                  <span className="art-built-pic"><img src={projectImg(p)} alt="" width={600} height={450} loading="lazy" /></span>
+                  <span className="art-built-pic"><img src={projectImg(p)} alt={projectAlt(p)} width={600} height={450} loading="lazy" /></span>
                   <b>{p.name}</b>
                   <span className="num">{p.done.slice(0, 4)}년 준공{p.area ? `, 연면적 ${p.area}` : ""}</span>
                 </li>
@@ -152,7 +152,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             {related.map((x) => (
               <li key={x.slug}>
                 <Link href={`/notes/${x.slug}`}>
-                  <span className="art-more-pic"><img src={coverOf(x)} alt="" width={800} height={500} loading="lazy" /></span>
+                  <span className="art-more-pic"><img src={coverOf(x)} alt={`${x.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
                   <span className="art-more-cat">{x.cat}</span>
                   <b>{x.title}</b>
                 </Link>

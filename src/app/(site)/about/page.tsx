@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { crumbs, JsonLd, webPage } from "@/components/sites/injeong/JsonLd";
 import { pageMeta } from "@/lib/injeong/site";
 import { BASE } from "@/components/sites/injeong/base";
 import { AboutTabs } from "@/components/sites/injeong/AboutTabs";
@@ -13,6 +14,7 @@ export const metadata: Metadata = pageMeta({
   title: "회사소개",
   description: "1989년 홍성에서 시작해 2003년 종합건설 법인이 된 ㈜인정건설. 대표 인사말, 연혁, 건축공사업·실내건축공사업 면허와 2026년 시공능력평가를 확인하세요.",
   path: "/about",
+  image: "/sites/injeong/og/about.jpg",
 });
 
 // 제출서류(26.11.03) 01. 증빙서류의 원본 PDF를 그대로 이미지로 옮긴 것
@@ -27,6 +29,7 @@ const certs = [
 export default function AboutPage() {
   return (
     <>
+      <JsonLd nodes={[webPage("AboutPage", "/about", "회사소개", String(metadata.description)), crumbs([["회사소개", "/about"]])]} />
       <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" />
       <AboutTabs />
       <Message />

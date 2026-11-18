@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const c = (await getColumns()).find((x) => x.slug === slug);
   if (!c) return {};
   // the description is the column's one-line answer, not its greeting
-  return pageMeta({ title: c.title, description: c.sub, path: `/notes/${c.slug}`, image: coverOf(c), type: "article" });
+  return pageMeta({ title: c.title, description: c.meta || c.sub, path: `/notes/${c.slug}`, image: coverOf(c), type: "article" });
 }
 
 export default async function ColumnPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -36,7 +36,7 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
       "@context": "https://schema.org",
       "@type": "Article",
       headline: c.title,
-      description: c.sub,
+      description: c.meta || c.sub,
       ...(iso ? { datePublished: iso } : {}),
       author: { "@type": "Person", name: author.name, ...(author.role ? { jobTitle: author.role } : {}) },
       publisher: { "@type": "Organization", name: "㈜인정건설" },

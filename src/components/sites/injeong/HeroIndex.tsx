@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BASE } from "./base";
 import { doneCount, getProjects } from "@/lib/injeong/content";
-import { categories, company, projectImg } from "./data";
+import { categories, company, projectImg, projectAlt } from "./data";
 
 const label = (cat: string) => categories.find((c) => c.key === cat)?.label ?? cat;
 
@@ -67,7 +67,7 @@ export async function RecentList() {
               <Link href="/projects" className="rc">
                 <span className="rc-pic">
                   {projectImg(p) ? (
-                    <img src={projectImg(p)} alt="" width={800} height={600} loading="lazy" />
+                    <img src={projectImg(p)} alt={projectAlt(p)} width={800} height={600} loading="lazy" />
                   ) : (
                     <span className="rc-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
                   )}

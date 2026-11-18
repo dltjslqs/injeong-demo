@@ -196,6 +196,7 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
       date: str(fd, "date") || today().replaceAll("-", "."),
       title,
       sub: str(fd, "sub"),
+      meta: str(fd, "meta") || undefined,
       lede: (lede?.x ?? str(fd, "sub")).replace(/\*\*/g, ""),
       blocks,
     };

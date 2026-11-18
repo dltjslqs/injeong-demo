@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   images: { unoptimized: true },
   // photos are shrunk in the browser first (src/app/admin/shrink.ts); Vercel refuses bodies over 4.5MB anyway
   experimental: { serverActions: { bodySizeLimit: "4mb" } },
+  // the first Vercel address showed the same pages as the real domain; send it there for good
+  ...(isStatic ? {} : { redirects: async () => [{ source: "/:path*", has: [{ type: "host" as const, value: "injeong-demo.vercel.app" }], destination: "https://www.injeongcon.co.kr/:path*", permanent: true }] }),
   ...(isStatic
     ? { output: "export" as const, basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined, trailingSlash: true }
     : { output: "standalone" as const }),

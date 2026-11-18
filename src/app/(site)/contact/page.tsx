@@ -8,6 +8,7 @@ export const metadata: Metadata = pageMeta({
   title: "견적 문의",
   description: "공사 위치와 용도, 규모와 도면을 남겨 주시면 담당자가 직접 연락드립니다. 공사비·계약·하자 등 공사 전에 많이 묻는 질문도 정리했습니다.",
   path: "/contact",
+  image: "/sites/injeong/og/contact.jpg",
 });
 
 export default function ContactPage() {

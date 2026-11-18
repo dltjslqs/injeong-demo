@@ -15,12 +15,22 @@ export async function generateStaticParams() {
   return (await getStories()).map((x) => ({ id: x.id }));
 }
 
+// search description: the subtitle, then whole sentences from the text while they fit in 155 characters
+function describe(sub: string, body: string) {
+  let out = sub ? `${sub.replace(/[.\s]+$/, "")}. ` : "";
+  for (const s of body.replace(/\s+/g, " ").match(/[^.!?。]+[.!?。]?/g) ?? []) {
+    if ((out + s).trim().length > 155) break;
+    out += s;
+  }
+  return out.trim() || body.slice(0, 150);
+}
+
 const pic = (src: string) => (src.startsWith("/sites/") ? `${BASE}${src}` : src);
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
   const x = (await getStories()).find((s) => s.id === id);
-  return x ? pageMeta({ title: x.title, description: x.sub || x.body.slice(0, 120), path: `/about/stories/${x.id}`, image: x.cover, type: "article" }) : {};
+  return x ? pageMeta({ title: x.title, description: describe(x.sub, x.body), path: `/about/stories/${x.id}`, image: x.cover, type: "article" }) : {};
 }
 
 export default async function StoryPostPage({ params }: { params: Promise<{ id: string }> }) {

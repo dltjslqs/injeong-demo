@@ -80,7 +80,7 @@ export async function StoryTimeline() {
     <section className="sec sy">
       <div className="container">
         <div className="sy-intro">
-          <h2 className="h2 rv">한 지역에서 37년,<br />지은 건물이 이력이 되었습니다</h2>
+          <h1 className="h2 rv">한 지역에서 37년,<br />지은 건물이 이력이 되었습니다</h1>
           <ul className="sy-figs rv">
             {figures.map((f) => (
               <li key={f.t}><b className="num">{f.n}<small>{f.u}</small></b><span>{f.t}</span></li>
@@ -91,7 +91,7 @@ export async function StoryTimeline() {
           <article className="sy-era" key={e.span}>
             <header className="sy-side">
               <p className="sy-span num">{e.span}</p>
-              <h3>{e.title}</h3>
+              <h2>{e.title}</h2>
               <p className="sy-lead">{e.lead}</p>
             </header>
             <div className="sy-main">

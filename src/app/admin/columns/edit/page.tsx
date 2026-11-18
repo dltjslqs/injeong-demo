@@ -58,8 +58,12 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
             <input name="title" defaultValue={c?.title} required maxLength={120} />
           </label>
           <label className="ad-field wide">
-            <span>부제 <em>목록과 검색 결과에 보이는 한 줄</em></span>
+            <span>부제 <em>목록과 글 제목 아래에 보이는 한 줄</em></span>
             <input name="sub" defaultValue={c?.sub} maxLength={160} />
+          </label>
+          <label className="ad-field wide">
+            <span>검색 설명 <em>검색 결과 제목 아래에 보이는 글, 140~155자 권장. 비우면 부제가 쓰입니다</em></span>
+            <textarea name="meta" defaultValue={c?.meta} maxLength={200} rows={3} />
           </label>
           <label className="ad-field">
             <span>분류</span>

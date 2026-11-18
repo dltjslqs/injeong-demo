@@ -207,6 +207,10 @@ export function Behaviors() {
       });
     });
 
+    // /projects?cat=교육 (from 사업 분야) opens with that tab chosen
+    const askedCat = new URLSearchParams(location.search).get("cat");
+    if (askedCat) tabs.forEach((b) => b.dataset.f === askedCat && b.click());
+
     // project map: a region on the map, its label or its button shows that region's list
     const pm = root.querySelector<HTMLElement>(".pm");
     if (pm) {

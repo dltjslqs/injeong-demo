@@ -21,7 +21,7 @@ function SeriesCards({ items }: { items: Column[] }) {
       {items.map((c, i) => (
         <li key={c.slug} className={i === 0 ? "sc-lead" : undefined}>
           <Link href={`/notes/${c.slug}`} className="sc">
-            <span className="sc-pic"><img src={coverOf(c)} alt="" width={1536} height={864} loading="lazy" /></span>
+            <span className="sc-pic"><img src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={1536} height={864} loading="lazy" /></span>
             <span className="sc-no num">{String(c.series).padStart(2, "0")}</span>
             <span className="sc-t">{c.title}</span>
             {i === 0 && <span className="sc-sub">{c.sub}</span>}

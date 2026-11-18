@@ -31,10 +31,11 @@ async function companyLd() {
     url: `${ORIGIN}/`,
     logo: `${ORIGIN}/sites/injeong/logo-h.png`,
     image: `${ORIGIN}/sites/injeong/og.jpg`,
-    description: `충남 홍성의 종합건설사. 공장 신축·증축, 학교·공공시설, 민간 건축을 시공하며 2004년부터 준공 실적 ${done}건.`,
+    description: `1989년 홍성에서 개인 건설업으로 시작해 2003년 법인으로 전환한 충남 종합건설사. 공장 신축·증축, 학교·공공시설, 민간 건축을 시공하며 법인 전환 뒤 2004년부터 준공 실적 ${done}건.`,
     telephone: company.tel,
     faxNumber: company.fax,
     email: company.email,
+    // the corporation; the business itself began in 1989 (see description)
     foundingDate: "2003-06-19",
     taxID: company.bizNo,
     address: { "@type": "PostalAddress", streetAddress: "충절로938번길 16", addressLocality: "홍성군 홍성읍", addressRegion: "충청남도", addressCountry: "KR" },
