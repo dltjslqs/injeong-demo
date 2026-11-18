@@ -63,8 +63,8 @@ export async function deliverInquiry(f: InquiryFields, files: InquiryFile[]) {
   const key = process.env.RESEND_API_KEY;
   const to = (process.env.INQUIRY_TO ?? "").split(",").map((s) => s.trim()).filter(Boolean);
   if (!key || !to.length) {
-    console.warn("[inquiry] mail not configured (RESEND_API_KEY, INQUIRY_TO)", f.type, f.name);
-    return { kept, mailed: false };
+    console.warn("[inquiry] mail not configured", { key: Boolean(key), to: to.length }, f.type, f.name);
+    return { kept, mailed: false, why: !key ? "no key" : "no recipient" };
   }
   const { html, text } = mailBody(f, files, at);
   const res = await fetch("https://api.resend.com/emails", {
@@ -82,8 +82,9 @@ export async function deliverInquiry(f: InquiryFields, files: InquiryFile[]) {
     return null;
   });
   if (!res || !res.ok) {
-    console.error("[inquiry] mail rejected", res?.status, await res?.text().catch(() => ""));
-    return { kept, mailed: false };
+    const detail = res ? `${res.status} ${(await res.text().catch(() => "")).slice(0, 200)}` : "no response";
+    console.error("[inquiry] mail rejected", detail);
+    return { kept, mailed: false, why: detail };
   }
   return { kept, mailed: true };
 }
