@@ -27,7 +27,7 @@ export function SiteFooter() {
         </div>
         <div className="ft-bot">
           <span>© {company.name}</span>
-          {/* the admin entrance, deliberately faint; the GitHub Pages copy has no admin, so no link there */}
+          <Link href="/privacy" className="ft-pv">개인정보처리방침</Link>
         </div>
       </div>
     </footer>

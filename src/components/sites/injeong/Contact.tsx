@@ -56,7 +56,7 @@ export function Contact() {
             </div>
             <label className="agree">
               <input type="checkbox" name="agree" value="1" />
-              <span>견적 상담 목적의 개인정보 처리에 동의합니다. 수집 항목은 성함·연락처·문의 내용이며, 상담을 마친 날부터 1년간 보관합니다.</span>
+              <span>견적 상담 목적의 개인정보 처리에 동의합니다. 수집 항목은 성함·연락처·공사 정보·문의 내용·첨부 파일이며, 상담을 마친 날부터 1년간 보관합니다. 문의 내용은 홈페이지 운영 업체(미국)에 보관됩니다. <a href="/privacy" target="_blank" rel="noopener">개인정보처리방침 보기</a></span>
             </label>
             <button className="btn cta" type="submit">견적 문의 보내기</button>
             <div className="msg" role="status" />

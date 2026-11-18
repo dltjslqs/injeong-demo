@@ -979,3 +979,13 @@
 .ij .nf404 .btns { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
 .ij .nf404-tel { margin-top: var(--space-lg); color: var(--color-muted); }
 .ij .nf404-tel a { color: var(--color-ink); font-weight: 600; }
+
+/* 개인정보처리방침: tables that scroll sideways on a phone instead of squeezing */
+.ij .pv-tw { margin-top: var(--space-md); overflow-x: auto; }
+.ij .pv-t { width: 100%; min-width: 34rem; border-collapse: collapse; font-size: var(--text-sm); line-height: 1.6; }
+.ij .pv-t th, .ij .pv-t td { padding: 10px 12px; border-bottom: 1px solid var(--color-rule); text-align: left; vertical-align: top; }
+.ij .pv-t thead th, .ij .pv-t tbody th { font-weight: 600; color: var(--color-ink); background: var(--color-paper-2); white-space: nowrap; }
+.ij .pv-m { color: var(--color-muted); font-size: 0.8125rem; }
+.ij .ft-pv { font-weight: 700; color: var(--color-field-ink); }
+.ij .ft-pv:hover { text-decoration: underline; }
+.ij .pv .art-body > h2:first-child { margin-top: 0; }
