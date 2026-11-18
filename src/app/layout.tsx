@@ -14,7 +14,8 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
   // search console ownership checks (Google Search Console, 네이버 서치어드바이저): the codes they give, set on the server
   verification: {
-    ...(process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : {}),
+    // Google Search Console, https://www.injeongcon.co.kr (2026.11.18); the value is public on every page anyway
+    google: process.env.GOOGLE_SITE_VERIFICATION || "IooqlMcWjx4drhlirnvQHC-AQtvW_AmX-L4XoFoeQhQ",
     ...(process.env.NAVER_SITE_VERIFICATION ? { other: { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION } } : {}),
   },
 };
