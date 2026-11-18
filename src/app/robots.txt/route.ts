@@ -3,7 +3,7 @@ import { LIVE, ORIGIN } from "@/lib/injeong/site";
 export const dynamic = "force-static";
 
 // Daum webmaster tool proves ownership with this line at the bottom of robots.txt
-const DAUM = "#DaumWebMasterTool:6e84a5a0f4a14d6f3980bc75c167f8827368152fd5aeea9ddccebd62a921b1a7:LSr9wi71I6+MYd9iMzmuXg==";
+const DAUM = "#DaumWebMasterTool:1374b54687b8e149ea34b32d58b7976c683bcc6747a5aaad2c2240ee02627668:LSr9wi71I6+MYd9iMzmuXg==";
 
 /**
  * Open to search engines only once the real domain is set (see lib/injeong/site.ts); the admin and API stay closed.
