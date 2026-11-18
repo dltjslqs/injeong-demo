@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMeta({
 
 // 개인정보 보호법 제30조(처리방침)·제28조의8(국외 이전)에 맞춘 내용. 바꾸면 아래 시행일과 변경 이력도 함께 고친다.
 const EFFECTIVE = "2026년 11월 18일";
-const OFFICER = { name: company.ceo, title: "대표이사" };
+const OFFICER = { name: "김병철", title: "이사" };
 
 export default function PrivacyPage() {
   return (
