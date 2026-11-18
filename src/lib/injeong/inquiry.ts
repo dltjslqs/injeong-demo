@@ -24,7 +24,10 @@ const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&
 const kb = (n: number) => (n >= 1048576 ? `${(n / 1048576).toFixed(1)}MB` : `${Math.max(1, Math.round(n / 1024))}KB`);
 const blobOn = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 
-function mailBody(f: InquiryFields, files: InquiryFile[], at: string) {
+// files up to this total are attached to the mail itself (Resend allows 40MB a mail after encoding)
+const ATTACH_MAX = 25 * 1024 * 1024;
+
+function mailBody(f: InquiryFields, files: InquiryFile[], at: string, attached: boolean) {
   const rows = LABELS.filter(([k]) => f[k]).map(([k, label]) => [label, f[k]]);
   if (f.profile === "1") rows.push(["회사 자료(지명원)", "받아 보기 원함"]);
   const html = `<div style="font-family:Pretendard,'Malgun Gothic',sans-serif;font-size:15px;color:#1a1a1a;line-height:1.6">
@@ -35,7 +38,7 @@ function mailBody(f: InquiryFields, files: InquiryFile[], at: string) {
     .join("")}</table>
 ${files.length ? `<h3 style="margin:20px 0 6px;font-size:16px">첨부 ${files.length}개</h3><ul style="margin:0;padding-left:18px">${files
     .map((x) => `<li>${x.url ? `<a href="${esc(x.url)}">${esc(x.name)}</a>` : esc(x.name)} (${kb(x.size)})</li>`)
-    .join("")}</ul><p style="color:#666;font-size:13px">첨부 파일은 링크를 눌러 내려받습니다. 링크는 이 메일을 받은 분만 알고 있습니다.</p>` : ""}
+    .join("")}</ul><p style="color:#666;font-size:13px">${attached ? "파일은 이 메일에 함께 첨부되어 있고, 위 링크로도 내려받을 수 있습니다." : "파일이 커서 메일에는 붙이지 않았습니다. 위 링크를 눌러 내려받아 주세요."} 링크는 이 메일을 받은 분만 알고 있습니다.</p>` : ""}
 </div>`;
   const text = [
     `홈페이지 견적 문의 (${at})`,
@@ -66,7 +69,8 @@ export async function deliverInquiry(f: InquiryFields, files: InquiryFile[]) {
     console.warn("[inquiry] mail not configured", { key: Boolean(key), to: to.length }, f.type, f.name);
     return { kept, mailed: false, why: !key ? "no key" : "no recipient" };
   }
-  const { html, text } = mailBody(f, files, at);
+  const attachable = files.some((x) => x.url) && files.reduce((a, x) => a + x.size, 0) <= ATTACH_MAX;
+  const { html, text } = mailBody(f, files, at, attachable);
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
@@ -76,6 +80,9 @@ export async function deliverInquiry(f: InquiryFields, files: InquiryFile[]) {
       subject: `[견적 문의] ${f.type || "문의"} · ${f.name}${f.region ? ` · ${f.region}` : ""}`,
       html,
       text,
+      // the files themselves ride along when they fit in one mail (Resend fetches them from the store);
+      // bigger sets come as download links only, which the mail always lists
+      ...(attachable ? { attachments: files.filter((x) => x.url).map((x) => ({ filename: x.name, path: x.url })) } : {}),
     }),
   }).catch((e) => {
     console.error("[inquiry] mail request failed", e);
