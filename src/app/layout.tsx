@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   verification: {
     // Google Search Console, https://www.injeongcon.co.kr (2026.11.18); the value is public on every page anyway
     google: process.env.GOOGLE_SITE_VERIFICATION || "IooqlMcWjx4drhlirnvQHC-AQtvW_AmX-L4XoFoeQhQ",
-    ...(process.env.NAVER_SITE_VERIFICATION ? { other: { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION } } : {}),
+    other: { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION || "13093dc2c98c27919230a37e60fba0649c04290b" },
   },
 };
 
