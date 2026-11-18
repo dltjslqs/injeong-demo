@@ -42,8 +42,8 @@ export async function POST(req: Request) {
     }
     const r = await deliverInquiry(fields, files);
     if (!r.kept && !r.mailed) return bad("일시적인 문제로 접수하지 못했습니다. 대표전화 041-633-9942로 연락 주세요.", 503);
-    // the inquiry is kept either way; why a mail failed goes only to the server log
-    return NextResponse.json({ ok: true, files: files.length });
+    // the inquiry is kept either way; mailed says only whether the notice went out, the reason stays in the server log
+    return NextResponse.json({ ok: true, files: files.length, mailed: r.mailed });
   }
 
   const fd = await req.formData().catch(() => null);
