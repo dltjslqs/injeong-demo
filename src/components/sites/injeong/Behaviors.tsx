@@ -365,8 +365,9 @@ export function Behaviors() {
             const total = files.reduce((a, f) => a + f.size, 0);
             let doneBytes = 0;
             for (const f of files) {
-              // the store name keeps only safe characters; the original name travels in the form
-              const safe = `${f.name.slice(0, f.name.lastIndexOf(".")).replace(/[^\w가-힣-]+/g, "_").slice(0, 60) || "file"}.${extOf(f.name)}`;
+              // the store name is plain ASCII (the storage signer garbles Korean names); the original name travels in the form
+              const ascii = f.name.slice(0, f.name.lastIndexOf(".")).replace(/[^A-Za-z0-9_-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 40);
+              const safe = `${ascii || "file"}.${extOf(f.name)}`;
               try {
                 const r = await uploadPresigned(`inquiry/${day}/${safe}`, f, {
                   access: "public",
