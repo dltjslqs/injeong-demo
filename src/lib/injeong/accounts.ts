@@ -10,11 +10,12 @@ import { readJSON, writeJSON } from "./store";
  * encrypted with ADMIN_SECRET before it is stored, because the store can be a public blob.
  * Deleting the stored "accounts" entry puts the environment account back (the way out of a lockout).
  */
-export type Perm = "columns" | "projects" | "popups";
+export type Perm = "columns" | "projects" | "popups" | "inquiries";
 export const PERMS: { key: Perm; label: string }[] = [
   { key: "columns", label: "기술 칼럼" },
   { key: "projects", label: "시공 실적" },
   { key: "popups", label: "팝업" },
+  { key: "inquiries", label: "견적 문의" },
 ];
 export type Account = {
   id: string;

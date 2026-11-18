@@ -378,6 +378,22 @@ export async function removePopup(fd: FormData) {
   redirect("/admin/popups");
 }
 
+/* ---------- 견적 문의 ---------- */
+
+export async function removeInquiry(fd: FormData) {
+  await requireAdmin("inquiries");
+  const { deleteInquiry } = await import("@/lib/injeong/inquiries");
+  await deleteInquiry(str(fd, "id"));
+  redirect("/admin/inquiries?saved=1");
+}
+
+export async function removeStrayFiles() {
+  await requireAdmin("inquiries");
+  const { deleteStrayFiles } = await import("@/lib/injeong/inquiries");
+  await deleteStrayFiles();
+  redirect("/admin/inquiries?saved=1");
+}
+
 /* ---------- 회사 이야기 posts ---------- */
 
 export async function saveStory(_prev: FormState, fd: FormData): Promise<FormState> {

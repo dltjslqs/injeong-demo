@@ -33,6 +33,7 @@ const NAV: Group[] = [
   {
     label: "운영",
     items: [
+      { href: "/admin/inquiries", label: "견적 문의", icon: "mail", perm: "inquiries", desc: "홈페이지 견적 문의로 들어온 내용과 첨부 파일입니다." },
       { href: "/admin/accounts", label: "계정 관리", icon: "users", perm: "super", desc: "담당자 계정을 등록하고 담당 메뉴와 비밀번호를 설정합니다." },
       { href: "/admin/backup", label: "백업", icon: "archive", perm: "super", desc: "등록한 내용의 백업 설정, 보관 중인 백업본, 백업 이력입니다." },
     ],
@@ -54,6 +55,7 @@ const ICONS = {
   doc: "M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5",
   building: "M5 21V5l8-2v18M13 9h6v12M9 8h1M9 12h1M9 16h1M16 13h1M16 17h1M3 21h18",
   bell: "M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 20h4",
+  mail: "M4 6h16v12H4zM4 7l8 6 8-6",
   users: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 20c.6-3.4 3-5 6-5s5.4 1.6 6 5M16 4.5a3.5 3.5 0 0 1 0 6.5M18 15c1.6.6 2.7 2.2 3 5",
   archive: "M3 5h18v4H3zM5 9v11h14V9M10 13h4",
   play: "M5 5.5v13l13-6.5zM3 3h18v18H3z",
@@ -72,7 +74,7 @@ function Icon({ name }: { name: keyof typeof ICONS }) {
 
 const allowed = (user: Account | null, perm?: Perm | "super") => !perm || Boolean(user && (perm === "super" ? user.role === "super" : can(user, perm)));
 const roleLabel = (u: Account) =>
-  u.role === "super" ? "총괄관리자" : `담당: ${u.perms.map((p) => ({ columns: "기술 칼럼", projects: "시공 실적", popups: "팝업" })[p]).join(", ") || "없음"}`;
+  u.role === "super" ? "총괄관리자" : `담당: ${u.perms.map((p) => ({ columns: "기술 칼럼", projects: "시공 실적", popups: "팝업", inquiries: "견적 문의" })[p]).join(", ") || "없음"}`;
 
 /** Finds the menu item and sub-page for `here`, for the active state, the breadcrumb and the description. */
 function locate(here: string) {
