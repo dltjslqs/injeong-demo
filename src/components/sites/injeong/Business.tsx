@@ -51,7 +51,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
                 <ul>{f.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                <Link className="link" href={`/projects?cat=${encodeURIComponent(f.cat)}#works`}>{f.title} 시공 실적</Link>
+                <Link className="link" href={f.cat === "산업" ? "/business/factory" : `/projects?cat=${encodeURIComponent(f.cat)}#works`}>{f.cat === "산업" ? "공장 신축·증축 자세히" : `${f.title} 시공 실적`}</Link>
               </div>
             </article>
           ))}

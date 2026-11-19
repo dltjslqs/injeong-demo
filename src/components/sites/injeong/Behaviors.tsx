@@ -207,6 +207,11 @@ export function Behaviors() {
       });
     });
 
+    // /contact?type=공장·창고 (from the factory page) picks that 공사 종류
+    const askedType = new URLSearchParams(location.search).get("type");
+    const typeSel = root.querySelector<HTMLSelectElement>('select[name="type"]');
+    if (askedType && typeSel && Array.from(typeSel.options).some((o) => o.value === askedType)) typeSel.value = askedType;
+
     // /projects?cat=교육 (from 사업 분야) opens with that tab chosen
     const askedCat = new URLSearchParams(location.search).get("cat");
     if (askedCat) tabs.forEach((b) => b.dataset.f === askedCat && b.click());
