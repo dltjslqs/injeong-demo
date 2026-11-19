@@ -1054,3 +1054,14 @@
 .ij .fx-cred b { margin-left: var(--space-2xs); font-weight: 600; color: var(--color-ink); }
 .ij .fx-cred span { color: var(--color-muted); }
 @media (max-width: 56rem) { .ij .fx-panel { grid-template-columns: minmax(0, 1fr); padding: var(--space-lg); } .ij .fx-act { flex-direction: row; flex-wrap: wrap; } }
+
+/* every 실적 table has the same five columns; fixed shares so the field pages and 시공 실적 line up */
+@media (min-width: 40.0625rem) {
+  .ij .rl table { table-layout: fixed; }
+  .ij .rl thead th:nth-child(1) { width: 11%; }
+  .ij .rl thead th:nth-child(2) { width: 36%; }
+  .ij .rl thead th:nth-child(3) { width: 25%; }
+  .ij .rl thead th:nth-child(4) { width: 16%; }
+  .ij .rl thead th:nth-child(5) { width: 12%; }
+  .ij .rl th, .ij .rl td { overflow-wrap: break-word; }
+}
