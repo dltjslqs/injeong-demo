@@ -2,12 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { aboutPages } from "./SiteHeader";
 
-const TABS = [
-  { href: "/about", label: "회사 개요" },
-  { href: "/about/story", label: "걸어온 길" },
-  { href: "/about/stories", label: "회사 이야기" },
-];
+const TABS = aboutPages;
 
 /** The three parts of 회사소개, as tabs under its header; each tab is its own page and address. */
 export function AboutTabs() {

@@ -11,8 +11,15 @@ export const businessFields = [
   { href: "/business/education", label: "교육시설" },
 ];
 
+// 회사소개 parts, the same as the tabs under its header
+export const aboutPages = [
+  { href: "/about", label: "회사 개요" },
+  { href: "/about/story", label: "걸어온 길" },
+  { href: "/about/stories", label: "회사 이야기" },
+];
+
 export const menu: MenuItem[] = [
-  { href: "/about", label: "회사소개" },
+  { href: "/about", label: "회사소개", children: aboutPages },
   { href: "/business", label: "사업 분야", children: businessFields },
   { href: "/projects", label: "시공 실적" },
   { href: "/notes", label: "기술 칼럼" },
