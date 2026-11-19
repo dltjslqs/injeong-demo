@@ -22,6 +22,8 @@ export type Field = {
   cats: Category[];
   contactType: string; // 견적 문의 공사 종류
   how: { title: string; lead: string; points: string[] };
+  fig?: { n: string; unit: string; label: string }; // second figure; default: the year the first one was done
+  cta: string; // closing line for this field's readers
   faq: string[]; // questions picked from the 견적 문의 FAQ, by wording
   columns: string[]; // column slugs worth reading
 };
@@ -48,8 +50,10 @@ export async function FieldPage({ f }: { f: Field }) {
       <section className="sec">
         <div className="container">
           <ul className="fx-figs rv">
-            <li><b className="num">{done.length}<small>건</small></b><span>{f.label} 준공 실적{ongoing.length ? `, 지금 ${ongoing.length}곳 시공 중` : ""}</span></li>
-            <li><b className="num">{clients}<small>곳</small></b><span>공사를 맡긴 발주처({since}년부터)</span></li>
+            <li><b className="num">{projects.length}<small>건</small></b><span>{f.label} 실적{ongoing.length ? `, 이 중 ${ongoing.length}곳 시공 중` : ""}</span></li>
+            {f.fig
+              ? <li><b className="num">{f.fig.n}<small>{f.fig.unit}</small></b><span>{f.fig.label}</span></li>
+              : <li><b className="num">{since}<small>년</small></b><span>첫 {f.label} 준공, 발주처 {clients}곳</span></li>}
             <li><b className="num">{company.capacity.amount.replace("억", "")}<small>억</small></b><span>{company.capacity.year} 시공능력평가 ({company.capacity.rankRegion})</span></li>
           </ul>
           <p className="fx-note rv">기업신용평가 {company.credit.grade}({company.credit.agency}, {company.credit.until}까지) · 등록 기술자 {company.engineers}명, 이 중 특급 기술자 {company.crew.find((c) => c.label === "특급 기술자")?.count}명</p>
@@ -65,7 +69,7 @@ export async function FieldPage({ f }: { f: Field }) {
           <div className="head">
             <div>
               <h2 className="h2 rv">이런 건물을 지었습니다</h2>
-              <p className="lede rv">{f.label} {projects.length}건입니다. 발주처와 공사 금액을 그대로 적었습니다.</p>
+              <p className="lede rv">{f.label} {projects.length}건입니다. 발주처와 연면적을 그대로 적었습니다. 공사 금액은 확인된 것만 적었습니다.</p>
             </div>
             <Link className="link rv" href={`/projects?cat=${encodeURIComponent(f.cats[0])}#works`}>시공 실적에서 보기</Link>
           </div>
@@ -169,7 +173,7 @@ export async function FieldPage({ f }: { f: Field }) {
           </div>
         </section>
       )}
-      <CtaBand />
+      <CtaBand sub={f.cta} href={contact} />
     </>
   );
 }

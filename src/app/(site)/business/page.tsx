@@ -28,7 +28,7 @@ export default function BusinessPage() {
   return (
     <>
       <JsonLd nodes={[webPage("CollectionPage", "/business", "사업 분야", String(metadata.description), { mainEntity: services }), crumbs([["사업 분야", "/business"]])]} />
-      <PageHead en="BUSINESS" title="사업 분야" desc="교육·공공·군 시설과 공장, 교회·근생까지. 건축공사업과 실내건축공사업으로 시공합니다." img="p16" />
+      <PageHead en="BUSINESS" title="사업 분야" desc="공장과 창고부터 교회·상가, 공공·군 시설과 학교까지. 건축공사업과 실내건축공사업 면허로 신축부터 리모델링까지 시공합니다." img="p16" />
       <BusinessTabs />
       <Business />
       <Process />

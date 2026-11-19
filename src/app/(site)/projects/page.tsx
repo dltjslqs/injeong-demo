@@ -23,7 +23,7 @@ export default async function ProjectsPage() {
   return (
     <>
       <JsonLd nodes={[webPage("CollectionPage", "/projects", "시공 실적", `2004년부터 충남에서 준공한 공장·학교·공공시설 ${done.length}건과 지금 시공 중인 현장`, { mainEntity: itemList(done.map((p) => ({ name: p.name }))) }), crumbs([["시공 실적", "/projects"]])]} />
-      <PageHead en="PROJECTS" title="시공 실적" desc="지금 시공 중인 현장과 2004년부터 준공한 실적입니다. 발주처와 공사 금액을 그대로 적었습니다." img="p12" />
+      <PageHead en="PROJECTS" title="시공 실적" desc="지금 시공 중인 현장과 2004년부터 준공한 실적입니다. 발주처와 연면적을 그대로 적었습니다. 공사 금액은 확인된 것만 적었습니다." img="p12" />
       <NowBuilding />
       <ProjectMap />
       <Works />

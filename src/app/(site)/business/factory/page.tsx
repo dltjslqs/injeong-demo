@@ -28,15 +28,15 @@ const FAQ: { q: string; a: string; slug: string }[] = [
   { q: "부지를 사기 전에 무엇을 확인해야 하나요?", a: "내 업종의 공장이 들어설 수 있는 땅인지, 도로와 대지의 높이 차이, 땅속 상태, 전기·상수도·오수를 실제로 쓸 수 있는지, 대형 화물차가 드나들 수 있는지를 계약 전에 순서대로 봐야 합니다.", slug: "factory-site" },
   { q: "설비 배치가 다 안 정해졌는데 설계를 시작해도 되나요?", a: "기계의 무게 범위와 대략적인 위치, 전력 규모, 크레인 유무는 설계 전에 정해야 합니다. 제조사나 세부 모델은 나중에 정해도 됩니다.", slug: "factory-layout" },
   { q: "생산을 멈추지 않고 증축할 수 있나요?", a: "할 수 있습니다. 대신 어디까지 멈출 수 있는지, 진동·분진·소음 관리, 공사 차량과 생산 물류의 분리, 전기·소방·용수를 언제 몇 시간 끊는지를 착공 전에 정해 둬야 합니다.", slug: "extension-live" },
-  { q: "증축도 허가를 받아야 하나요?", a: "증축은 건축허가나 신고 대상입니다. 바닥면적 85㎡ 이내 증축이나 공업지역·산업단지 안의 2층 이하·연면적 500㎡ 이하 공장은 신고로 끝날 수 있고, 그 밖에는 허가 절차를 밟는다고 보시는 게 안전합니다.", slug: "extension-permit" },
+  { q: "증축도 허가를 받아야 하나요?", a: "증축은 건축허가나 신고 대상입니다. 바닥면적 85㎡ 이내 증축이나 공업지역·산업단지 안의 2층 이하·연면적 500㎡ 이하 공장은 건축신고 대상이 될 수 있고, 그 밖에는 허가 절차를 밟는다고 보시는 게 안전합니다.", slug: "extension-permit" },
 ];
 
 const STEPS: [string, string][] = [
   ["부지·입지 검토", "용도지역과 업종 제한, 도로 높이와 진입로, 전기·상수도·오수 사용 가능 여부를 먼저 확인합니다."],
   ["설비 배치 확정", "기계의 무게와 위치, 크레인 용량, 전력 규모를 정해 바닥·기초·골조 설계에 반영합니다."],
-  ["설계·인허가", "건축허가와 함께 공장설립 승인, 소방·환경 절차가 각각 언제 끝나야 하는지 한 장의 공정표에 넣습니다."],
+  ["설계·인허가", "일정은 준공일이 아니라 생산개시일에서 거꾸로 잡습니다. 건축허가와 함께 공장설립 승인, 소방·환경 절차가 각각 언제 끝나야 하는지 한 장의 공정표에 넣습니다."],
   ["시공", "가동 중인 공장이라면 공정표를 생산 계획표 위에 겹쳐 그리고, 접속 공사는 생산이 덜 몰리는 날에 잡습니다."],
-  ["사용승인·공장등록", "준공일이 아니라 생산개시일에서 거꾸로 일정을 잡아 설비 반입과 시운전, 공장등록까지 이어지게 합니다."],
+  ["사용승인·공장등록", "설비 반입과 시운전 일정에 맞춰 사용승인부터 공장등록까지 마무리합니다."],
 ];
 
 export default async function FactoryPage() {
@@ -62,12 +62,12 @@ export default async function FactoryPage() {
   };
   return (
     <>
-      <JsonLd nodes={[webPage("WebPage", "/business/factory", "공장 신축·증축", DESCRIPTION, { mainEntity: service }), itemList(factories.map((p) => ({ name: p.name }))), faqLd, crumbs([["사업 분야", "/business"], ["공장 신축·증축", "/business/factory"]])]} />
+      <JsonLd nodes={[webPage("WebPage", "/business/factory", "공장 신축·증축", DESCRIPTION, { mainEntity: service }), itemList(factories.map((p) => ({ name: p.name }))), faqLd, crumbs([["사업 분야", "/business"], ["산업시설", "/business/factory"]])]} />
       <PageHead
         en="FACTORY"
-        title="공장 신축·증축"
-        heading="충남 공장 신축·증축, 인정건설이 직접 짓습니다"
-        desc={`부지 검토부터 공장등록까지. ${dongsinSince}년부터 한 기업의 공장을 ${dongsin.length}번 이어 지었습니다.`}
+        title="산업시설"
+        heading="충남 공장·창고 신축과 증축, 부지 검토부터 공장등록까지 책임집니다"
+        desc={`${dongsinSince}년부터 ㈜동신포리마의 공장 공사를 ${dongsin.length}번 맡았습니다.`}
         img="p18"
       />
       <BusinessTabs />
@@ -92,7 +92,7 @@ export default async function FactoryPage() {
           <div className="head">
             <div>
               <h2 className="h2 rv">이런 공장을 지었습니다</h2>
-              <p className="lede rv">공장과 자재창고, 자원순환시설까지 준공한 {factories.length}건입니다. 발주처와 공사 금액을 그대로 적었습니다.</p>
+              <p className="lede rv">공장과 자재창고, 자원순환시설까지 준공한 {factories.length}건입니다. 발주처와 연면적을 그대로 적었습니다. 공사 금액은 확인된 것만 적었습니다.</p>
             </div>
             <Link className="link rv" href={`/projects?cat=${encodeURIComponent("산업")}#works`}>시공 실적에서 보기</Link>
           </div>
@@ -206,7 +206,7 @@ export default async function FactoryPage() {
           </div>
         </section>
       )}
-      <CtaBand />
+      <CtaBand sub={"부지 가계약 전이신가요?\n입지 검토부터 공장등록 일정까지 현장 실무진이 직접 짚어드립니다."} href={`/contact?type=${encodeURIComponent("공장·창고")}`} />
     </>
   );
 }

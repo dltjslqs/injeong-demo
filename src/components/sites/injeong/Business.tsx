@@ -15,10 +15,10 @@ export const fields = [
   },
   {
     img: "p07",
-    title: "민간건축·실내건축",
+    title: "민간·실내건축",
     cat: "민간",
     desc: "교회, 근린생활시설, 다가구주택을 짓고, 실내건축공사업으로 리모델링과 시설 개선까지 맡습니다.",
-    points: ["종교시설 신축·증축", "근생·다가구주택 신축", "실내건축·시설 개선"],
+    points: ["종교시설 신축·증축", "근린생활시설·다가구주택 신축", "실내건축·시설 개선"],
   },
   {
     img: "p03",
@@ -31,8 +31,8 @@ export const fields = [
     img: "p12",
     title: "교육시설",
     cat: "교육",
-    desc: "초·중·고 강당과 교실, 대학 시설을 지었습니다. 학기 중 공사가 많아 학생 동선과 안전을 먼저 나눕니다.",
-    points: ["다목적강당 개축·증축", "교실 증축·개축", "대학 승강기·시설 개선"],
+    desc: "초·중·고 강당과 교실, 대학 시설을 지었고, 지금은 초등학교를 신축하고 있습니다. 학기 중 공사가 많아 학생 동선과 안전을 먼저 나눕니다.",
+    points: ["초등학교 교사 신축", "다목적강당 개축·증축", "교실 증축·개축", "대학 승강기·시설 개선"],
   },
 ];
 
@@ -45,7 +45,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
             <h2 className="h2 rv">공장부터 학교까지, 인정건설이 짓는 건물</h2>
             <p className="lede rv">건축공사업과 실내건축공사업 면허로 공공과 민간 공사를 모두 시공합니다.</p>
           </div>
-          {summary && <Link className="link rv" href="/business">사업 분야 자세히</Link>}
+          {summary && <Link className="link rv" href="/business">사업 분야 자세히 보기</Link>}
         </div>
         <div className="svc four">
           {fields.map((f) => (
@@ -55,7 +55,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
                 <ul>{f.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                <Link className="link" href={FIELD_PAGE[f.cat]}>{f.title} 자세히</Link>
+                <Link className="link" href={FIELD_PAGE[f.cat]}>{f.title} 자세히 보기</Link>
               </div>
             </article>
           ))}
