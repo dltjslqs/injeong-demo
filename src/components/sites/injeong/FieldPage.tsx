@@ -47,19 +47,25 @@ export async function FieldPage({ f }: { f: Field }) {
       <PageHead en="BUSINESS" title={f.label} heading={f.heading} desc={f.desc} img={f.img} />
       <BusinessTabs />
 
-      <section className="sec">
+      <section className="fx-band">
         <div className="container">
-          <ul className="fx-figs rv">
+          <div className="fx-panel rv">
+          <ul className="fx-figs">
             <li><b className="num">{projects.length}<small>건</small></b><span>{f.label} 실적{ongoing.length ? `, 이 중 ${ongoing.length}곳 시공 중` : ""}</span></li>
             {f.fig
               ? <li><b className="num">{f.fig.n}<small>{f.fig.unit}</small></b><span>{f.fig.label}</span></li>
               : <li><b className="num">{since}<small>년</small></b><span>첫 {f.label} 준공, 발주처 {clients}곳</span></li>}
             <li><b className="num">{company.capacity.amount.replace("억", "")}<small>억</small></b><span>{company.capacity.year} 시공능력평가 ({company.capacity.rankRegion})</span></li>
           </ul>
-          <p className="fx-note rv">기업신용평가 {company.credit.grade}({company.credit.agency}, {company.credit.until}까지) · 등록 기술자 {company.engineers}명, 이 중 특급 기술자 {company.crew.find((c) => c.label === "특급 기술자")?.count}명</p>
-          <div className="btns fx-act rv">
+          <div className="btns fx-act">
             <Link className="btn cta" href={contact}>{f.label} 견적 문의</Link>
             <a className="btn line num" href={`tel:${company.tel}`}>{company.tel}</a>
+          </div>
+            <ul className="fx-cred">
+              <li>기업신용평가 <b>{company.credit.grade}</b> <span>{company.credit.agency}, {company.credit.until}까지</span></li>
+              <li>등록 기술자 <b>{company.engineers}명</b></li>
+              <li>특급 기술자 <b>{company.crew.find((c) => c.label === "특급 기술자")?.count}명</b></li>
+            </ul>
           </div>
         </div>
       </section>

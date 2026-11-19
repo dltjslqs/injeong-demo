@@ -72,17 +72,23 @@ export default async function FactoryPage() {
       />
       <BusinessTabs />
 
-      <section className="sec">
+      <section className="fx-band">
         <div className="container">
-          <ul className="fx-figs rv">
+          <div className="fx-panel rv">
+          <ul className="fx-figs">
             <li><b className="num">{factories.length}<small>건</small></b><span>공장·창고 준공 실적</span></li>
             <li><b className="num">{dongsin.length}<small>번</small></b><span>㈜동신포리마 공장 공사({dongsinSince}~)</span></li>
             <li><b className="num">{company.capacity.amount.replace("억", "")}<small>억</small></b><span>{company.capacity.year} 시공능력평가 ({company.capacity.rankRegion})</span></li>
           </ul>
-          <p className="fx-note rv">기업신용평가 {company.credit.grade}({company.credit.agency}, {company.credit.until}까지) · 등록 기술자 {company.engineers}명, 이 중 특급 기술자 {company.crew.find((c) => c.label === "특급 기술자")?.count}명</p>
-          <div className="btns fx-act rv">
+          <div className="btns fx-act">
             <Link className="btn cta" href={`/contact?type=${encodeURIComponent("공장·창고")}`}>공장 견적 문의</Link>
             <a className="btn line num" href={`tel:${company.tel}`}>{company.tel}</a>
+          </div>
+            <ul className="fx-cred">
+              <li>기업신용평가 <b>{company.credit.grade}</b> <span>{company.credit.agency}, {company.credit.until}까지</span></li>
+              <li>등록 기술자 <b>{company.engineers}명</b></li>
+              <li>특급 기술자 <b>{company.crew.find((c) => c.label === "특급 기술자")?.count}명</b></li>
+            </ul>
           </div>
         </div>
       </section>
