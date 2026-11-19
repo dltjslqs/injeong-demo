@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/injeong/auth";
-import { allColumns, MAIN_AUTHOR, profileOf, readColumns, readProfiles } from "@/lib/injeong/content";
+import { allColumns, isScheduled, MAIN_AUTHOR, profileOf, readColumns, readProfiles } from "@/lib/injeong/content";
 import { removeColumn, toggleColumn } from "../actions";
 import { Saved, Shell } from "../shell";
 import { ConfirmButton } from "../ui";
@@ -29,12 +29,12 @@ export default async function ColumnsAdmin({ searchParams }: { searchParams: Pro
               <td>{writer(c.author)}</td>
               <td>{c.cat}</td>
               <td>
-                {c.off ? <span className="ad-tag">숨김</span> : <span className="ad-tag on">게시</span>}
+                {c.off ? <span className="ad-tag">숨김</span> : isScheduled(c) ? <span className="ad-tag new">예약 {c.publishAt!.slice(5).replace("-", ".").replace("T", " ")}</span> : <span className="ad-tag on">게시</span>}
                 {!c.builtin ? <span className="ad-tag new">신규</span> : edited.has(c.slug) ? <span className="ad-tag">수정됨</span> : null}
               </td>
               <td className="ad-acts">
                 <Link className="ad-btn" href={`/admin/columns/edit?slug=${c.slug}`}>수정</Link>
-                {!c.off && <Link className="ad-btn" href={`/notes/${c.slug}`} target="_blank">보기</Link>}
+                {!c.off && !isScheduled(c) && <Link className="ad-btn" href={`/notes/${c.slug}`} target="_blank">보기</Link>}
                 <form action={toggleColumn}><input type="hidden" name="slug" value={c.slug} /><button type="submit" className="ad-btn">{c.off ? "다시 게시" : "숨기기"}</button></form>
                 {!c.builtin ? (
                   <form action={removeColumn}><input type="hidden" name="slug" value={c.slug} /><ConfirmButton message="이 칼럼을 삭제할까요? 삭제하면 복구할 수 없습니다.">삭제</ConfirmButton></form>

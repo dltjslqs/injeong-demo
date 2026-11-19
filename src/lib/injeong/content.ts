@@ -86,8 +86,13 @@ export async function allColumns(): Promise<(Column & { off: boolean; builtin: b
   return [...added.map((c) => ({ ...c, builtin: false })), ...builtin.map((c) => ({ ...c, builtin: true }))].map((c) => ({ ...c, off: o.hidden.includes(c.slug) || Boolean(c.withheld) }));
 }
 
+/** Now in Korea time as "YYYY-MM-DDTHH:mm", the form publishAt is stored in. */
+export const kstNow = () => new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 16);
+/** A column set to go out later (예약 발행): hidden from the site until its time. */
+export const isScheduled = (c: Pick<Column, "publishAt">) => Boolean(c.publishAt && c.publishAt > kstNow());
+
 export async function getColumns(): Promise<Column[]> {
-  return (await allColumns()).filter((c) => !c.off);
+  return (await allColumns()).filter((c) => !c.off && !isScheduled(c));
 }
 
 const order = (p: Project) => (p.ongoing ? "9" : "0") + (p.ongoing ? p.period : p.done);

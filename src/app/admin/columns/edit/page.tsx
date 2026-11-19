@@ -6,7 +6,7 @@ import { projectImg } from "@/components/sites/injeong/data";
 import { can } from "@/lib/injeong/accounts";
 import { accounts, requireAdmin } from "@/lib/injeong/auth";
 import { blocksToDoc } from "@/lib/injeong/coldoc";
-import { allColumns, getProjects, isBuiltinColumn, MAIN_AUTHOR, profileOf, readProfiles } from "@/lib/injeong/content";
+import { allColumns, getProjects, isBuiltinColumn, isScheduled, kstNow, MAIN_AUTHOR, profileOf, readProfiles } from "@/lib/injeong/content";
 import { saveColumn } from "../../actions";
 import { Shell } from "../../shell";
 import { RichEditor } from "../../RichEditor";
@@ -85,7 +85,11 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
           )}
           <label className="ad-field">
             <span>게시일 <em>예: 2026.11.09</em></span>
-            <input name="date" defaultValue={c?.date ?? ""} placeholder="미입력 시 오늘 날짜" pattern="\d{4}\.\d{2}(\.\d{2})?" />
+            <input name="date" defaultValue={c?.date ?? ""} placeholder="미입력 시 오늘(예약 시 발행일) 날짜" pattern="\d{4}\.\d{2}(\.\d{2})?" />
+          </label>
+          <label className="ad-field">
+            <span>예약 발행 <em>한국 시간. 정한 일시에 자동으로 게시됩니다(최대 10분 지연). 비우면 저장 즉시 게시</em></span>
+            <input type="datetime-local" name="publishAt" defaultValue={c && isScheduled(c) ? c.publishAt : ""} min={kstNow()} step={600} />
           </label>
         </div>
         <fieldset className="ad-field">

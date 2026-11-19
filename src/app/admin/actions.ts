@@ -176,6 +176,10 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
   }
   if (!blocks.some((b) => b.t === "p" || b.t === "h2")) return { message: "본문을 입력해 주세요." };
   const lede = blocks.find((b) => b.t === "p") as { x: string } | undefined;
+  // 예약 발행: a time in Korea time ("2026-11-20T09:00"); a time already past means publish now
+  const at = str(fd, "publishAt");
+  if (at && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(at)) return { message: "예약 발행 일시를 다시 선택해 주세요." };
+  const publishAt = at && at > new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 16) ? at : undefined;
   try {
     const o = await readColumns();
     const slug = str(fd, "slug") || `c-${Date.now().toString(36)}`;
@@ -193,10 +197,12 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
       series: fd.get("series") ? Number(fd.get("series")) || undefined : undefined,
       cover: str(fd, "cover_id") || undefined,
       coverUrl,
-      date: str(fd, "date") || today().replaceAll("-", "."),
+      // a scheduled column is dated the day it goes out, unless a date was entered
+      date: str(fd, "date") || (publishAt ?? today()).slice(0, 10).replaceAll("-", "."),
       title,
       sub: str(fd, "sub"),
       meta: str(fd, "meta") || undefined,
+      publishAt,
       lede: (lede?.x ?? str(fd, "sub")).replace(/\*\*/g, ""),
       blocks,
     };
