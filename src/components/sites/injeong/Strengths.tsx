@@ -1,4 +1,5 @@
 import { BASE } from "./base";
+import { Photo } from "./Photo";
 
 // The four reasons from the home page's 동신포리마 section, told in full on the about page:
 // photograph and text in alternating rows. Copy from the 11/5 brief; absolute claims ("ZERO", "완벽히") left out.
@@ -61,7 +62,7 @@ export function Strengths() {
           {items.map((it, i) => (
             <li key={it.label} className="st-row rv">
               <figure className="st-pic">
-                <img src={`${BASE}/sites/injeong/works/${it.img}`} alt={it.alt} width={1600} height={1200} loading="lazy" />
+                <Photo src={`${BASE}/sites/injeong/works/${it.img}`} alt={it.alt} width={1600} height={1200} loading="lazy" />
               </figure>
               <div className="st-txt">
                 <p className="st-k"><span className="num">{String(i + 1).padStart(2, "0")}</span>{it.label}</p>

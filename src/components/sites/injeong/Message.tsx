@@ -1,5 +1,6 @@
 import { BASE } from "./base";
 import { company } from "./data";
+import { Photo } from "./Photo";
 
 export function Message() {
   return (
@@ -21,7 +22,7 @@ export function Message() {
           </div>
         </div>
         <figure className="gr-pic rv">
-          <img src={`${BASE}/sites/injeong/ceo.jpg`} alt={`${company.name} 대표이사 ${company.ceo}`} width={1200} height={1500} loading="lazy" />
+          <Photo sizes="(max-width: 900px) 100vw, 40vw" src={`${BASE}/sites/injeong/ceo.jpg`} alt={`${company.name} 대표이사 ${company.ceo}`} width={1200} height={1500} loading="lazy" />
         </figure>
       </div>
     </section>

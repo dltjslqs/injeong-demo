@@ -1,5 +1,6 @@
 import { getProjects } from "@/lib/injeong/content";
 import { projectAlt, projectImg } from "./data";
+import { Photo } from "./Photo";
 
 export async function NowBuilding() {
   const ongoing = (await getProjects()).filter((p) => p.ongoing);
@@ -16,7 +17,7 @@ export async function NowBuilding() {
           {ongoing.map((p) => (
             <article className="rv" key={p.id}>
               <div className={projectImg(p) ? "im" : "im none"}>
-                {projectImg(p) ? <img src={projectImg(p)} alt={projectAlt(p)} width={1800} height={1344} loading="lazy" decoding="async" /> : <span className="ph-note">현장 사진 준비 중</span>}
+                {projectImg(p) ? <Photo src={projectImg(p)} alt={projectAlt(p)} width={1800} height={1344} loading="lazy" decoding="async" /> : <span className="ph-note">현장 사진 준비 중</span>}
               </div>
               <div className="bd">
                 <p className="st">시공 중, <span className="num">{p.period}</span></p>

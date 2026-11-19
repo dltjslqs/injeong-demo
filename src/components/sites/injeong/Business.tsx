@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BASE } from "./base";
+import { Photo } from "./Photo";
 
 // each field has its own page under 사업 분야
 export const FIELD_PAGE: Record<string, string> = { 교육: "/business/education", 공공: "/business/public", 군: "/business/public", 산업: "/business/factory", 민간: "/business/private" };
@@ -49,7 +50,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
         <div className="svc four">
           {fields.map((f) => (
             <article className="rv" key={f.title}>
-              <div className="im"><img src={`${BASE}/sites/injeong/works/${f.img}.jpg`} alt={`${f.title} 시공 사례`} width={1800} height={1344} loading="lazy" decoding="async" /></div>
+              <div className="im"><Photo src={`${BASE}/sites/injeong/works/${f.img}.jpg`} alt={`${f.title} 시공 사례`} width={1800} height={1344} loading="lazy" decoding="async" /></div>
               <div className="bd">
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>

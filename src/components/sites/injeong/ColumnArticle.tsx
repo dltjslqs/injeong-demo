@@ -4,6 +4,7 @@ import type { Block, Column } from "./columns";
 import { company, type Project, projectImg, projectAlt } from "./data";
 import type { Author } from "@/lib/injeong/content";
 import { CopyLink } from "./CopyLink";
+import { Photo } from "./Photo";
 
 export const COLUMN_DATE = "2026.11";
 
@@ -22,7 +23,7 @@ function Pic({ id, projects }: { id: string; projects: Project[] }) {
   if (!p || !projectImg(p)) return null;
   return (
     <figure className="art-pic">
-      <img src={projectImg(p)} alt={p.name} width={1800} height={1018} loading="lazy" />
+      <Photo src={projectImg(p)} alt={p.name} width={1800} height={1018} loading="lazy" />
       <figcaption>{p.name}, {p.done.slice(0, 4)}년 준공</figcaption>
     </figure>
   );
@@ -64,8 +65,8 @@ function Part({ b, k, last, projects, title }: { b: Block; k: number; last: bool
     case "h2": return <h2 id={`s${k}`}>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
     case "img": return <Pic id={b.id} projects={projects} />;
-    case "pic": return <figure className="art-pic"><img src={b.src} alt={b.cap ?? ""} loading="lazy" />{b.cap && <figcaption>{b.cap}</figcaption>}</figure>;
-    case "cover": return <figure className="art-pic"><img src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt={`${title} 대표 이미지`} width={1536} height={864} /></figure>;
+    case "pic": return <figure className="art-pic"><Photo sizes="(max-width: 900px) 100vw, 800px" src={b.src} alt={b.cap ?? ""} loading="lazy" />{b.cap && <figcaption>{b.cap}</figcaption>}</figure>;
+    case "cover": return <figure className="art-pic"><Photo sizes="(max-width: 900px) 100vw, 800px" src={`${BASE}/sites/injeong/cols/${b.src}.jpg`} alt={`${title} 대표 이미지`} width={1536} height={864} /></figure>;
     case "h3": return <h3>{b.x}</h3>;
     case "ul": return <ul className="art-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ul>;
     case "ol": return <ol className="art-list num-list">{b.items.map((x) => <li key={x}><Rich x={x} /></li>)}</ol>;
@@ -140,7 +141,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             <ul>
               {built.map((p) => (
                 <li key={p.id}>
-                  <span className="art-built-pic"><img src={projectImg(p)} alt={projectAlt(p)} width={600} height={450} loading="lazy" /></span>
+                  <span className="art-built-pic"><Photo src={projectImg(p)} alt={projectAlt(p)} width={600} height={450} loading="lazy" /></span>
                   <b>{p.name}</b>
                   <span className="num">{p.done.slice(0, 4)}년 준공{p.area ? `, 연면적 ${p.area}` : ""}</span>
                 </li>
@@ -159,7 +160,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             {related.map((x) => (
               <li key={x.slug}>
                 <Link href={`/notes/${x.slug}`}>
-                  <span className="art-more-pic"><img src={coverOf(x)} alt={`${x.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
+                  <span className="art-more-pic"><Photo src={coverOf(x)} alt={`${x.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
                   <span className="art-more-cat">{x.cat}</span>
                   <b>{x.title}</b>
                 </Link>

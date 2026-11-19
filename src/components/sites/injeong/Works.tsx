@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getProjects } from "@/lib/injeong/content";
 import { categories, projectAlt, projectImg } from "./data";
+import { Photo } from "./Photo";
 
 // Home picks one recent completed project from different client types.
 const homePicks = ["p18", "p17", "p12"];
@@ -38,7 +39,7 @@ export async function Works({ summary = false }: { summary?: boolean }) {
           {list.map((w) => (
             <article className="rv" data-cat={w.cat} key={w.id}>
               <div className="im">
-                {projectImg(w) && <img src={projectImg(w)} alt={projectAlt(w)} width={1800} height={1344} loading="lazy" decoding="async" />}
+                {projectImg(w) && <Photo src={projectImg(w)} alt={projectAlt(w)} width={1800} height={1344} loading="lazy" decoding="async" />}
               </div>
               <div className="bd">
                 <h3>{w.name}</h3>

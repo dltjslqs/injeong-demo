@@ -4,6 +4,7 @@ import { COLUMN_DATE, coverOf } from "./ColumnArticle";
 import { getColumns } from "@/lib/injeong/content";
 import { NotesFeed, type FeedItem } from "./NotesFeed";
 import type { Column } from "./columns";
+import { Photo } from "./Photo";
 
 
 // 기초자료 작성표 5번 「건축 칼럼 주제」에서 인정건설이 고른 주제, 아직 쓰지 않은 글
@@ -21,7 +22,7 @@ function SeriesCards({ items }: { items: Column[] }) {
       {items.map((c, i) => (
         <li key={c.slug} className={i === 0 ? "sc-lead" : undefined}>
           <Link href={`/notes/${c.slug}`} className="sc">
-            <span className="sc-pic"><img src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={1536} height={864} loading="lazy" /></span>
+            <span className="sc-pic"><Photo src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={1536} height={864} loading="lazy" /></span>
             <span className="sc-no num">{String(c.series).padStart(2, "0")}</span>
             <span className="sc-t">{c.title}</span>
             {i === 0 && <span className="sc-sub">{c.sub}</span>}

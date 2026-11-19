@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { Photo } from "./Photo";
 
 export type StoryCard = { id: string; title: string; sub: string; cat: string; date: string; cover: string };
 
@@ -29,7 +30,7 @@ export function StoryBoard({ items, cats }: { items: StoryCard[]; cats: readonly
       )}
       {lead && (
         <Link href={`/about/stories/${lead.id}`} className="stb-lead">
-          <span className="stb-lead-pic"><img src={lead.cover} alt={lead.title} width={1600} height={1000} /></span>
+          <span className="stb-lead-pic"><Photo sizes="(max-width: 900px) 100vw, 800px" src={lead.cover} alt={lead.title} width={1600} height={1000} /></span>
           <span className="stb-lead-txt">
             <span className="stb-meta"><b>{lead.cat}</b><span className="stb-new">최신</span></span>
             <b className="stb-lead-t">{lead.title}</b>
@@ -44,7 +45,7 @@ export function StoryBoard({ items, cats }: { items: StoryCard[]; cats: readonly
           {rest.map((n) => (
             <li key={n.id}>
               <Link href={`/about/stories/${n.id}`} className="stb-card">
-                <span className="stb-pic"><img src={n.cover} alt={n.title} width={800} height={500} loading="lazy" /></span>
+                <span className="stb-pic"><Photo src={n.cover} alt={n.title} width={800} height={500} loading="lazy" /></span>
                 <span className="stb-meta"><b>{n.cat}</b></span>
                 <b className="stb-t">{n.title}</b>
                 {n.sub && <span className="stb-sub">{n.sub}</span>}

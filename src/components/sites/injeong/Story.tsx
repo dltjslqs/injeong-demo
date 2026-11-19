@@ -1,6 +1,7 @@
 import { getProjects } from "@/lib/injeong/content";
 import { BASE } from "./base";
 import { company } from "./data";
+import { Photo } from "./Photo";
 
 /*
  * 걸어온 길 (회사소개 탭): four eras, each a large year span on the left that stays in view,
@@ -96,7 +97,7 @@ export async function StoryTimeline() {
             </header>
             <div className="sy-main">
               <figure className="sy-pic rv">
-                <img src={`${BASE}/sites/injeong/${e.img}`} alt={e.alt} width={1800} height={1013} loading="lazy" decoding="async" />
+                <Photo sizes="(max-width: 900px) 100vw, 60vw" src={`${BASE}/sites/injeong/${e.img}`} alt={e.alt} width={1800} height={1013} loading="lazy" decoding="async" />
                 <figcaption>{e.alt}</figcaption>
               </figure>
               <ol className="sy-items">

@@ -6,6 +6,7 @@ import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { VideoPlayer } from "@/components/sites/injeong/VideoPlayer";
 import { getStories } from "@/lib/injeong/content";
 import { pageMeta, SITE_URL } from "@/lib/injeong/site";
+import { Photo } from "@/components/sites/injeong/Photo";
 
 // true on a server so posts written in the admin open without a rebuild;
 // the GitHub Pages workflow flips it to false for the static export.
@@ -63,7 +64,7 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
           </div>
         </header>
         <div className="container art-body">
-          <figure className="art-pic"><img src={pic(x.cover)} alt={x.title} width={2000} height={1250} /></figure>
+          <figure className="art-pic"><Photo sizes="(max-width: 900px) 100vw, 800px" src={pic(x.cover)} alt={x.title} width={2000} height={1250} /></figure>
           {x.body.split(/\n\s*\n/).map((para, k) => <p key={k}>{para}</p>)}
           {x.youtube && (
             <div className="stp-video">
@@ -73,7 +74,7 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
           {x.photos.length > 0 && (
             <ul className="stp-photos">
               {x.photos.map((p, k) => (
-                <li key={p}><img src={pic(p)} alt={`${x.title} 사진 ${k + 2}`} width={1600} height={1200} loading="lazy" decoding="async" /></li>
+                <li key={p}><Photo src={pic(p)} alt={`${x.title} 사진 ${k + 2}`} width={1600} height={1200} loading="lazy" decoding="async" /></li>
               ))}
             </ul>
           )}

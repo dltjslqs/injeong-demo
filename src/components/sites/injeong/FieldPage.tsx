@@ -8,6 +8,7 @@ import { company as companyRef, crumbs, itemList, JsonLd, webPage } from "./Json
 import { PageHead } from "./PageHead";
 import { getColumns, getProjects } from "@/lib/injeong/content";
 import { ORIGIN } from "@/lib/injeong/site";
+import { Photo } from "./Photo";
 
 /** One field of 사업 분야 (교육시설, 공공·군 시설, 민간·실내건축). 산업시설 has its own page, /business/factory. */
 export type Field = {
@@ -70,7 +71,7 @@ export async function FieldPage({ f }: { f: Field }) {
             <div className="pf">
               {withPic.map((w) => (
                 <article className="rv" key={w.id}>
-                  <div className="im"><img src={projectImg(w)} alt={projectAlt(w)} width={1800} height={1344} loading="lazy" decoding="async" /></div>
+                  <div className="im"><Photo src={projectImg(w)} alt={projectAlt(w)} width={1800} height={1344} loading="lazy" decoding="async" /></div>
                   <div className="bd">
                     <h3>{w.name}</h3>
                     <dl>
@@ -156,7 +157,7 @@ export async function FieldPage({ f }: { f: Field }) {
               {cols.map((c) => (
                 <li key={c.slug}>
                   <Link href={`/notes/${c.slug}`} className="nf-card">
-                    <span className="nf-pic"><img src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
+                    <span className="nf-pic"><Photo src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={800} height={500} loading="lazy" /></span>
                     <span className="nf-meta"><span>{c.cat}</span></span>
                     <b className="nf-t">{c.title}</b>
                   </Link>

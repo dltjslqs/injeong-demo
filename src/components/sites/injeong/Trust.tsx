@@ -1,4 +1,5 @@
 import { BASE } from "./base";
+import { Photo } from "./Photo";
 
 // One card per plaque: who gave it and when, a photograph, a line from it, the project.
 // The two 농협 entries were written for the demo at the client's request; replace them with the real plaques' details.
@@ -30,7 +31,7 @@ export function Trust() {
             {plaques.map((p, i) => (
               <li key={p.org} className="pq">
                 <p className="pq-top"><b>{p.org}</b><span className="num">{p.year}</span></p>
-                <span className="pq-pic"><img src={`${BASE}/sites/injeong/awards/m${i + 1}.jpg`} alt={`${p.org} 감사패`} width={1024} height={768} loading="lazy" /></span>
+                <span className="pq-pic"><Photo src={`${BASE}/sites/injeong/awards/m${i + 1}.jpg`} alt={`${p.org} 감사패`} width={1024} height={768} loading="lazy" /></span>
                 <blockquote className="pq-q">{p.quote}</blockquote>
                 <p className="pq-pj">{p.project}</p>
               </li>

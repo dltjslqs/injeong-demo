@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BASE } from "./base";
 import { doneCount, getProjects } from "@/lib/injeong/content";
 import { categories, company, projectImg, projectAlt } from "./data";
+import { Photo } from "./Photo";
 
 const label = (cat: string) => categories.find((c) => c.key === cat)?.label ?? cat;
 
@@ -10,9 +11,9 @@ export async function HeroIndex() {
   const v = `${BASE}/sites/injeong`;
   return (
     <section className="hv" aria-label="인정건설 소개">
-      <div className="hv-pics" style={{ backgroundImage: `url(${v}/hero-poster.jpg)` }}>
+      <div className="hv-pics" style={{ backgroundImage: `image-set(url(${v}/hero-poster-1200.webp) type("image/webp"), url(${v}/hero-poster.jpg) type("image/jpeg"))` }}>
         {/* decorative footage: muted, looping, paused for reduced motion by Behaviors */}
-        <video className="hv-vid" autoPlay muted loop playsInline preload="auto" poster={`${v}/hero-poster.jpg`} aria-hidden="true">
+        <video className="hv-vid" autoPlay muted loop playsInline preload="auto" poster={`${v}/hero-poster-1200.webp`} aria-hidden="true">
           <source src={`${v}/hero-m.mp4`} type="video/mp4" media="(max-width: 48rem)" />
           <source src={`${v}/hero-4k.mp4`} type="video/mp4" media="(min-width: 120rem), (min-width: 64rem) and (min-resolution: 2dppx)" />
           <source src={`${v}/hero.mp4`} type="video/mp4" />
@@ -67,7 +68,7 @@ export async function RecentList() {
               <Link href="/projects" className="rc">
                 <span className="rc-pic">
                   {projectImg(p) ? (
-                    <img src={projectImg(p)} alt={projectAlt(p)} width={800} height={600} loading="lazy" />
+                    <Photo src={projectImg(p)} alt={projectAlt(p)} width={800} height={600} loading="lazy" />
                   ) : (
                     <span className="rc-ph" aria-hidden="true"><img src={`${BASE}/sites/injeong/logo-mark.png`} alt="" width={376} height={256} /></span>
                   )}

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { BASE } from "./base";
 import { projectImg } from "./data";
 import { getProjects } from "@/lib/injeong/content";
+import { Photo } from "./Photo";
 
 // ㈜동신포리마, eleven projects since 2008: on the left the projects themselves (photo with its caption and a
 // year line read from data.ts), on the right the four reasons as an accordion, one open at a time (Behaviors).
@@ -56,7 +57,7 @@ export async function Case() {
             <div className="cs-stage">
               {runs.map((p, i) =>
                 projectImg(p) ? (
-                    <img key={p.id} className={i === last ? "cs on" : "cs"} src={p.img && hero[p.img] ? `${BASE}/sites/injeong/works/${hero[p.img]}` : projectImg(p)} alt={`㈜동신포리마 ${short(p.name)}`} width={1600} height={1200} loading="lazy" />
+                    <Photo sizes="(max-width: 900px) 100vw, 60vw" key={p.id} className={i === last ? "cs on" : "cs"} src={p.img && hero[p.img] ? `${BASE}/sites/injeong/works/${hero[p.img]}` : projectImg(p)} alt={`㈜동신포리마 ${short(p.name)}`} width={1600} height={1200} loading="lazy" />
                 ) : (
                   <div key={p.id} className={i === last ? "cs cs-none on" : "cs cs-none"} role="img" aria-label={`㈜동신포리마 ${short(p.name)}, 사진 자료 없음`}>
                     <b className="num">{p.done.slice(0, 4)}</b>
