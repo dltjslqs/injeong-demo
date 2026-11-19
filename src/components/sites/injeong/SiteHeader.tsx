@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { BASE } from "./base";
 import { company } from "./data";
-import { NavLinks } from "./NavLinks";
+import { type MenuItem, NavLinks } from "./NavLinks";
 
-export const menu = [
+// 사업 분야 fields, most important first: 산업시설 and 민간·실내건축 come from sales, 공공·교육 from bidding
+export const businessFields = [
+  { href: "/business/factory", label: "산업시설" },
+  { href: "/business/private", label: "민간·실내건축" },
+  { href: "/business/public", label: "공공·군 시설" },
+  { href: "/business/education", label: "교육시설" },
+];
+
+export const menu: MenuItem[] = [
   { href: "/about", label: "회사소개" },
-  { href: "/business", label: "사업 분야" },
+  { href: "/business", label: "사업 분야", children: businessFields },
   { href: "/projects", label: "시공 실적" },
   { href: "/notes", label: "기술 칼럼" },
   { href: "/contact", label: "견적 문의" },
@@ -35,7 +43,7 @@ export function SiteHeader() {
         <button className="mb" type="button" aria-label="메뉴 열기" aria-expanded="false"><i /><i /><i /></button>
       </div>
       <div className="mnav">
-        <NavLinks items={menu} />
+        <NavLinks items={menu} sub />
         <a href={`tel:${company.tel}`}>전화 {company.tel}</a>
       </div>
     </header>

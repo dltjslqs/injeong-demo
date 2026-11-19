@@ -1,7 +1,7 @@
 import { company } from "./data";
 import { UPLOAD } from "./upload";
 
-const types = ["교육·공공시설", "공장·창고", "교회·종교시설", "근생·주택", "리모델링·실내건축", "기타"];
+const types = ["공장·창고", "근생·주택", "리모델링·실내건축", "교회·종교시설", "교육·공공시설", "기타"];
 const sizes = ["300㎡ 미만", "300~1,000㎡", "1,000~3,000㎡", "3,000㎡ 이상", "아직 모름"];
 
 export function Contact() {

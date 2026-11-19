@@ -77,11 +77,11 @@ export type Project = {
 export const REGIONS = ["천안시", "공주시", "보령시", "아산시", "서산시", "논산시", "계룡시", "당진시", "금산군", "부여군", "서천군", "청양군", "홍성군", "예산군", "태안군"] as const;
 
 export const categories: { key: Category; label: string }[] = [
-  { key: "교육", label: "교육시설" },
-  { key: "공공", label: "공공·의료" },
-  { key: "군", label: "군 시설" },
   { key: "산업", label: "산업시설" },
   { key: "민간", label: "민간건축" },
+  { key: "공공", label: "공공·의료" },
+  { key: "군", label: "군 시설" },
+  { key: "교육", label: "교육시설" },
 ];
 
 export const projects: Project[] = [
