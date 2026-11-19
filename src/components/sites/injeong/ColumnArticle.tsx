@@ -119,6 +119,12 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
         </div>
       </header>
       <div className="container art-body">
+        {c.summary && (
+          <section className="art-sum" aria-labelledby="art-sum-h">
+            <h2 id="art-sum-h">이 글의 요약</h2>
+            <p>{c.summary}</p>
+          </section>
+        )}
         {toc.length > 2 && (
           <nav className="art-toc" aria-label="이 글의 순서">
             <p>이 글의 순서</p>

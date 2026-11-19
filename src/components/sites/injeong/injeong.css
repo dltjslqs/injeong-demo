@@ -1038,3 +1038,8 @@
 .ij .ph-bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; }
 
 .ij .fx-note { margin-top: var(--space-lg); color: var(--color-ink-2); font-size: var(--text-sm); }
+
+/* 이 글의 요약: the answer first, above the order of the article */
+.ij .art-sum { margin-bottom: var(--space-lg); padding: var(--space-lg); border-radius: var(--radius-card); border-left: 4px solid var(--color-accent); background: var(--color-paper-2); }
+.ij .art-sum h2 { font-size: var(--text-sm); font-weight: 600; color: var(--color-accent); margin: 0; }
+.ij .art-sum p { margin-top: var(--space-sm); font-size: var(--text-md); line-height: 1.75; color: var(--color-ink); }
