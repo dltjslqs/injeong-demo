@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ColumnArticle, coverOf } from "@/components/sites/injeong/ColumnArticle";
-import { pageMeta, SITE_URL } from "@/lib/injeong/site";
+import { ORIGIN, pageMeta, SITE_URL } from "@/lib/injeong/site";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { authorOf, getColumns, getProjects } from "@/lib/injeong/content";
 
@@ -38,8 +38,20 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
       headline: c.title,
       description: c.meta || c.sub,
       ...(iso ? { datePublished: iso } : {}),
-      author: { "@type": "Person", name: author.name, ...(author.role ? { jobTitle: author.role } : {}) },
-      publisher: { "@type": "Organization", name: "㈜인정건설" },
+      author: {
+        "@type": "Person",
+        "@id": `${ORIGIN}/#author-${encodeURIComponent(author.name)}`,
+        name: author.name,
+        ...(author.role ? { jobTitle: author.role } : {}),
+        worksFor: { "@id": `${ORIGIN}/#company` },
+        // 학력 line (…대학교 …과) as alumniOf, the rest stays as text
+        ...(author.history?.length ? { description: author.history.join(", ") } : {}),
+        ...(author.history?.some((h) => /대학교/.test(h)) ? { alumniOf: { "@type": "CollegeOrUniversity", name: author.history.find((h) => /대학교/.test(h))!.replace(/\s.*$/, "") } } : {}),
+      },
+      // the company node lives on the home page
+      publisher: { "@id": `${ORIGIN}/#company` },
+      image: (() => { const u = coverOf(c); return u.startsWith("http") ? u : `${ORIGIN}${u}`; })(),
+      ...(iso ? { dateModified: iso } : {}),
       ...(site ? { mainEntityOfPage: `${site}/notes/${c.slug}` } : {}),
     },
     {

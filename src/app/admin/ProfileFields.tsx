@@ -16,6 +16,10 @@ export function ProfileFields({ profile, fallbackName }: { profile: Author | nul
           <span>직함 <em>예: 인정건설 이사</em></span>
           <input name="prole" defaultValue={profile?.role ?? ""} maxLength={40} />
         </label>
+        <label className="ad-field wide">
+          <span>약력 <em>한 줄에 하나씩. 칼럼 끝 작성자 소개에 나옵니다. 예: 2016~2022 현대엔지니어링</em></span>
+          <textarea name="phistory" defaultValue={(profile?.history ?? []).join("\n")} rows={4} maxLength={400} />
+        </label>
       </div>
     </>
   );

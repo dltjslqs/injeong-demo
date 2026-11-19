@@ -989,3 +989,12 @@
 .ij .ft-pv { font-weight: 700; color: var(--color-field-ink); }
 .ij .ft-pv:hover { text-decoration: underline; }
 .ij .pv .art-body > h2:first-child { margin-top: 0; }
+
+/* column: who wrote it, under the text */
+.ij .art-author { display: flex; gap: var(--space-md); align-items: flex-start; margin-top: var(--space-2xl); padding: var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-card); background: var(--color-paper-2); }
+.ij .art-author img, .ij .art-author .art-by-ph { flex: none; width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+.ij .art-author .art-by-ph { display: grid; place-items: center; font-size: var(--text-xl); }
+.ij .art-author-t { font-size: var(--text-sm); color: var(--color-muted); }
+.ij .art-author-t b { margin-left: 6px; font-size: var(--text-lg); color: var(--color-ink); }
+.ij .art-author-t span { margin-left: 8px; }
+.ij .art-author ul { margin: var(--space-xs) 0 0; padding: 0; list-style: none; line-height: 1.7; color: var(--color-ink-2); }

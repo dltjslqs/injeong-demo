@@ -18,6 +18,10 @@ export const company = {
     { label: "직접 시공 인력", count: null as number | null, fallback: "" },
   ],
   address: "충남 홍성군 홍성읍 충절로938번길 16",
+  // 네이버 플레이스 17396073 (2026.11.19 확인: 업체명·주소·전화 일치), 좌표도 그곳 기준
+  naverPlace: "https://map.naver.com/p/entry/place/17396073",
+  geo: { lat: 36.5942381, lng: 126.6773303 },
+  hours: { days: "월~금", open: "09:00", close: "18:00" },
   tel: "041-633-9942",
   fax: "041-633-9945",
   email: "injeong89@naver.com",

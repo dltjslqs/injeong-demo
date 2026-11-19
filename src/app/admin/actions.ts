@@ -223,7 +223,8 @@ async function writeProfile(id: string, fd: FormData, fallbackName: string) {
   const prev = await profileOf(id, profiles);
   const photo = file(fd, "photo");
   const photoUrl = photo ? await saveImage(photo) : fd.get("removePhoto") ? undefined : prev?.photoUrl;
-  const next: Author = { name: str(fd, "pname") || prev?.name || fallbackName, role: str(fd, "prole"), photoUrl };
+  const history = str(fd, "phistory").split(/\r?\n/).map((x) => x.trim()).filter(Boolean).slice(0, 8);
+  const next: Author = { name: str(fd, "pname") || prev?.name || fallbackName, role: str(fd, "prole"), photoUrl, ...(history.length ? { history } : {}) };
   await writeJSON("profiles", { ...profiles, [id]: next });
 }
 

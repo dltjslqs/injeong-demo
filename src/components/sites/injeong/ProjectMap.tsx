@@ -68,7 +68,7 @@ export async function ProjectMap() {
               </div>
             ))}
             <p className="pm-note">
-              군 시설 {military}건은 보안상 지도에 표시하지 않습니다.{unplaced > 0 ? ` 지역을 확인 중인 실적 ${unplaced}건은 아래 전체 목록에 있습니다.` : ""}
+              지도에는 준공 {placed.filter((p) => !p.ongoing).length}건{placed.some((p) => p.ongoing) ? `과 시공 중 ${placed.filter((p) => p.ongoing).length}건` : ""}이 있습니다. 군 시설 {military}건은 보안상 지도에 표시하지 않습니다.{unplaced > 0 ? ` 지역을 확인 중인 실적 ${unplaced}건은 아래 전체 목록에 있습니다.` : ""}
             </p>
           </div>
         </div>

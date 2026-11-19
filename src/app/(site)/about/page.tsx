@@ -76,7 +76,8 @@ export default function AboutPage() {
             <div><dt>대표전화</dt><dd className="num">{company.tel}</dd></div>
             <div><dt>팩스</dt><dd className="num">{company.fax}</dd></div>
             <div><dt>이메일</dt><dd>{company.email}</dd></div>
-            <div><dt>길찾기</dt><dd><a className="link" href={`https://map.naver.com/p/search/${encodeURIComponent(company.address)}`} target="_blank" rel="noopener">네이버 지도</a> <a className="link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener">구글 지도</a></dd></div>
+            <div><dt>영업시간</dt><dd>{company.hours.days} {company.hours.open}~{company.hours.close}</dd></div>
+            <div><dt>길찾기</dt><dd><a className="link" href={company.naverPlace} target="_blank" rel="noopener">네이버 지도</a> <a className="link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener">구글 지도</a></dd></div>
           </dl>
           <div className="map rv">
             <iframe title="㈜인정건설 홍성 본사 위치" src={`https://www.google.com/maps?q=${encodeURIComponent(`${company.address} 인정건설`)}&hl=ko&z=16&output=embed`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />

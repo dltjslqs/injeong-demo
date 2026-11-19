@@ -29,16 +29,20 @@ async function companyLd() {
     name: SITE_NAME,
     alternateName: ["인정건설", company.nameEn],
     url: `${ORIGIN}/`,
-    logo: `${ORIGIN}/sites/injeong/logo-h.png`,
+    logo: { "@type": "ImageObject", url: `${ORIGIN}/icon.png`, width: 512, height: 512 },
     image: `${ORIGIN}/sites/injeong/og.jpg`,
     description: `1989년 홍성에서 개인 건설업으로 시작해 2003년 법인으로 전환한 충남 종합건설사. 공장 신축·증축, 학교·공공시설, 민간 건축을 시공하며 법인 전환 뒤 2004년부터 준공 실적 ${done}건.`,
-    telephone: company.tel,
+    telephone: `+82-${company.tel.replace(/^0/, "")}`,
     faxNumber: company.fax,
     email: company.email,
     // the corporation; the business itself began in 1989 (see description)
     foundingDate: "2003-06-19",
     taxID: company.bizNo,
     address: { "@type": "PostalAddress", streetAddress: "충절로938번길 16", addressLocality: "홍성군 홍성읍", addressRegion: "충청남도", addressCountry: "KR" },
+    geo: { "@type": "GeoCoordinates", latitude: company.geo.lat, longitude: company.geo.lng },
+    hasMap: company.naverPlace,
+    sameAs: [company.naverPlace],
+    openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: company.hours.open, closes: company.hours.close }],
     areaServed: { "@type": "AdministrativeArea", name: "충청남도" },
     knowsAbout: ["공장 신축", "공장 증축", "학교 시설 공사", "공공시설 공사", "실내건축"],
     hasCredential: company.licenses.map((l) => ({ "@type": "EducationalOccupationalCredential", credentialCategory: "건설업 등록", name: `${l.name} ${l.no}` })),
@@ -52,6 +56,7 @@ export default async function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", "@id": `${ORIGIN}/#website`, url: `${ORIGIN}/`, name: SITE_NAME, inLanguage: "ko-KR", publisher: { "@id": `${ORIGIN}/#company` } }).replace(/</g, "\\u003c") }} />
       {popup && <PopupModal popup={popup} />}
       <HeroIndex />
       <Areas />

@@ -127,6 +127,13 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
           </nav>
         )}
         {c.blocks.map((b, k) => <Part key={k} b={b} k={k} last={k === lastP} projects={projects} title={c.title} />)}
+        <aside className="art-author" aria-label="글쓴이">
+          {author.photoUrl ? <img src={author.photoUrl} alt={`${author.name} 사진`} width={72} height={72} loading="lazy" /> : <span className="art-by-ph" aria-hidden="true">{author.name.slice(0, 1)}</span>}
+          <div>
+            <p className="art-author-t">글쓴이 <b>{author.name}</b>{author.role && <span>{author.role}</span>}</p>
+            {author.history && author.history.length > 0 && <ul>{author.history.map((h) => <li key={h}>{h}</li>)}</ul>}
+          </div>
+        </aside>
         {built.length > 0 && (
           <section className="art-built" aria-labelledby="art-built-h">
             <h2 id="art-built-h">이런 현장을 직접 지었습니다</h2>
