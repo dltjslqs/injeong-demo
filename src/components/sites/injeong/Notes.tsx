@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BASE } from "./base";
 import { COLUMN_DATE, coverOf } from "./ColumnArticle";
-import { getColumns } from "@/lib/injeong/content";
+import { getColumns, getStories } from "@/lib/injeong/content";
 import { NotesFeed, type FeedItem } from "./NotesFeed";
 import type { Column } from "./columns";
 import { Photo } from "./Photo";
@@ -15,40 +15,69 @@ const planned = [
   { cat: "법령", title: "건설 관련 법령·표준시방서, 이번에 달라진 것" },
 ];
 
-/** The series as photo cards: the first one large, the other four beside it. */
-function SeriesCards({ items }: { items: Column[] }) {
-  return (
-    <ol className="sc-grid">
-      {items.map((c, i) => (
-        <li key={c.slug} className={i === 0 ? "sc-lead" : undefined}>
-          <Link href={`/notes/${c.slug}`} className="sc">
-            <span className="sc-pic"><Photo src={coverOf(c)} alt={`${c.title} 대표 이미지`} width={1536} height={864} loading="lazy" /></span>
-            <span className="sc-no num">{String(c.series).padStart(2, "0")}</span>
-            <span className="sc-t">{c.title}</span>
-            {i === 0 && <span className="sc-sub">{c.sub}</span>}
-          </Link>
-        </li>
-      ))}
-    </ol>
-  );
-}
+// home: the column most readers come for, then four that follow the order of the work (공장 first, the field the company sells)
+const HOME_PICKS = ["factory-site", "extension-live", "extension-cost", "builder-check"];
+const pic = (src: string) => (src.startsWith("/sites/") ? `${BASE}${src}` : src);
+const dot = (d: string) => d.replaceAll("-", ".");
 
-/** Home: the five-part series on how to tell a good builder. */
+/** Home: 기술 칼럼 (one featured, four as a list) beside the two newest 회사 이야기. */
 export async function NotesSummary() {
   const columns = await getColumns();
-  const series = columns.filter((c) => c.series);
+  const stories = (await getStories()).slice(0, 2);
+  const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
+  const picks = HOME_PICKS.map((s) => columns.find((c) => c.slug === s)).filter((c): c is Column => c !== undefined && c.slug !== lead.slug);
+  const leadCover = FEED_COVER[lead.slug] ? `${BASE}/sites/injeong/${FEED_COVER[lead.slug]}` : coverOf(lead);
   return (
-    <section className="notes">
+    <section className="notes hn">
       <div className="container">
-        <div className="notes-head">
-          <div>
-            <h2>공사비를 절약하는 실무 인사이트</h2>
-            <p className="lede">“평당 얼마인가요?”라는 질문 뒤에 숨겨진 추가 비용의 덫,<br className="br-pc" /> 건축주가 절대 손해 보지 않도록 현장 실무진이 솔직하게 짚어드립니다.</p>
-          </div>
-          <Link className="link" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
+        <div className="hn-head">
+          <h2 className="h2 rv">짓기 전에 읽고, 짓는 현장을 봅니다</h2>
+          <p className="lede rv">건축주가 공사 전에 알아 둘 것은 기술 칼럼으로, 현장에서 있었던 일은 회사 이야기로 전합니다.</p>
         </div>
-        <p className="sc-series">연재, 잘하는 시공사의 진짜 실력 {series.length}편</p>
-        <SeriesCards items={series} />
+        <div className="hn-grid">
+          <div className="hn-cols">
+            <div className="hn-sub rv">
+              <h3>기술 칼럼</h3>
+              <Link className="link" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
+            </div>
+            <Link href={`/notes/${lead.slug}`} className="hn-lead rv">
+              <span className="hn-lead-pic"><Photo src={leadCover} alt={`${lead.title} 대표 이미지`} width={1800} height={1344} loading="lazy" sizes="(max-width: 900px) 100vw, 420px" /></span>
+              <span className="hn-lead-bd">
+                <span className="hn-cat">{lead.cat}</span>
+                <b className="hn-lead-t">{lead.title}</b>
+                <span className="hn-lead-s">{lead.summary ?? lead.sub}</span>
+                <span className="hn-more">읽어 보기</span>
+              </span>
+            </Link>
+            <ul className="hn-list rv">
+              {picks.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/notes/${c.slug}`}>
+                    <span className="hn-cat">{c.cat}</span>
+                    <b>{c.title}</b>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="hn-stories">
+            <div className="hn-sub rv">
+              <h3>회사 이야기</h3>
+              <Link className="link" href="/about/stories">모두 보기</Link>
+            </div>
+            <ul className="hn-st">
+              {stories.map((x) => (
+                <li key={x.id} className="rv">
+                  <Link href={`/about/stories/${x.id}`}>
+                    <span className="hn-st-pic"><Photo src={pic(x.cover)} alt={x.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 900px) 100vw, 380px" /></span>
+                    <span className="hn-st-meta"><span className="hn-cat">{x.cat}</span><span className="num">{dot(x.date)}</span></span>
+                    <b>{x.title}</b>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   );
