@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./admin.css";
 
 export const metadata: Metadata = {

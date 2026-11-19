@@ -8,8 +8,7 @@
 /* Hallmark · reworded the home sections to the draw: "교육청과 지자체, 군이 맡긴 품질 그대로 짓습니다" to the Index hero "1989년부터 충남을 짓습니다"; "학교부터 공장까지, 인정건설이 짓는 건물" to the areas bento; "공공·군 시설", "민간건축·실내건축" to the bento tiles "공공·의료", "군 시설", "민간·실내"; "최근 준공한 현장" to the hero record itself · 85, the page is built from the record, not a run of sections */
 /* Hallmark · dropped p12.jpg from the home page · the bento carries two photographs (p15, p11) and the case carries p18; p12 stays on /projects */
 /* Hallmark · dropped figures band (1989, 89.5억, 104위, 16명) as a band · the draw leaves out Figures; every number moved into the 회사소개 credentials table */
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&display=swap");
+/* fonts are served from this site: Pretendard (variable, split by character range) is imported in app/(site)/layout.tsx, Archivo comes from next/font */
 @import "./tokens.css";
 @import "./base.css" layer(base);
 
