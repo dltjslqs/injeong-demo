@@ -9,7 +9,9 @@ import { company } from "./data";
  */
 type Qa = { q: string; a: string; more?: { href: string; label: string } };
 
-async function groups(): Promise<{ id: string; title: string; items: Qa[] }[]> {
+export type { Qa };
+/** All questions by group; the field pages under 사업 분야 pick a few by their wording. */
+export async function groups(): Promise<{ id: string; title: string; items: Qa[] }[]> {
   const projects = await getProjects();
   const done = projects.filter((p) => !p.ongoing);
   const dongsin = done.filter((p) => p.client === "㈜동신포리마");

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { company, crumbs, JsonLd, webPage } from "@/components/sites/injeong/JsonLd";
 import { pageMeta } from "@/lib/injeong/site";
 import { Business, fields } from "@/components/sites/injeong/Business";
+import { BusinessTabs } from "@/components/sites/injeong/BusinessTabs";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { PageHead } from "@/components/sites/injeong/PageHead";
 import { Process } from "@/components/sites/injeong/Process";
@@ -28,6 +29,7 @@ export default function BusinessPage() {
     <>
       <JsonLd nodes={[webPage("CollectionPage", "/business", "사업 분야", String(metadata.description), { mainEntity: services }), crumbs([["사업 분야", "/business"]])]} />
       <PageHead en="BUSINESS" title="사업 분야" desc="교육·공공·군 시설과 공장, 교회·근생까지. 건축공사업과 실내건축공사업으로 시공합니다." img="p16" />
+      <BusinessTabs />
       <Business />
       <Process />
       <CtaBand />

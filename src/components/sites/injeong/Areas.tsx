@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FIELD_PAGE } from "./Business";
 import { BASE } from "./base";
 import { doneCount, getProjects } from "@/lib/injeong/content";
 import type { Category } from "./data";
@@ -29,7 +30,7 @@ export async function Areas() {
         <ul className="ar-grid">
           {areas.map((a) => (
             <li key={a.cat}>
-              <Link href={a.cat === "산업" ? "/business/factory" : "/business"} className="ar">
+              <Link href={FIELD_PAGE[a.cat] ?? "/business"} className="ar">
                 <span className="ar-pic"><img src={`${BASE}/sites/injeong/works/${a.img}.jpg`} alt={`${a.title} 시공 사례`} loading="lazy" /></span>
                 <span className="ar-bd">
                   <b className="ar-t">{a.title}</b>

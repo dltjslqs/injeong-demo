@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { BASE } from "./base";
 
+// each field has its own page under 사업 분야
+export const FIELD_PAGE: Record<string, string> = { 교육: "/business/education", 공공: "/business/public", 군: "/business/public", 산업: "/business/factory", 민간: "/business/private" };
+
 export const fields = [
   {
     img: "p12",
@@ -51,7 +54,7 @@ export function Business({ summary = false }: { summary?: boolean }) {
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
                 <ul>{f.points.map((p) => <li key={p}>{p}</li>)}</ul>
-                <Link className="link" href={f.cat === "산업" ? "/business/factory" : `/projects?cat=${encodeURIComponent(f.cat)}#works`}>{f.cat === "산업" ? "공장 신축·증축 자세히" : `${f.title} 시공 실적`}</Link>
+                <Link className="link" href={FIELD_PAGE[f.cat]}>{f.title} 자세히</Link>
               </div>
             </article>
           ))}

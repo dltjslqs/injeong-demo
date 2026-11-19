@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { coverOf } from "@/components/sites/injeong/ColumnArticle";
+import { BusinessTabs } from "@/components/sites/injeong/BusinessTabs";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { company, projectAlt, projectImg } from "@/components/sites/injeong/data";
 import { company as companyRef, crumbs, itemList, JsonLd, webPage } from "@/components/sites/injeong/JsonLd";
@@ -68,6 +69,7 @@ export default async function FactoryPage() {
         desc={`부지 검토부터 공장등록까지. ${dongsinSince}년부터 한 기업의 공장을 ${dongsin.length}번 이어 지었습니다.`}
         img="p18"
       />
+      <BusinessTabs />
 
       <section className="sec">
         <div className="container">
