@@ -5,7 +5,7 @@ import { BASE } from "@/components/sites/injeong/base";
 import { CtaBand } from "@/components/sites/injeong/CtaBand";
 import { VideoPlayer } from "@/components/sites/injeong/VideoPlayer";
 import { getStories } from "@/lib/injeong/content";
-import { pageMeta, SITE_URL } from "@/lib/injeong/site";
+import { ORIGIN, pageMeta, SITE_URL } from "@/lib/injeong/site";
 import { Photo } from "@/components/sites/injeong/Photo";
 
 // true on a server so posts written in the admin open without a rebuild;
@@ -47,8 +47,12 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
     "@type": "Article",
     headline: x.title,
     description: x.sub || undefined,
+    "@id": `${ORIGIN}/about/stories/${x.id}#article`,
+    inLanguage: "ko-KR",
     datePublished: x.date,
-    publisher: { "@type": "Organization", name: "㈜인정건설" },
+    dateModified: x.date,
+    author: { "@id": `${ORIGIN}/#company` },
+    publisher: { "@id": `${ORIGIN}/#company` },
     ...(SITE_URL ? { image: x.cover.startsWith("/") ? `${SITE_URL}${x.cover}` : x.cover, mainEntityOfPage: `${SITE_URL}/about/stories/${x.id}` } : {}),
   };
   return (

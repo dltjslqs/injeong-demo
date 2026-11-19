@@ -23,6 +23,8 @@ export async function GET(req: Request) {
     revalidatePath("/", "layout");
     // keep the list short: only entries for columns that still carry a publish time
     await writeJSON("released", [...released, ...due.map(key)].slice(-200));
+    const { notifyIndexNow } = await import("@/lib/injeong/indexnow");
+    await notifyIndexNow([...due.map((c) => `/notes/${c.slug}`), "/notes"]);
   }
   return Response.json({ ok: true, now, released: due.map((c) => c.slug) });
 }

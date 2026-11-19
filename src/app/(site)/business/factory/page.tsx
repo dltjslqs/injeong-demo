@@ -13,7 +13,7 @@ import { Photo } from "@/components/sites/injeong/Photo";
 const DESCRIPTION = "충남 홍성 ㈜인정건설의 공장 신축·증축. 2008년부터 같은 기업 공장을 이어 지은 실적, 가동 중 증축, 부지 검토부터 공장등록까지의 진행 순서와 공장주가 먼저 묻는 질문을 정리했습니다.";
 
 export const metadata: Metadata = pageMeta({
-  title: "공장 신축·증축",
+  title: "충남 공장 신축·증축",
   description: DESCRIPTION,
   path: "/business/factory",
   image: "/sites/injeong/og/factory.jpg",
@@ -79,6 +79,7 @@ export default async function FactoryPage() {
             <li><b className="num">{dongsin.length}<small>번</small></b><span>㈜동신포리마 공장 공사({dongsinSince}~)</span></li>
             <li><b className="num">{company.capacity.amount.replace("억", "")}<small>억</small></b><span>{company.capacity.year} 시공능력평가 ({company.capacity.rankRegion})</span></li>
           </ul>
+          <p className="fx-note rv">기업신용평가 {company.credit.grade}({company.credit.agency}, {company.credit.until}까지) · 등록 기술자 {company.engineers}명, 이 중 특급 기술자 {company.crew.find((c) => c.label === "특급 기술자")?.count}명</p>
           <div className="btns fx-act rv">
             <Link className="btn cta" href={`/contact?type=${encodeURIComponent("공장·창고")}`}>공장 견적 문의</Link>
             <a className="btn line num" href={`tel:${company.tel}`}>{company.tel}</a>

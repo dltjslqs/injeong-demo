@@ -208,6 +208,11 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
     };
     o.items = [...o.items.filter((c) => c.slug !== slug), col];
     await writeJSON("columns", o);
+    // a column that is out now is announced to Bing·Naver; a scheduled one is announced by the publish cron
+    if (!publishAt && !o.hidden.includes(slug)) {
+      const { notifyIndexNow } = await import("@/lib/injeong/indexnow");
+      await notifyIndexNow([`/notes/${slug}`, "/notes"]);
+    }
   } catch (e) {
     return fail(e);
   }

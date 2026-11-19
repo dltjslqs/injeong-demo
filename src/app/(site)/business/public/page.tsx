@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/injeong/site";
 
 const f = FIELDS.public;
 
-export const metadata: Metadata = pageMeta({ title: f.label, description: f.description, path: f.path, image: "/sites/injeong/og/public.jpg" });
+export const metadata: Metadata = pageMeta({ title: f.seoTitle, description: f.description, path: f.path, image: "/sites/injeong/og/public.jpg" });
 
 export default function Page() {
   return <FieldPage f={f} />;

@@ -137,7 +137,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
         </aside>
         {built.length > 0 && (
           <section className="art-built" aria-labelledby="art-built-h">
-            <h2 id="art-built-h">이런 현장을 직접 지었습니다</h2>
+            <h2 id="art-built-h">인정건설이 지은 현장</h2>
             <ul>
               {built.map((p) => (
                 <li key={p.id}>

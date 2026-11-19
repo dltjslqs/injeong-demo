@@ -68,6 +68,8 @@ export function Contact() {
               <div><dt>팩스</dt><dd className="num">{company.fax}</dd></div>
               <div><dt>이메일</dt><dd>{company.email}</dd></div>
               <div><dt>본사</dt><dd>{company.address}</dd></div>
+              <div><dt>영업시간</dt><dd>{company.hours.days} {company.hours.open}~{company.hours.close}</dd></div>
+              <div><dt>찾아오는 길</dt><dd><a className="link" href={company.naverPlace} target="_blank" rel="noopener">네이버 지도에서 보기</a></dd></div>
             </dl>
             <p className="note">관급 공사 관련 회사 자료(면허·신용평가·시공능력평가·실적)도 요청하시면 보내 드립니다.</p>
           </aside>

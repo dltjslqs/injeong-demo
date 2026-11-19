@@ -14,6 +14,7 @@ import { Photo } from "./Photo";
 export type Field = {
   path: string; // "/business/education"
   label: string; // tab and breadcrumb name
+  seoTitle: string; // <title>, with the region people search for
   heading: string;
   desc: string; // under the heading
   description: string; // search description
@@ -51,6 +52,7 @@ export async function FieldPage({ f }: { f: Field }) {
             <li><b className="num">{clients}<small>곳</small></b><span>공사를 맡긴 발주처({since}년부터)</span></li>
             <li><b className="num">{company.capacity.amount.replace("억", "")}<small>억</small></b><span>{company.capacity.year} 시공능력평가 ({company.capacity.rankRegion})</span></li>
           </ul>
+          <p className="fx-note rv">기업신용평가 {company.credit.grade}({company.credit.agency}, {company.credit.until}까지) · 등록 기술자 {company.engineers}명, 이 중 특급 기술자 {company.crew.find((c) => c.label === "특급 기술자")?.count}명</p>
           <div className="btns fx-act rv">
             <Link className="btn cta" href={contact}>{f.label} 견적 문의</Link>
             <a className="btn line num" href={`tel:${company.tel}`}>{company.tel}</a>

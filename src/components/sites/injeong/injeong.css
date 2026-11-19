@@ -112,7 +112,7 @@
 .ij .hv h1 span:nth-of-type(2) { animation-delay: 0.12s; }
 .ij .hv .lead { display: block; animation-delay: 0.3s; }
 .ij .hv .acts { display: flex; animation-delay: 0.42s; }
-@keyframes hv-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes hv-rise { from { opacity: 0.2; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 .ij .hv-in { display: flex; flex-direction: column; justify-content: flex-end; width: 100%; padding-block: calc(var(--bnr-h) + var(--bar-h) + var(--space-2xl)) var(--space-xl); }
 .ij .hv h1 { max-width: none; font-size: clamp(2.75rem, 5.5vw + 0.75rem, 6.5rem); line-height: 1.3; color: var(--color-field-ink); }
 .ij .hv .lead { color: var(--color-field-ink); max-width: 40ch; }
@@ -1036,3 +1036,5 @@
 /* page head picture under the dark scrim */
 .ij .ph { isolation: isolate; }
 .ij .ph-bg { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; }
+
+.ij .fx-note { margin-top: var(--space-lg); color: var(--color-ink-2); font-size: var(--text-sm); }

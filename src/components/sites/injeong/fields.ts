@@ -13,6 +13,7 @@ export const FIELDS: Record<"education" | "public" | "private", Field> = {
   education: {
     path: "/business/education",
     label: "교육시설",
+    seoTitle: "충남 교육시설 공사",
     heading: "학교 강당부터 교실 증축까지, 교육시설 공사",
     desc: "충남 교육지원청과 대학이 맡긴 강당·교실·대학 시설 공사입니다.",
     description: "충남 홍성 ㈜인정건설의 교육시설 공사. 초·중·고 다목적강당과 교실 증축·개축, 대학 시설 개선까지 교육지원청과 대학이 맡긴 실적과 공사 방식을 정리했습니다.",
@@ -30,6 +31,7 @@ export const FIELDS: Record<"education" | "public" | "private", Field> = {
   public: {
     path: "/business/public",
     label: "공공·군 시설",
+    seoTitle: "충남 공공·군 시설 공사",
     heading: "박물관·체육센터·공공기관 사옥, 공공·군 시설 공사",
     desc: "관급 공사의 서류와 검측 절차에 맞춰 짓습니다.",
     description: "충남 홍성 ㈜인정건설의 공공·군 시설 공사. 금산 역사문화박물관, 고덕국민체육센터, 한국국토정보공사 아산지사 사옥과 군 시설까지 관급 공사 실적을 정리했습니다.",
@@ -47,6 +49,7 @@ export const FIELDS: Record<"education" | "public" | "private", Field> = {
   private: {
     path: "/business/private",
     label: "민간·실내건축",
+    seoTitle: "충남 민간·실내건축 공사",
     heading: "교회·근생·주택부터 리모델링까지, 민간·실내건축",
     desc: "건축공사업과 실내건축공사업 면허로 신축부터 시설 개선까지 맡습니다.",
     description: "충남 홍성 ㈜인정건설의 민간·실내건축 공사. 교회, 근린생활시설, 다가구주택, 판매·금융 시설 신축과 증축, 실내건축공사업 면허로 하는 리모델링 실적을 정리했습니다.",
