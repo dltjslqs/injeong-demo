@@ -48,7 +48,7 @@ export async function Case() {
       <div className="container">
         <div className="case-head">
           <div>
-            <h2>건축주가 {since}년부터 {runs.length}번 인정건설을 찾은 이유</h2>
+            <h2>인정건설을 {runs.length}번 반복해서 찾은 이유</h2>
             <p className="lede">설계 오류를 찾아내고 예산은 아끼는 검증된 4가지 차별화 요소</p>
           </div>
         </div>
