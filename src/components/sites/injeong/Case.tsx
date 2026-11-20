@@ -101,7 +101,7 @@ export async function Case() {
                 </li>
               ))}
             </ol>
-            <Link className="cs-more" href="/projects">산업시설 실적 전체보기<svg aria-hidden="true" viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" /></svg></Link>
+            <Link className="cs-more" href={`/projects?cat=${encodeURIComponent("산업")}#works`}>산업시설 실적 전체 보기</Link>
           </div>
         </div>
       </div>
