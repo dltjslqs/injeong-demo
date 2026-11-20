@@ -68,7 +68,7 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
           </div>
         </header>
         <div className="container art-body">
-          <figure className="art-pic"><Photo sizes="(max-width: 900px) 100vw, 800px" src={pic(x.cover)} alt={x.title} width={2000} height={1250} /></figure>
+          <figure className="art-pic"><Photo sizes="(max-width: 1100px) 100vw, 1024px" src={pic(x.cover)} alt={x.title} width={2000} height={1250} /></figure>
           {x.body.split(/\n\s*\n/).map((para, k) => <p key={k}>{para}</p>)}
           {x.youtube && (
             <div className="stp-video">
@@ -78,7 +78,7 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
           {x.photos.length > 0 && (
             <ul className="stp-photos">
               {x.photos.map((p, k) => (
-                <li key={p}><Photo src={pic(p)} alt={`${x.title} 사진 ${k + 2}`} width={1600} height={1200} loading="lazy" decoding="async" /></li>
+                <li key={p}><Photo sizes="(max-width: 640px) 100vw, 760px" src={pic(p)} alt={`${x.title} 사진 ${k + 2}`} width={1600} height={1200} loading="lazy" decoding="async" /></li>
               ))}
             </ul>
           )}
