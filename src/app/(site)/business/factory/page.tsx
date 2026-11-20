@@ -69,6 +69,7 @@ export default async function FactoryPage() {
         heading="충남 공장·창고 신축과 증축, 부지 검토부터 공장등록까지 책임집니다"
         desc={`${dongsinSince}년부터 ㈜동신포리마의 공장 공사를 ${dongsin.length}번 맡았습니다.`}
         img="p18"
+        trail={[["사업 분야", "/business"], ["산업시설", "/business/factory"]]}
       />
       <BusinessTabs />
 

@@ -7,6 +7,7 @@ import { VideoPlayer } from "@/components/sites/injeong/VideoPlayer";
 import { getStories } from "@/lib/injeong/content";
 import { ORIGIN, pageMeta, SITE_URL } from "@/lib/injeong/site";
 import { Photo } from "@/components/sites/injeong/Photo";
+import { crumbs } from "@/components/sites/injeong/JsonLd";
 
 // true on a server so posts written in the admin open without a rebuild;
 // the GitHub Pages workflow flips it to false for the static export.
@@ -42,7 +43,7 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
   const x = all[i];
   const newer = all[i - 1];
   const older = all[i + 1];
-  const ld = {
+  const ld = [{
     "@context": "https://schema.org",
     "@type": "Article",
     headline: x.title,
@@ -54,14 +55,14 @@ export default async function StoryPostPage({ params }: { params: Promise<{ id: 
     author: { "@id": `${ORIGIN}/#company` },
     publisher: { "@id": `${ORIGIN}/#company` },
     ...(SITE_URL ? { image: x.cover.startsWith("/") ? `${SITE_URL}${x.cover}` : x.cover, mainEntityOfPage: `${SITE_URL}/about/stories/${x.id}` } : {}),
-  };
+  }, { "@context": "https://schema.org", ...crumbs([["회사소개", "/about"], ["회사 이야기", "/about/stories"], [x.title, `/about/stories/${x.id}`]]) }];
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
       <article className="art stp">
         <header className="art-hd">
           <div className="container">
-            <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/about">회사소개</Link><span aria-hidden="true">/</span><Link href="/about/stories">회사 이야기</Link></nav>
+            <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/about">회사소개</Link><span aria-hidden="true">/</span><Link href="/about/stories">회사 이야기</Link><span aria-hidden="true">/</span><span className="crumb-now" aria-current="page">{x.title}</span></nav>
             <p className="stp-meta"><b>{x.cat}</b><span className="num">{x.date.replaceAll("-", ".")}</span></p>
             <h1>{x.title}</h1>
             {x.sub && <p className="art-sub">{x.sub}</p>}

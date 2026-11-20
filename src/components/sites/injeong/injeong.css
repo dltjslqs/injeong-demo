@@ -1154,3 +1154,16 @@
   .ij .ft nav { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); }
   .ij .ft-bot { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-field-2); }
 }
+
+/* column cards: the title always takes two lines' room, so the line under it starts at the same height in every card of a row */
+.ij .nf-grid .nf-t { min-height: calc(2em * 1.4); }
+
+/* breadcrumbs: the same steps as the BreadcrumbList; a long page title at the end shortens with an ellipsis */
+.ij .crumb { min-width: 0; }
+.ij .crumb > * { flex: none; white-space: nowrap; }
+.ij .crumb > .crumb-now { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+
+/* paragraphs: one reading width for every intro and body paragraph, and no lone word on a last line */
+.ij { --measure: 46ch; }
+.ij .lead, .ij .lede, .ij .ph p, .ij .hist.stack .lede, .ij .nf404 .lede, .ij .st-txt p, .ij .st-txt p:not(.st-k):not(.st-lead) { max-width: var(--measure); }
+.ij p, .ij li, .ij dd, .ij figcaption, .ij summary { text-wrap: pretty; }

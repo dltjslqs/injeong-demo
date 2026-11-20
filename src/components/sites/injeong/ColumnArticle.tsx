@@ -121,7 +121,7 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
     <article className="art">
       <header className="art-hd">
         <div className="container">
-          <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/notes">기술 칼럼</Link></nav>
+          <nav className="crumb" aria-label="현재 위치"><Link href="/">홈</Link><span aria-hidden="true">/</span><Link href="/notes">기술 칼럼</Link><span aria-hidden="true">/</span><span className="crumb-now" aria-current="page">{c.title}</span></nav>
           <h1>{c.title}</h1>
           <p className="art-sub">{c.sub}</p>
           <div className="art-by">

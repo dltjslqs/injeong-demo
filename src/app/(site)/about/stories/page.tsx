@@ -24,7 +24,7 @@ export default async function StoriesPage() {
   return (
     <>
       <JsonLd nodes={[webPage("CollectionPage", "/about/stories", "회사 이야기", String(metadata.description), { mainEntity: itemList(items.map((x) => ({ name: x.title, path: `/about/stories/${x.id}` }))) }), crumbs([["회사소개", "/about"], ["회사 이야기", "/about/stories"]])]} />
-      <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" asH1={false} />
+      <PageHead en="ABOUT" title="회사소개" heading="30년 넘게 충남을 지켜온 종합건설사, 인정건설입니다." desc="1989년 개인 건설업으로 출발해 2003년 종합건설 법인으로 도약하기까지, 타협 없는 공공·산업시설의 엄격한 시공 기준을 모든 민간 현장에 그대로 쏟아붓고 있습니다." img="team.jpg" asH1={false} trail={[["회사소개", "/about"], ["회사 이야기", "/about/stories"]]} />
       <AboutTabs />
       <section className="sec stb">
         <div className="container">

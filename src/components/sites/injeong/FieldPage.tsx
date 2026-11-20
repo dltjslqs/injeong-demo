@@ -44,7 +44,7 @@ export async function FieldPage({ f }: { f: Field }) {
   return (
     <>
       <JsonLd nodes={[webPage("WebPage", f.path, f.label, f.description, { mainEntity: service }), itemList(projects.map((p) => ({ name: p.name }))), ...faqLd, crumbs([["사업 분야", "/business"], [f.label, f.path]])]} />
-      <PageHead en="BUSINESS" title={f.label} heading={f.heading} desc={f.desc} img={f.img} />
+      <PageHead en="BUSINESS" title={f.label} heading={f.heading} desc={f.desc} img={f.img} trail={[["사업 분야", "/business"], [f.label, f.path]]} />
       <BusinessTabs />
 
       <section className="fx-band">
