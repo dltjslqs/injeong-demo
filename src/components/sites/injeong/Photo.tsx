@@ -9,7 +9,9 @@ const LOCAL = /^(.*\/sites\/injeong\/(?:(?:works|life|cols|awards)\/[\w-]+|team|
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & { src?: string; priority?: boolean };
 
-export function Photo({ src, sizes = "(max-width: 640px) 100vw, (max-width: 1100px) 50vw, 640px", priority, loading, ...rest }: Props) {
+// the default asks for more than most slots show, so on a plain (1x) screen a card still gets a file wider than itself
+// and stays sharp; pass a tighter \`sizes\` where the slot is known to be small
+export function Photo({ src, sizes = "(max-width: 640px) 100vw, (max-width: 1100px) 70vw, 960px", priority, loading, ...rest }: Props) {
   const m = src ? LOCAL.exec(src) : null;
   const load = priority ? "eager" : loading;
   const fetchPriority = priority ? "high" : undefined;
