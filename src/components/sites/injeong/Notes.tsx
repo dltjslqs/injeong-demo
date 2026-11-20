@@ -31,8 +31,8 @@ export async function NotesSummary() {
     <section className="notes hn">
       <div className="container">
         <div className="hn-head">
-          <h2 className="h2 rv">짓기 전에 읽고, 짓는 현장을 봅니다</h2>
-          <p className="lede rv">건축주가 공사 전에 알아 둘 것은 기술 칼럼으로, 현장에서 있었던 일은 회사 이야기로 전합니다.</p>
+          <h2 className="h2 rv">아는 만큼 아끼고,<br />보는 만큼 믿습니다</h2>
+          <p className="lede rv">계약 전 반드시 짚어야 할 건축 실무는 칼럼으로, 거짓 없는 시공 과정은 현장 기록으로 공개합니다.</p>
         </div>
         <div className="hn-grid">
           <div className="hn-cols">
