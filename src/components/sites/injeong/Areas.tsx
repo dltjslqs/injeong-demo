@@ -24,7 +24,7 @@ export async function Areas() {
         <div className="areas-head">
           <div>
             <h2>사업 분야</h2>
-            <p className="lede">제조 라인의 특수 스펙부터 교육청의 까다로운 감리 기준까지,<br className="br-pc" /> 인정건설이 1989년부터 쌓은 현장 노하우로 시공합니다.</p>
+            <p className="lede">공장부터 학교까지, 직접 짓습니다.<br className="br-pc" /> 공장·창고, 교회·상가, 공공·군 시설, 학교까지 분야별 실적을 확인해 보세요.</p>
           </div>
           <Link className="link" href="/business">사업 분야 자세히 보기</Link>
         </div>

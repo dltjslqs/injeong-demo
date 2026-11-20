@@ -49,7 +49,7 @@ export async function Case() {
         <div className="case-head">
           <div>
             <h2>시공 사례</h2>
-            <p className="lede">인정건설을 {runs.length}번 반복해서 찾은 이유.<br className="br-pc" /> 설계 오류를 찾아내고 예산은 아끼는 검증된 4가지 차별화 요소</p>
+            <p className="lede">인정건설을 {runs.length}번 반복해서 찾은 이유.<br className="br-pc" /> 착공 전 도면 검토부터 전속 시공팀까지, 인정건설이 일하는 네 가지 방식입니다.</p>
           </div>
         </div>
         <div className="case-in">
