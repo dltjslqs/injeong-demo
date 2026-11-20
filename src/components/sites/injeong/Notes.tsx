@@ -63,53 +63,39 @@ export async function NotesSummary() {
   );
 }
 
-/** Home: 회사 이야기. The newest post with a video leads and plays in place; the next posts follow as cards. */
+/** Home: 회사 이야기, the three newest posts side by side; a post with a video plays it in its card. */
 export async function StoriesHome() {
-  const all = await getStories();
-  if (!all.length) return null;
-  const lead = all.find((x) => x.youtube) ?? all[0];
-  const rest = all.filter((x) => x.id !== lead.id).slice(0, 3);
+  const posts = (await getStories()).slice(0, 3);
+  if (!posts.length) return null;
   return (
     <section className="sec hs">
       <div className="container">
         <div className="hs-top">
           <div className="hs-head">
-            <h2 className="h2 rv">현장에서 직접 설명합니다</h2>
-            <p className="lede rv">인정건설 기술진이 유튜브 「빈팀장」 채널에 출연해, 학교 하나가 지어지는 과정을 공정마다 공개합니다.</p>
+            <h2 className="h2 rv">인정건설이 일하는 방식,<br />직접 확인해 보세요</h2>
+            <p className="lede rv">현장 기록과 영상으로 공사가 실제로 어떻게 진행되는지 보여 드립니다.</p>
           </div>
           <Link className="link rv" href="/about/stories">회사 이야기 모두 보기</Link>
         </div>
-        <div className="hs-lead">
-          <div className="hs-media">
-            {lead.youtube ? (
-              <div className="vd-media"><VideoPlayer id={lead.youtube} title={lead.title} /></div>
-            ) : (
-              <span className="hs-pic"><Photo src={pic(lead.cover)} alt={lead.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 900px) 100vw, 720px" /></span>
-            )}
-          </div>
-          <div className="hs-bd">
-            <span className="hs-meta"><span>{lead.cat}</span><span className="num">{dot(lead.date)}</span></span>
-            <h3 className="hs-t">{lead.title}</h3>
-            {lead.sub && <p className="hs-s">{lead.sub}</p>}
-            <div className="hs-acts">
-              <Link className="hs-more" href={`/about/stories/${lead.id}`}>이야기 읽기</Link>
-              {lead.youtube && <a className="hs-yt" href={`https://youtu.be/${lead.youtube}`} target="_blank" rel="noopener">유튜브에서 보기</a>}
-            </div>
-          </div>
-        </div>
-        {rest.length > 0 && (
-          <ul className="hs-list">
-            {rest.map((x) => (
-              <li key={x.id} className="rv">
-                <Link href={`/about/stories/${x.id}`}>
-                  <span className="hs-pic"><Photo src={pic(x.cover)} alt={x.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 640px) 100vw, 360px" /></span>
-                  <span className="hs-meta"><span>{x.cat}</span><span className="num">{dot(x.date)}</span></span>
-                  <b>{x.title}</b>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        <ul className="hs-list">
+          {posts.map((x) => (
+            <li key={x.id} className="rv">
+              <div className="hs-media">
+                {x.youtube ? (
+                  <VideoPlayer id={x.youtube} title={x.title} />
+                ) : (
+                  <Link href={`/about/stories/${x.id}`} tabIndex={-1} aria-hidden="true">
+                    <Photo src={pic(x.cover)} alt="" width={1800} height={1200} loading="lazy" sizes="(max-width: 640px) 80vw, 360px" />
+                  </Link>
+                )}
+              </div>
+              <Link href={`/about/stories/${x.id}`} className="hs-card">
+                <span className="hs-meta"><span>{x.cat}</span><span className="num">{dot(x.date)}</span></span>
+                <b>{x.title}</b>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
