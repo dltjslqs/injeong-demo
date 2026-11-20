@@ -24,9 +24,9 @@ export const builtinStories: StoryPost[] = [
     sub: "박재형 공무차장이 빈팀장 유튜브 채널에 출연해 파일 공사를 설명했습니다",
     cat: "미디어",
     date: "2026-10-26",
-    cover: "/sites/injeong/life/cheonan-pile-1.jpg",
+    cover: "/sites/injeong/life/cheonan-pile-3.jpg",
     // no picture that shows the site's name board: the client has not approved naming the site
-    photos: [2, 3, 4, 5, 6, 7].map((k) => `/sites/injeong/life/cheonan-pile-${k}.jpg`),
+    photos: [2, 4, 5, 6, 7].map((k) => `/sites/injeong/life/cheonan-pile-${k}.jpg`),
     body: [
       "인정건설은 으뜸안전기술이 운영하는 유튜브 채널 「빈팀장」에 현장 인터뷰 출연을 신청했습니다. 좋은 콘텐츠를 만들어 건물을 지으려는 건축주에게도, 현장에서 일하는 건설인에게도 도움이 되고 싶었습니다.",
       "첫 촬영은 2026년 10월 26일, 인정건설이 천안에서 짓고 있는 초등학교 현장에서 했습니다. 박재형 공무차장이 인터뷰에 출연해 현장을 설명했습니다.",
