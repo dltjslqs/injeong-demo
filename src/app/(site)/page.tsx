@@ -62,8 +62,8 @@ export default async function Home() {
       <RecentList />
       <Case />
       <StoriesHome />
-      <Team />
       <NotesSummary />
+      <Team />
       <Close />
     </>
   );
