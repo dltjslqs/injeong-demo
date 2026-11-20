@@ -43,7 +43,7 @@
 /* sections: three gaps, mixed */
 .ij .sec { padding-block: var(--section-pad); }
 /* home: every section is one block of colour, so the eye sees where one ends; paper, paper-2 and the navy field alternate */
-.ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-pad); }
+.ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-pad); background: var(--color-paper-2); }
 .ij .soft, .ij .notes, .ij .areas, .ij .why { background: var(--color-paper-2); }
 .ij .where { background: var(--color-field); color: var(--color-field-ink); }
 .ij .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
@@ -1059,7 +1059,7 @@
 }
 
 /* home: 기술 칼럼, one featured column and four more (tinted; 회사 이야기 after it is white, 기술인력 tinted again) */
-.ij .notes.hn { background: var(--color-paper-2); }
+.ij .notes.hn { background: var(--color-paper); }
 .ij .hn-top, .ij .hs-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md) var(--space-xl); }
 .ij .hn-head, .ij .hs-head { max-width: 46rem; }
 .ij .hn-head .lede, .ij .hs-head .lede { margin-top: var(--space-md); }
@@ -1081,7 +1081,7 @@
 @media (max-width: 40rem) { .ij .hn-lead, .ij .hn-list { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); } .ij .hn-lead-t { font-size: var(--text-xl); } }
 
 /* home: 회사 이야기, three posts side by side; a video plays in its own card */
-.ij .hs { background: var(--color-paper); }
+.ij .hs { background: var(--color-paper-2); }
 .ij .hs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); margin: var(--space-2xl) 0 0; padding: 0; list-style: none; }
 .ij .hs-list > li { display: grid; gap: var(--space-md); align-content: start; min-width: 0; }
 .ij .hs-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }

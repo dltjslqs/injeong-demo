@@ -1,5 +1,5 @@
 import { Areas } from "@/components/sites/injeong/Areas";
-import { Case, Why } from "@/components/sites/injeong/Case";
+import { Case } from "@/components/sites/injeong/Case";
 import { Close } from "@/components/sites/injeong/Close";
 import { HeroIndex, RecentList } from "@/components/sites/injeong/HeroIndex";
 import { NotesSummary, StoriesHome } from "@/components/sites/injeong/Notes";
@@ -61,7 +61,6 @@ export default async function Home() {
       <Case />
       <Areas />
       <RecentList />
-      <Why />
       <StoriesHome />
       <NotesSummary />
       <Close />
