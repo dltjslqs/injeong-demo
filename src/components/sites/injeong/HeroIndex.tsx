@@ -11,7 +11,6 @@ export async function HeroIndex() {
   const done = doneCount(all);
   // the strongest proof: one owner came back this many times (read from data.ts, so it grows by itself)
   const dongsin = all.filter((p) => p.client === "㈜동신포리마" && !p.ongoing);
-  const first = dongsin.reduce((y, p) => Math.min(y, Number(p.done.slice(0, 4)) || y), 9999);
   const v = `${BASE}/sites/injeong`;
   return (
     <section className="hv" aria-label="인정건설 소개">
@@ -25,7 +24,7 @@ export async function HeroIndex() {
       </div>
       <div className="container hv-in">
         <h1><span>공장주가 <b className="hv-n num">{dongsin.length}번</b></span><br /><span>다시 찾은 건설사</span></h1>
-        <p className="lead">㈜동신포리마는 {first}년 첫 공장부터 지금까지,<br />{dongsin.length}번의 공사를 인정건설에 맡겼습니다.</p>
+        <p className="lead">부지 검토부터 기존 공장 옆 증축, 공장등록까지.<br />공장을 짓는 모든 단계를 본사가 직접 책임집니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
           <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
