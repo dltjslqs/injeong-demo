@@ -43,7 +43,8 @@
 /* sections: three gaps, mixed */
 .ij .sec { padding-block: var(--section-pad); }
 /* home: every section is one block of colour, so the eye sees where one ends; paper, paper-2 and the navy field alternate */
-.ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-pad); background: var(--color-paper-2); }
+.ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-pad); }
+.ij .close { background: var(--color-paper-2); }
 .ij .soft, .ij .notes, .ij .areas, .ij .why { background: var(--color-paper-2); }
 .ij .where { background: var(--color-field); color: var(--color-field-ink); }
 .ij .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
