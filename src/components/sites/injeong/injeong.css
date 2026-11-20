@@ -1101,3 +1101,10 @@
 @media (max-width: 40rem) {
   .ij .hn-lead, .ij .hn-list, .ij .hn-st { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* column ending: more room around the closing words, the call box and the writer box */
+.ij .art-end { margin-top: var(--space-2xl); padding-left: var(--space-lg); }
+.ij .art-end p + p { margin-top: var(--space-md); }
+.ij .art-body .art-ask { margin-block: var(--space-3xl) 0; padding: var(--space-xl); }
+.ij .art-body .art-author { margin-top: var(--space-2xl); padding: var(--space-xl); }
+@media (max-width: 40rem) { .ij .art-body .art-ask, .ij .art-body .art-author { padding: var(--space-lg); } .ij .art-body .art-ask { margin-top: var(--space-2xl); } }

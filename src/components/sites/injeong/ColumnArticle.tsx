@@ -60,7 +60,8 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
 
 function Part({ b, k, last, projects, title }: { b: Block; k: number; last: boolean; projects: Project[]; title: string }) {
   switch (b.t) {
-    case "p": return <p className={last ? "art-end" : undefined}><Rich x={b.x} /></p>;
+    // the closing may run to more than one paragraph (blank line between them)
+    case "p": return last ? <div className="art-end">{b.x.split(/\n\s*\n/).map((x, i) => <p key={i}><Rich x={x} /></p>)}</div> : <p><Rich x={b.x} /></p>;
     case "q": return <p className="art-q"><Rich x={b.x} /></p>;
     case "h2": return <h2 id={`s${k}`}>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
