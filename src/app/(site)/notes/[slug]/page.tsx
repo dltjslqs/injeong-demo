@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const c = (await getColumns()).find((x) => x.slug === slug);
   if (!c) return {};
-  // the description is the column's one-line answer, not its greeting
-  return pageMeta({ title: c.title, description: c.meta || c.sub, path: `/notes/${c.slug}`, image: coverOf(c), type: "article" });
+  // the description is the column's answer-first summary (kept for search, not shown on the page), not its greeting
+  return pageMeta({ title: c.title, description: c.summary || c.meta || c.sub, path: `/notes/${c.slug}`, image: coverOf(c), type: "article" });
 }
 
 export default async function ColumnPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -36,7 +36,8 @@ export default async function ColumnPage({ params }: { params: Promise<{ slug: s
       "@context": "https://schema.org",
       "@type": "Article",
       headline: c.title,
-      description: c.meta || c.sub,
+      description: c.summary || c.meta || c.sub,
+      ...(c.summary ? { abstract: c.summary } : {}),
       ...(iso ? { datePublished: iso } : {}),
       author: {
         "@type": "Person",
