@@ -24,7 +24,7 @@ export async function HeroIndex() {
       </div>
       <div className="container hv-in">
         <h1><span>공장주가 <b className="hv-n num">{dongsin.length}번</b></span><br /><span>다시 찾은 건설사</span></h1>
-        <p className="lead">부지 검토부터 기존 공장 옆 증축, 공장등록까지.<br />공장을 짓는 모든 단계를 본사가 직접 책임집니다.</p>
+        <p className="lead">부지 검토부터 신축, 기존 공장 옆 증축까지.<br />공장 공사의 처음과 끝을 본사가 직접 책임집니다.</p>
         <div className="acts">
           <Link className="btn btn-seal" href="/contact">지금 바로 문의하기</Link>
           <a className="btn ghost num" href={`tel:${company.tel}`}>{company.tel}</a>
