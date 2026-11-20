@@ -1058,8 +1058,8 @@
   .ij .rl th, .ij .rl td { overflow-wrap: break-word; }
 }
 
-/* home: 기술 칼럼, one featured column and four more; white, between the two tinted sections around it */
-.ij .notes.hn { background: var(--color-paper); }
+/* home: 기술 칼럼, one featured column and four more (tinted; 회사 이야기 after it is white, 기술인력 tinted again) */
+.ij .notes.hn { background: var(--color-paper-2); }
 .ij .hn-top, .ij .hs-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md) var(--space-xl); }
 .ij .hn-head, .ij .hs-head { max-width: 46rem; }
 .ij .hn-head .lede, .ij .hs-head .lede { margin-top: var(--space-md); }
@@ -1081,7 +1081,7 @@
 @media (max-width: 40rem) { .ij .hn-lead, .ij .hn-list { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); } .ij .hn-lead-t { font-size: var(--text-xl); } }
 
 /* home: 회사 이야기, three posts side by side; a video plays in its own card */
-.ij .hs { background: var(--color-paper-2); }
+.ij .hs { background: var(--color-paper); }
 .ij .hs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); margin: var(--space-2xl) 0 0; padding: 0; list-style: none; }
 .ij .hs-list > li { display: grid; gap: var(--space-md); align-content: start; min-width: 0; }
 .ij .hs-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
