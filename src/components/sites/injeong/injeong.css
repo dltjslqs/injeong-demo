@@ -755,7 +755,7 @@
 }
 @media (max-width: 40rem) { .ij .pq-row { grid-auto-columns: 84%; } .ij .pq-ctl .pq-count { display: none; } }
 /* the team, one photograph set big under a left-aligned head */
-.ij .team { padding-block: var(--section-pad); background: var(--color-paper); }
+.ij .team { padding-block: var(--section-pad); background: var(--color-paper-2); }
 .ij .team-pic img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: center; border-radius: var(--radius-card); }
 .ij .team-pic { position: relative; }
 .ij .team-badges { position: absolute; left: var(--space-lg); bottom: var(--space-lg); display: flex; flex-wrap: wrap; gap: var(--space-xs); margin: 0; padding: 0; list-style: none; }
@@ -1058,7 +1058,8 @@
   .ij .rl th, .ij .rl td { overflow-wrap: break-word; }
 }
 
-/* home: 기술 칼럼, one featured column and four more */
+/* home: 기술 칼럼, one featured column and four more; white, between the two tinted sections around it */
+.ij .notes.hn { background: var(--color-paper); }
 .ij .hn-top, .ij .hs-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-md) var(--space-xl); }
 .ij .hn-head, .ij .hs-head { max-width: 46rem; }
 .ij .hn-head .lede, .ij .hs-head .lede { margin-top: var(--space-md); }
@@ -1079,21 +1080,18 @@
 @media (max-width: 64rem) { .ij .hn-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ij .hn-list a { border-bottom: 1px solid var(--color-rule); } }
 @media (max-width: 40rem) { .ij .hn-lead, .ij .hn-list { grid-template-columns: minmax(0, 1fr); gap: var(--space-lg); } .ij .hn-lead-t { font-size: var(--text-xl); } }
 
-/* home: 회사 이야기 on the navy band, three posts side by side; a video plays in its own card */
-.ij .hs { background: var(--color-field); color: var(--color-field-ink); }
-.ij .hs .h2 { color: var(--color-field-ink); }
-.ij .hs .lede { color: var(--color-field-muted); }
-.ij .hs .link { color: var(--color-field-ink); }
+/* home: 회사 이야기, three posts side by side; a video plays in its own card */
+.ij .hs { background: var(--color-paper-2); }
 .ij .hs-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); margin: var(--space-2xl) 0 0; padding: 0; list-style: none; }
 .ij .hs-list > li { display: grid; gap: var(--space-md); align-content: start; min-width: 0; }
-.ij .hs-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-field-2); }
+.ij .hs-media { position: relative; aspect-ratio: 16 / 9; overflow: clip; border-radius: var(--radius-card); background: var(--color-paper-3); }
 .ij .hs-media > a, .ij .hs-media img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .ij .hs-card { display: grid; gap: var(--space-xs); color: inherit; }
-.ij .hs-meta { display: flex; gap: var(--space-sm); font-size: var(--text-sm); color: var(--color-field-muted); }
-.ij .hs-meta span:first-child { font-weight: 600; color: var(--color-field-ink); }
-.ij .hs-card b { font-weight: 600; line-height: 1.45; color: var(--color-field-ink); }
-.ij .hs-card:hover b { text-decoration: underline; text-underline-offset: 0.25em; }
-.ij .hs a:focus-visible, .ij .hs .vd-poster:focus-visible { outline: 2px solid var(--color-sky); outline-offset: 4px; border-radius: var(--radius-card); }
+.ij .hs-meta { display: flex; gap: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.ij .hs-meta span:first-child { font-weight: 600; color: var(--color-accent); }
+.ij .hs-card b { font-weight: 600; line-height: 1.45; color: var(--color-ink); }
+.ij .hs-card:hover b { color: var(--color-accent); }
+.ij .hs a:focus-visible, .ij .hs .vd-poster:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 4px; border-radius: var(--radius-card); }
 @media (max-width: 60rem) { .ij .hs-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .ij .hs-list { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; gap: var(--space-md); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scrollbar-width: none; overscroll-behavior-x: contain; } .ij .hs-list::-webkit-scrollbar { display: none; } .ij .hs-list > li { scroll-snap-align: start; } }
 
