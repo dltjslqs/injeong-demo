@@ -27,7 +27,11 @@ export function SiteFooter() {
         </div>
         <div className="ft-bot">
           <span>© {company.name}</span>
-          <Link href="/privacy" className="ft-pv">개인정보처리방침</Link>
+          <span className="ft-links">
+            <Link href="/privacy" className="ft-pv">개인정보처리방침</Link>
+            {/* staff sign-in; a plain link so the admin bundle is never prefetched for visitors */}
+            <a href="/admin" className="ft-admin" rel="nofollow">관리자</a>
+          </span>
         </div>
       </div>
     </footer>

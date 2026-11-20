@@ -1161,3 +1161,8 @@
 .ij { --measure: 46ch; }
 .ij .lead, .ij .lede, .ij .ph p, .ij .hist.stack .lede, .ij .nf404 .lede, .ij .st-txt p, .ij .st-txt p:not(.st-k):not(.st-lead) { max-width: var(--measure); }
 .ij p, .ij li, .ij dd, .ij figcaption, .ij summary { text-wrap: pretty; }
+
+/* footer: privacy policy and the staff sign-in link side by side */
+.ij .ft-links { display: inline-flex; gap: var(--space-md); align-items: baseline; }
+.ij .ft-admin { color: var(--color-field-muted) !important; }
+.ij .ft-admin:hover { color: var(--color-field-ink) !important; text-decoration: underline; }
