@@ -198,7 +198,7 @@ export default async function FactoryPage() {
               <div><h2 className="h2 rv">공장 짓기 전에 읽어 볼 칼럼</h2></div>
               <Link className="link rv" href="/notes">기술 칼럼 전체</Link>
             </div>
-            <ul className="nf-grid">
+            <ul className="nf-grid nf-swipe">
               {cols.map((c) => (
                 <li key={c.slug}>
                   <Link href={`/notes/${c.slug}`} className="nf-card">

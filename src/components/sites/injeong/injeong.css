@@ -1126,3 +1126,20 @@
 @media (max-width: 75rem) { .ij .ar-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ij .ar-grid > :first-child { grid-column: span 2; } }
 @media (max-width: 60rem) { .ij .ar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 40rem) { .ij .ar-grid { grid-template-columns: none; } .ij .ar-grid > :first-child { grid-column: auto; } .ij .ar-pic { height: auto; aspect-ratio: 4 / 3; } }
+
+/* phones: a work card is one row, a small photo beside the name, and only 공사비 and 준공 under it; 43 cards stay a short list */
+@media (max-width: 40rem) {
+  .ij .pf { gap: var(--space-lg); }
+  .ij .pf article { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: var(--space-md); align-items: start; }
+  .ij .pf .bd { padding-top: 0; }
+  .ij .pf h3 { min-height: 0; font-size: var(--text-md); }
+  .ij .pf dl { margin-top: var(--space-2xs); padding-top: 0; border-top: 0; gap: 2px var(--space-md); }
+  .ij .pf dt, .ij .pf dd { display: none; }
+  .ij .pf dt:nth-last-of-type(-n+2), .ij .pf dd:nth-last-of-type(-n+2) { display: block; }
+  /* field pages: the column picks swipe sideways like the home rows */
+  .ij .nf-swipe { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 80%; gap: var(--space-md); overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); margin-inline: calc(-1 * var(--gutter)); padding: 0 var(--gutter) var(--space-xs); scrollbar-width: none; overscroll-behavior-x: contain; }
+  .ij .nf-swipe::-webkit-scrollbar { display: none; }
+  .ij .nf-swipe > li { scroll-snap-align: start; min-width: 0; }
+}
+/* the field page's 공사 종류 list has one cell per row, so it takes the whole width */
+.ij .fx-points li { grid-template-columns: minmax(0, 1fr); }

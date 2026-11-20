@@ -207,6 +207,16 @@ export function Behaviors() {
       });
     });
 
+    // a line never starts with 「·」: a word joiner before each middle dot keeps it on the word before (전기·상수도·오수)
+    // (form text is left alone: an <option> without a value sends its text)
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: (t) => (t.parentElement?.closest("select, option, textarea, script, style, form") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT),
+    });
+    for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+      const v = n.nodeValue;
+      if (v && v.includes("·") && !v.includes("⁠·")) n.nodeValue = v.replace(/·/g, "⁠·");
+    }
+
     // /contact?type=공장·창고 (from the factory page) picks that 공사 종류
     const askedType = new URLSearchParams(location.search).get("type");
     const typeSel = root.querySelector<HTMLSelectElement>('select[name="type"]');
