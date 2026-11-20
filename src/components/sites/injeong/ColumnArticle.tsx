@@ -23,7 +23,7 @@ function Pic({ id, projects }: { id: string; projects: Project[] }) {
   if (!p || !projectImg(p)) return null;
   return (
     <figure className="art-pic">
-      <Photo sizes="(max-width: 1100px) 100vw, 1024px" src={projectImg(p)} alt={p.name} width={1800} height={1018} loading="lazy" />
+      <Photo sizes="(max-width: 1100px) 100vw, 1024px" src={projectImg(p)} alt={p.name} width={1800} height={1344} loading="lazy" />
       <figcaption><a className="art-a" href={`/projects#pj-${p.id}`}>{p.name}</a>, {p.done.slice(0, 4)}년 준공</figcaption>
     </figure>
   );

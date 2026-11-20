@@ -1768,7 +1768,7 @@ export const columns: Column[] = [
    },
    {
     "t": "img",
-    "id": "p09"
+    "id": "q21"
    },
    {
     "t": "h2",
@@ -2150,7 +2150,7 @@ export const columns: Column[] = [
    },
    {
     "t": "img",
-    "id": "p09"
+    "id": "q22"
    },
    {
     "t": "p",
@@ -2616,7 +2616,7 @@ export const columns: Column[] = [
    },
    {
     "t": "img",
-    "id": "p09"
+    "id": "q17"
    },
    {
     "t": "p",

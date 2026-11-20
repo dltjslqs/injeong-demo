@@ -638,7 +638,7 @@
 .ij .art-q { margin-block: var(--space-lg); font-size: var(--text-xl); font-weight: 600; line-height: 1.5; }
 .ij .art-end { margin-top: var(--space-xl); padding-left: var(--space-md); border-left: 3px solid var(--color-accent); font-weight: 500; }
 .ij .art-pic { width: min(64rem, 100vw - 2 * var(--gutter)); margin-block: var(--space-3xl); margin-left: 50%; transform: translateX(-50%); }
-.ij .art-pic img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius-card); }
+.ij .art-pic img { width: 100%; height: auto; border-radius: var(--radius-card); background: var(--color-paper-3); }
 .ij .art-pic figcaption { margin-top: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
 .ij .art-tbl { margin-block: var(--space-lg); overflow-x: auto; border-top: 2px solid var(--color-field); }
 /* every column table on one grid: fixed layout, first column a quarter, one row height and padding */
@@ -1115,3 +1115,4 @@
 .ij [id^="pj-"], .ij [id^="row-"], .ij #dongsin { scroll-margin-top: 112px; }
 .ij .pf article:target { outline: 2px solid var(--color-accent); outline-offset: 6px; border-radius: var(--radius-card); }
 .ij .rl tr:target { background: var(--color-paper-3); }
+
