@@ -23,8 +23,8 @@ export async function Areas() {
       <div className="container">
         <div className="areas-head">
           <div>
-            <h2>도면을 가장 정확한 현실로 만드는 시공 기술</h2>
-            <p className="lede">제조 라인의 특수 스펙부터 교육청의 까다로운 감리 기준까지,<br className="br-pc" /> 인정건설이 1989년부터 쌓은 현장 노하우로 시공합니다.</p>
+            <h2>공장만이 아닙니다,<br />충남의 학교와 공공시설도 지었습니다</h2>
+            <p className="lede">공장·창고부터 교육청의 학교, 공공·군 시설, 교회와 상가까지.<br className="br-pc" /> 짓고 싶은 건물과 같은 분야의 실적을 먼저 확인해 보세요.</p>
           </div>
           <Link className="link" href="/business">사업 분야 자세히 보기</Link>
         </div>

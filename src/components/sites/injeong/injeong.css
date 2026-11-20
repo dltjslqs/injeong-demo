@@ -44,7 +44,7 @@
 .ij .sec { padding-block: var(--section-pad); }
 /* home: every section is one block of colour, so the eye sees where one ends; paper, paper-2 and the navy field alternate */
 .ij .recent, .ij .trust, .ij .case, .ij .areas, .ij .where, .ij .notes, .ij .close { padding-block: var(--section-pad); }
-.ij .soft, .ij .recent, .ij .notes { background: var(--color-paper-2); }
+.ij .soft, .ij .notes, .ij .areas, .ij .why { background: var(--color-paper-2); }
 .ij .where { background: var(--color-field); color: var(--color-field-ink); }
 .ij .head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: var(--space-lg); margin-bottom: var(--space-2xl); }
 
@@ -1164,3 +1164,19 @@
 .ij .ft-links { display: inline-flex; gap: var(--space-md); align-items: baseline; }
 .ij .ft-admin { color: var(--color-field-muted) !important; }
 .ij .ft-admin:hover { color: var(--color-field-ink) !important; text-decoration: underline; }
+
+/* home story: the hero number, the 동신포리마 facts, and the four ways of working on their own */
+.ij .hv h1 .hv-n { color: var(--color-sky); font-weight: inherit; }
+.ij .cs-facts { justify-content: center; gap: var(--space-xl); }
+.ij .cs-facts dl { display: grid; gap: var(--space-lg); margin: 0; }
+.ij .cs-facts dl div { display: grid; gap: var(--space-2xs); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
+.ij .cs-facts dt { font-size: var(--text-sm); color: var(--color-muted); }
+.ij .cs-facts dd { margin: 0; font-size: var(--text-3xl); font-weight: 600; line-height: 1.1; color: var(--color-ink); }
+.ij .cs-facts dd small { margin-left: 4px; font-size: var(--text-lg); font-weight: 500; color: var(--color-ink-2); }
+.ij .cs-facts p { color: var(--color-ink-2); line-height: 1.75; max-width: var(--measure); }
+.ij .why { padding-block: var(--section-pad); }
+.ij .why-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-2xl) var(--space-3xl); align-items: start; }
+.ij .why-head h2 { font-size: var(--text-section); line-height: 1.25; }
+.ij .why-head .lede { margin-top: var(--head-gap); }
+@media (min-width: 60.01rem) { .ij .why-head { position: sticky; top: calc(var(--bar-h, 72px) + var(--space-xl)); } }
+@media (max-width: 60rem) { .ij .why-in { grid-template-columns: minmax(0, 1fr); } }

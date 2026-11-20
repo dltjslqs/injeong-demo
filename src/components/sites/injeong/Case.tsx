@@ -4,9 +4,8 @@ import { projectImg } from "./data";
 import { getProjects } from "@/lib/injeong/content";
 import { Photo } from "./Photo";
 
-// ㈜동신포리마, eleven projects since 2008: on the left the projects themselves (photo with its caption and a
-// year line read from data.ts), on the right the four reasons as an accordion, one open at a time (Behaviors).
-// Without scripting the latest project shows and all four reasons are open.
+// ㈜동신포리마, every project since 2008: on the left the projects themselves (photo with its caption and a
+// year line read from data.ts), on the right what they add up to. The four reasons are the Why section.
 const reasons = [
   {
     label: "사전 원가 절감",
@@ -39,17 +38,47 @@ const short = (name: string) =>
     .replace(/공사(\(\d{4}\))?$/, "")
     .trim();
 
+/** Home: why owners come back, the four ways of working (accordion, Behaviors). */
+export function Why() {
+  return (
+    <section className="why">
+      <div className="container why-in">
+        <div className="why-head">
+          <h2>다시 찾는 이유는,<br />일하는 방식에 있습니다</h2>
+          <p className="lede">착공 전부터 준공까지, 공장주가 걱정하는 네 가지를 먼저 챙깁니다.</p>
+        </div>
+        <ol className="case-why">
+          {reasons.map((r, i) => (
+            <li key={r.label} className={i === 0 ? "open" : undefined}>
+              <h3>
+                <button type="button" id={`cw-b${i}`} aria-controls={`cw-p${i}`} aria-expanded={i === 0 ? "true" : "false"}>
+                  <span className="cw-k"><span className="num">{String(i + 1).padStart(2, "0")}</span>{r.label}</span>
+                  <span className="cw-t">{r.title}</span>
+                </button>
+              </h3>
+              <div className="cw-body" id={`cw-p${i}`} role="region" aria-labelledby={`cw-b${i}`}>
+                <p>{r.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
 export async function Case() {
   const runs = (await getProjects()).filter((p) => p.client === "㈜동신포리마" && !p.ongoing).reverse();
   const last = runs.length - 1;
   const since = runs[0]?.done.slice(0, 4);
+  const extended = runs.filter((p) => p.name.includes("증축")).length;
   return (
     <section className="case">
       <div className="container">
         <div className="case-head">
           <div>
-            <h2>건축주가 {since}년부터 {runs.length}번 인정건설을 찾은 이유</h2>
-            <p className="lede">설계 오류를 찾아내고 예산은 아끼는 검증된 4가지 차별화 요소</p>
+            <h2>{since}년 첫 공장부터,<br />공장 옆에 공장을 지었습니다</h2>
+            <p className="lede">㈜동신포리마가 인정건설에 맡긴 {runs.length}번의 공사입니다. 연도를 누르면 그때 지은 공장이 나옵니다.</p>
           </div>
         </div>
         <div className="case-in">
@@ -85,23 +114,14 @@ export async function Case() {
               ))}
             </ol>
           </div>
-          <div className="case-txt">
-            <ol className="case-why">
-              {reasons.map((r, i) => (
-                <li key={r.label} className={i === 0 ? "open" : undefined}>
-                  <h3>
-                    <button type="button" id={`cw-b${i}`} aria-controls={`cw-p${i}`} aria-expanded={i === 0 ? "true" : "false"}>
-                      <span className="cw-k"><span className="num">{String(i + 1).padStart(2, "0")}</span>{r.label}</span>
-                      <span className="cw-t">{r.title}</span>
-                    </button>
-                  </h3>
-                  <div className="cw-body" id={`cw-p${i}`} role="region" aria-labelledby={`cw-b${i}`}>
-                    <p>{r.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-            <Link className="cs-more" href={`/projects?cat=${encodeURIComponent("산업")}#works`}>산업시설 실적 전체 보기</Link>
+          <div className="case-txt cs-facts">
+            <dl>
+              <div><dt>다시 맡긴 공사</dt><dd className="num">{runs.length}<small>번</small></dd></div>
+              <div><dt>기존 공장 옆 증축</dt><dd className="num">{extended}<small>번</small></dd></div>
+              <div><dt>함께한 기간</dt><dd className="num">{since}<small>년부터</small></dd></div>
+            </dl>
+            <p>생산을 멈출 수 없는 공장 옆에서, 공정표를 공장의 생산 계획에 맞춰 짓습니다. 한 번 맡겨 본 공장주가 다음 공사를 다시 맡긴 이유입니다.</p>
+            <Link className="cs-more" href="/business/factory">산업시설 공사 자세히 보기</Link>
           </div>
         </div>
       </div>

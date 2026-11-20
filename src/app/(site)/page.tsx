@@ -1,9 +1,8 @@
 import { Areas } from "@/components/sites/injeong/Areas";
-import { Case } from "@/components/sites/injeong/Case";
+import { Case, Why } from "@/components/sites/injeong/Case";
 import { Close } from "@/components/sites/injeong/Close";
 import { HeroIndex, RecentList } from "@/components/sites/injeong/HeroIndex";
 import { NotesSummary, StoriesHome } from "@/components/sites/injeong/Notes";
-import { Team } from "@/components/sites/injeong/Team";
 import { PopupModal } from "@/components/sites/injeong/PopupModal";
 import type { Metadata } from "next";
 import { company } from "@/components/sites/injeong/data";
@@ -57,13 +56,14 @@ export default async function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", "@id": `${ORIGIN}/#website`, alternateName: ["인정건설", "Injeong Construction"], url: `${ORIGIN}/`, name: SITE_NAME, inLanguage: "ko-KR", publisher: { "@id": `${ORIGIN}/#company` } }).replace(/</g, "\\u003c") }} />
       {popup && <PopupModal popup={popup} />}
+      {/* the owner's questions in turn: who are you, is it true, have you built mine, how do you work, what should I know, call */}
       <HeroIndex />
+      <Case />
       <Areas />
       <RecentList />
-      <Case />
-      <NotesSummary />
+      <Why />
       <StoriesHome />
-      <Team />
+      <NotesSummary />
       <Close />
     </>
   );
