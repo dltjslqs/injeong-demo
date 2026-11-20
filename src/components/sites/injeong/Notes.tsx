@@ -26,7 +26,7 @@ export async function NotesSummary() {
   const stories = (await getStories()).slice(0, 2);
   const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
   const picks = HOME_PICKS.map((s) => columns.find((c) => c.slug === s)).filter((c): c is Column => c !== undefined && c.slug !== lead.slug);
-  const leadCover = FEED_COVER[lead.slug] ? `${BASE}/sites/injeong/${FEED_COVER[lead.slug]}` : coverOf(lead);
+  const leadCover = coverOf(lead);
   return (
     <section className="notes hn">
       <div className="container">
@@ -86,18 +86,10 @@ export async function NotesSummary() {
 /** /notes: the series first, then every other column as a row, then the planned topics. */
 // the article the feed leads with: the factory-estimate piece, the one most readers come for
 const FEATURED = "factory-cost";
-// feed covers for columns whose first picture repeats another's (mostly the same 동신 plant); the article itself is unchanged
-const FEED_COVER: Record<string, string> = {
-  "factory-cost": "works/area-industry.jpg",
-  "factory-site": "hero-poster.jpg",
-  "factory-layout": "works/case-3.jpg",
-  "factory-handover": "works/why-3.jpg",
-  "extension-permit": "works/why-1.jpg",
-};
 
 export async function NotesList() {
   const columns = await getColumns();
-  const toItem = (c: Column): FeedItem => ({ slug: c.slug, title: c.title, sub: c.sub, cat: c.cat, date: c.date ?? COLUMN_DATE, cover: FEED_COVER[c.slug] ? `${BASE}/sites/injeong/${FEED_COVER[c.slug]}` : coverOf(c) });
+  const toItem = (c: Column): FeedItem => ({ slug: c.slug, title: c.title, sub: c.sub, cat: c.cat, date: c.date ?? COLUMN_DATE, cover: coverOf(c) });
   const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
   // newest first, by the date each column went up
   const rest = columns.filter((c) => c.slug !== lead.slug).sort((a, b) => (b.date ?? COLUMN_DATE).localeCompare(a.date ?? COLUMN_DATE));

@@ -8,10 +8,23 @@ import { Photo } from "./Photo";
 
 export const COLUMN_DATE = "2026.11";
 
-/** The photo a column opens with: its first picture. */
+// the factory columns share the same few 동신포리마 photos; each one's card uses a different photo from its own body
+const THUMB: Record<string, string> = {
+  "factory-cost": "p18",
+  "factory-site": "p10",
+  "factory-layout": "p16",
+  "factory-handover": "q21",
+  "extension-live": "q22",
+  "extension-cost": "p11",
+  "extension-permit": "q17",
+};
+
+/** The photo a column's card and share preview use: always one that is in the column itself. */
 export const coverOf = (c: Column) => {
   if (c.coverUrl) return c.coverUrl;
   if (c.cover) return `${BASE}/sites/injeong/cols/${c.cover}.jpg`;
+  const pick = THUMB[c.slug];
+  if (pick && c.blocks.some((b) => b.t === "img" && b.id === pick)) return `${BASE}/sites/injeong/works/${pick}.jpg`;
   const pic = c.blocks.find((b) => b.t === "pic") as { src: string } | undefined;
   if (pic) return pic.src;
   const id = (c.blocks.find((b) => b.t === "img") as { id: string } | undefined)?.id ?? "p18";
