@@ -1,7 +1,7 @@
 import type { ImgHTMLAttributes } from "react";
 
 /*
- * A photo that ships with the site (works, life, cols, awards, team, ceo) has WebP copies 640, 1200 and 1800
+ * A photo that ships with the site (works, life, cols, awards, team, ceo) has WebP copies 640, 1200, 1800 and 2400 (quality 88, never wider than the original)
  * px wide next to its JPG (made with PIL, see scripts note in docs). The browser takes the smallest one that
  * fills the space; the JPG stays as the fallback. Any other picture (an admin upload) is a plain <img>.
  */
@@ -17,7 +17,7 @@ export function Photo({ src, sizes = "(max-width: 640px) 100vw, (max-width: 1100
   const b = m[1];
   return (
     <picture>
-      <source type="image/webp" srcSet={`${b}-640.webp 640w, ${b}-1200.webp 1200w, ${b}-1800.webp 1800w`} sizes={sizes} />
+      <source type="image/webp" srcSet={`${b}-640.webp 640w, ${b}-1200.webp 1200w, ${b}-1800.webp 1800w, ${b}-2400.webp 2400w`} sizes={sizes} />
       <img src={src} loading={load} fetchPriority={fetchPriority} {...rest} />
     </picture>
   );
