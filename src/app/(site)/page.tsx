@@ -27,7 +27,7 @@ async function companyLd() {
     "@type": "GeneralContractor",
     "@id": `${ORIGIN}/#company`,
     name: SITE_NAME,
-    alternateName: ["인정건설", company.nameEn],
+    alternateName: ["인정건설", "Injeong Construction", company.nameEn],
     url: `${ORIGIN}/`,
     logo: { "@type": "ImageObject", url: `${ORIGIN}/icon.png`, width: 512, height: 512 },
     image: `${ORIGIN}/sites/injeong/og.jpg`,
@@ -56,7 +56,7 @@ export default async function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, "\\u003c") }} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", "@id": `${ORIGIN}/#website`, url: `${ORIGIN}/`, name: SITE_NAME, inLanguage: "ko-KR", publisher: { "@id": `${ORIGIN}/#company` } }).replace(/</g, "\\u003c") }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", "@id": `${ORIGIN}/#website`, alternateName: ["인정건설", "Injeong Construction"], url: `${ORIGIN}/`, name: SITE_NAME, inLanguage: "ko-KR", publisher: { "@id": `${ORIGIN}/#company` } }).replace(/</g, "\\u003c") }} />
       {popup && <PopupModal popup={popup} />}
       <HeroIndex />
       <Areas />
