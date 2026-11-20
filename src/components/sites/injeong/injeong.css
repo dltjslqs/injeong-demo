@@ -123,10 +123,7 @@
 .ij .hv-facts { display: flex; flex-wrap: wrap; gap: var(--space-lg) var(--space-2xl); }
 .ij .hv-facts dt { font-size: var(--text-sm); color: var(--color-field-muted); }
 .ij .hv-facts dd { margin-top: var(--space-2xs); font-size: var(--text-2xl); font-weight: 600; }
-.ij .hv-pause { min-width: 44px; min-height: 44px; padding-inline: var(--space-xs); border: 0; border-bottom: 2px solid var(--color-field-muted); background: transparent; color: var(--color-field-muted); font: inherit; font-size: var(--text-sm); font-weight: 600; cursor: pointer; transition: color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out); }
-.ij .hv-pause:hover { color: var(--color-field-ink); border-bottom-color: var(--color-field-ink); }
 /* opening-film drafts switch (review only) */
-.ij .hv-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
 .ij .hv :focus-visible, .ij .where :focus-visible { outline-color: var(--color-sky); }
 
 /* the record, right under the hero */

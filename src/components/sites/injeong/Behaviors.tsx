@@ -51,20 +51,12 @@ export function Behaviors() {
       on(window, "scroll", shadow, { passive: true });
     }
 
-    // home hero: background footage with a pause button; still for reduced motion
+    // home hero: background footage, kept still for reduced motion
     const vid = root.querySelector<HTMLVideoElement>(".hv-vid");
-    const pause = root.querySelector<HTMLButtonElement>(".hv-pause");
     if (vid) {
       const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const label = () => {
-        if (!pause) return;
-        pause.textContent = vid.paused ? "재생" : "멈춤";
-        pause.setAttribute("aria-label", vid.paused ? "배경 영상 재생" : "배경 영상 멈춤");
-      };
       if (still) vid.pause();
       else vid.play().catch(() => {});
-      on(vid, "play", label);
-      on(vid, "pause", label);
       // reveal the footage once it is actually moving, over the poster frame
       const ready = () => vid.classList.add("on");
       if (vid.readyState >= 3) ready();
@@ -76,13 +68,9 @@ export function Behaviors() {
         const t = vid.currentTime, left = vid.duration - t;
         if (t < last) looped = true;
         last = t;
-        // B runs forward then back, so its loop has no seam to hide
-        const pingpong = new URLSearchParams(location.search).get("hero") === "b";
-        vid.classList.toggle("seam", !pingpong && (left < 0.9 || (looped && t < 0.5)));
+        vid.classList.toggle("seam", left < 0.9 || (looped && t < 0.5));
       });
       on(vid, "loadstart", () => { looped = false; last = 0; });
-      if (pause) on(pause, "click", () => (vid.paused ? vid.play().catch(() => {}) : vid.pause()));
-      label();
     }
 
     // plaques slider: arrows step one card, the count and the progress line follow the scroll

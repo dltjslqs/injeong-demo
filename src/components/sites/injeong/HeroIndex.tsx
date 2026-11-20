@@ -32,9 +32,6 @@ export async function HeroIndex() {
             <div><dt>{company.capacity.year} 시공능력평가</dt><dd className="num">{company.capacity.amount}</dd></div>
             <div><dt>준공 실적</dt><dd className="num">{done}건</dd></div>
           </dl>
-          <div className="hv-ctl">
-            <button type="button" className="hv-pause" aria-label="배경 영상 멈춤">멈춤</button>
-          </div>
         </div>
       </div>
     </section>
