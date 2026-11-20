@@ -327,3 +327,10 @@
 .ad-photos li { display: grid; gap: 4px; width: 120px; }
 .ad-photos img { width: 120px; height: 90px; object-fit: cover; border-radius: 6px; border: 1px solid var(--ad-rule); }
 .ad-photos .ad-check { font-size: 13px; }
+
+/* column form: 예약 발행 sits beside the 등록 button */
+.ad-publish { align-items: center; gap: 10px 12px; }
+.ad-sched { display: flex; align-items: center; gap: 8px; margin-right: auto; font-weight: 700; font-size: 14px; }
+.ad-sched span { white-space: nowrap; }
+.ad .ad-sched input { width: auto; min-width: 220px; }
+.ad-sched-help { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--ad-muted); }

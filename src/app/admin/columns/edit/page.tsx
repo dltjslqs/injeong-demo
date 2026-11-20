@@ -67,8 +67,10 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
           </label>
           <label className="ad-field">
             <span>분류</span>
-            <input name="cat" defaultValue={c?.cat ?? "공장 신축"} list="cats" required />
-            <datalist id="cats">{CATS.map((x) => <option key={x} value={x} />)}</datalist>
+            <select name="cat" defaultValue={c?.cat ?? "공장 신축"} required>
+              {/* an older column may carry a category outside the list; keep it selectable */}
+              {(c?.cat && !CATS.includes(c.cat) ? [...CATS, c.cat] : CATS).map((x) => <option key={x} value={x}>{x}</option>)}
+            </select>
           </label>
           {me.role === "super" ? (
             <label className="ad-field">
@@ -83,15 +85,9 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
               <p className="ad-static">{authorName} <em>{c ? "작성자는 총괄관리자가 변경할 수 있습니다" : "내 프로필로 게시됩니다"}</em></p>
             </div>
           )}
-          <label className="ad-field">
-            <span>게시일 <em>예: 2026.11.09</em></span>
-            <input name="date" defaultValue={c?.date ?? ""} placeholder="미입력 시 오늘(예약 시 발행일) 날짜" pattern="\d{4}\.\d{2}(\.\d{2})?" />
-          </label>
-          <label className="ad-field">
-            <span>예약 발행 <em>한국 시간. 정한 일시에 자동으로 게시됩니다(최대 10분 지연). 비우면 저장 즉시 게시</em></span>
-            <input type="datetime-local" name="publishAt" defaultValue={c && isScheduled(c) ? c.publishAt : ""} min={kstNow()} step={600} />
-          </label>
         </div>
+        {/* the post date is set by the server: the day it is registered, or the day a scheduled column goes out; an edit keeps its date */}
+        <input type="hidden" name="date" value={c && !isScheduled(c) ? c.date : ""} />
         <fieldset className="ad-field">
           <legend>대표 사진 <em>목록과 홈 카드에 쓰입니다. 미입력 시 본문 첫 사진</em></legend>
           {c && <img className="ad-thumb" src={coverOf(c)} alt="" />}
@@ -99,9 +95,14 @@ export default async function ColumnEdit({ searchParams }: { searchParams: Promi
           {c?.coverUrl && <label className="ad-check"><input type="checkbox" name="removeCover" /> 대표 사진 삭제</label>}
         </fieldset>
         <RichEditor initial={doc} />
-        <div className="ad-row ad-sticky">
+        <div className="ad-row ad-sticky ad-publish">
+          <label className="ad-sched">
+            <span>예약 발행</span>
+            <input type="datetime-local" name="publishAt" defaultValue={c && isScheduled(c) ? c.publishAt : ""} min={kstNow()} step={600} aria-describedby="sched-help" />
+          </label>
           <Submit>{c ? "저장" : "등록"}</Submit>
           <Link className="ad-btn" href="/admin/columns">취소</Link>
+          <p id="sched-help" className="ad-sched-help">예약 일시를 비우면 누르는 즉시 게시됩니다. 정하면 그 시각(한국 시간)에 자동으로 게시됩니다(최대 10분 지연).</p>
         </div>
       </ActionForm>
     </Shell>

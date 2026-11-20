@@ -197,8 +197,8 @@ export async function saveColumn(_prev: FormState, fd: FormData): Promise<FormSt
       series: fd.get("series") ? Number(fd.get("series")) || undefined : undefined,
       cover: str(fd, "cover_id") || undefined,
       coverUrl,
-      // a scheduled column is dated the day it goes out, unless a date was entered
-      date: str(fd, "date") || (publishAt ?? today()).slice(0, 10).replaceAll("-", "."),
+      // dated the day it goes out: a scheduled column takes its publish day, a new one today, an edit keeps its date
+      date: (publishAt ? publishAt.slice(0, 10).replaceAll("-", ".") : "") || str(fd, "date") || today().slice(0, 10).replaceAll("-", "."),
       title,
       sub: str(fd, "sub"),
       meta: str(fd, "meta") || undefined,
