@@ -21,6 +21,10 @@ export default async function LoginPage() {
           <input type="password" name="password" autoComplete="current-password" required />
         </label>
         <Submit>로그인</Submit>
+        <p className="ad-login-help">
+          아이디나 비밀번호를 모르시면 홈페이지 제작사 보름달컴퍼니(<a href="mailto:dltjslqs@gmail.com">dltjslqs@gmail.com</a>)로 문의해 주세요.
+        </p>
+        <a className="ad-login-home" href="/">홈페이지로 돌아가기</a>
       </ActionForm>
     </main>
   );

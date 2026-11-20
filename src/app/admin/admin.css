@@ -334,3 +334,10 @@
 .ad-sched span { white-space: nowrap; }
 .ad .ad-sched input { width: auto; min-width: 220px; }
 .ad-sched-help { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--ad-muted); }
+
+/* login: who to ask when the ID or password is lost, and the way back to the site */
+.ad-login-help { margin: 0; font-size: 13px; line-height: 1.6; color: var(--ad-muted); }
+.ad-login-help a { color: var(--ad-blue); text-decoration: underline; text-underline-offset: 2px; }
+.ad-login-home { justify-self: center; font-size: 14px; font-weight: 600; color: var(--ad-muted); text-decoration: none; }
+.ad-login-home:hover { color: var(--ad-ink); text-decoration: underline; }
+.ad-login-home:focus-visible, .ad-login-help a:focus-visible { outline: 2px solid var(--ad-blue); outline-offset: 2px; border-radius: 2px; }
