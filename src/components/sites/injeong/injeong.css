@@ -1143,3 +1143,14 @@
 }
 /* the field page's 공사 종류 list has one cell per row, so it takes the whole width */
 .ij .fx-points li { grid-template-columns: minmax(0, 1fr); }
+
+/* phones: the footer stays one short screen; the closing line smaller, the menu in one wrapped row, the legal lines tight */
+@media (max-width: 40rem) {
+  .ij .ft { padding-block: var(--space-2xl) var(--space-lg); font-size: var(--text-xs); }
+  .ij .ft-stmt { font-size: var(--text-xl); }
+  .ij .ft-grid { gap: var(--space-lg); margin-top: var(--space-lg); padding-top: var(--space-lg); }
+  .ij .ft .logo img { height: 32px; }
+  .ij .ft-info { margin-top: var(--space-sm); line-height: 1.7; }
+  .ij .ft nav { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-md); }
+  .ij .ft-bot { margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--color-field-2); }
+}
