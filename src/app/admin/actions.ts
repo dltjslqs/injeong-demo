@@ -385,7 +385,10 @@ export async function togglePopup(fd: FormData) {
 export async function removePopup(fd: FormData) {
   await requireAdmin("popups");
   const id = str(fd, "id");
-  await writeJSON("popups", (await readPopups()).filter((p) => p.id !== id));
+  const { SEED_POPUPS } = await import("@/lib/injeong/content");
+  const list = await readPopups();
+  // a shipped popup stays in the list as removed, otherwise it would come back on the next read
+  await writeJSON("popups", SEED_POPUPS.some((s) => s.id === id) ? list.map((p) => (p.id === id ? { ...p, active: false, removed: true } : p)) : list.filter((p) => p.id !== id));
   refresh();
   redirect("/admin/popups");
 }

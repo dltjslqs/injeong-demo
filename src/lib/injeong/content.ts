@@ -23,7 +23,24 @@ export type Popup = {
   end?: string;
   active: boolean;
   updatedAt: string;
+  /** a popup that ships with the site and was deleted in the admin: kept so it does not come back */
+  removed?: boolean;
 };
+
+/** Popups that ship with the site. The admin can edit, stop or delete them like any other. */
+export const SEED_POPUPS: Popup[] = [
+  {
+    id: "seed-2026-11-youtube-phc",
+    title: "인정건설 × 으뜸안전기술 콜라보 영상 공개",
+    body: "PHC 파일 공사 현장을 박재형 공무차장이 직접 설명했습니다. 빈팀장 채널과 함께하는 현장 인터뷰 시리즈 1편, 지금 확인해 보세요.",
+    linkUrl: "/about/stories/s-2026-11-youtube-phc",
+    linkLabel: "영상 보기",
+    start: "2026-11-20",
+    end: "2026-12-31",
+    active: true,
+    updatedAt: "2026-11-20T00:00:00.000Z",
+  },
+];
 
 /**
  * Who signs a column: every admin account has its own writer profile (photo, name, title), kept in "profiles"
@@ -56,7 +73,10 @@ export async function authorOf(c: Pick<Column, "author">): Promise<Author> {
 
 export const readColumns = () => readJSON<Overlay<Column>>("columns", empty<Column>());
 export const readProjects = () => readJSON<Overlay<Project>>("projects", empty<Project>());
-export const readPopups = () => readJSON<Popup[]>("popups", []);
+export async function readPopups(): Promise<Popup[]> {
+  const stored = await readJSON<Popup[]>("popups", []);
+  return [...SEED_POPUPS.filter((s) => !stored.some((p) => p.id === s.id)), ...stored];
+}
 
 /** 회사 이야기 posts: the shipped ones with the admin's edits laid over, plus the admin's own. */
 export const readStories = () => readJSON<Overlay<StoryPost>>("stories", empty<StoryPost>());
@@ -128,5 +148,5 @@ export function totalCount(list: Project[], cat?: Category) {
 export async function activePopup(): Promise<Popup | null> {
   const today = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10);
   const list = await readPopups();
-  return list.find((p) => p.active && (!p.start || p.start <= today) && (!p.end || p.end >= today)) ?? null;
+  return list.find((p) => !p.removed && p.active && (!p.start || p.start <= today) && (!p.end || p.end >= today)) ?? null;
 }

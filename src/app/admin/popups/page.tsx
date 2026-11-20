@@ -10,7 +10,8 @@ export const metadata = { title: "팝업" };
 export default async function PopupsAdmin({ searchParams }: { searchParams: Promise<{ saved?: string }> }) {
   await requireAdmin("popups");
   const { saved } = await searchParams;
-  const [list, now] = await Promise.all([readPopups(), activePopup()]);
+  const [all, now] = await Promise.all([readPopups(), activePopup()]);
+  const list = all.filter((p) => !p.removed);
   return (
     <Shell title="팝업" here="/admin/popups" action={<Link className="ad-btn primary" href="/admin/popups/edit">팝업 등록</Link>}>
       <Saved show={saved === "1"} />
