@@ -1108,3 +1108,10 @@
 .ij .art-body .art-ask { margin-block: var(--space-3xl) 0; padding: var(--space-xl); }
 .ij .art-body .art-author { margin-top: var(--space-2xl); padding: var(--space-xl); }
 @media (max-width: 40rem) { .ij .art-body .art-ask, .ij .art-body .art-author { padding: var(--space-lg); } .ij .art-body .art-ask { margin-top: var(--space-2xl); } }
+
+/* links inside a column to the projects it mentions, and the place they land */
+.ij .art-body .art-a { color: var(--color-accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+.ij .art-body .art-a:hover { text-decoration-thickness: 2px; }
+.ij [id^="pj-"], .ij [id^="row-"], .ij #dongsin { scroll-margin-top: 112px; }
+.ij .pf article:target { outline: 2px solid var(--color-accent); outline-offset: 6px; border-radius: var(--radius-card); }
+.ij .rl tr:target { background: var(--color-paper-3); }

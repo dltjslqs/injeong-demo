@@ -141,7 +141,7 @@ export default async function FactoryPage() {
         </div>
       </section>
 
-      <section className="sec">
+      <section className="sec" id="dongsin">
         <div className="container fx-live">
           <div>
             <h2 className="h2 rv">가동 중인 공장 옆에서도 짓습니다</h2>

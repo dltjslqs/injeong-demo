@@ -3,24 +3,30 @@ import type { Block } from "@/components/sites/injeong/columns";
 /**
  * The column editor works on a Tiptap document; the site stores and renders Block[].
  * These two functions are the whole bridge. Bold inside a paragraph, list item or table cell
- * travels as **text** in the block string (the article renders it as <strong>).
+ * travels as **text** in the block string (the article renders it as <strong>), a link as [text](/path),
+ * and a paragraph split by two line breaks (Shift+Enter twice) as a blank line.
  */
 export type DocNode = {
   type: string;
   attrs?: Record<string, unknown>;
   content?: DocNode[];
   text?: string;
-  marks?: { type: string }[];
+  marks?: { type: string; attrs?: Record<string, unknown> }[];
 };
 
 /* ---------- blocks → editor ---------- */
 
-function inline(text: string): DocNode[] {
+function inline(text: string, link?: string): DocNode[] {
   const out: DocNode[] = [];
-  text.split(/(\*\*[^*]+\*\*)/).forEach((part) => {
+  const marks = (bold: boolean) => [...(bold ? [{ type: "bold" }] : []), ...(link ? [{ type: "link", attrs: { href: link } }] : [])];
+  text.split(/(\n\s*\n|\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*)/).forEach((part) => {
     if (!part) return;
+    if (/^\n\s*\n$/.test(part)) { out.push({ type: "hardBreak" }, { type: "hardBreak" }); return; }
+    const a = part.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+    if (a) { out.push(...inline(a[1], a[2])); return; }
     const b = part.match(/^\*\*([^*]+)\*\*$/);
-    out.push(b ? { type: "text", text: b[1], marks: [{ type: "bold" }] } : { type: "text", text: part });
+    const m = marks(Boolean(b));
+    out.push({ type: "text", text: b ? b[1] : part, ...(m.length ? { marks: m } : {}) });
   });
   return out;
 }
@@ -68,12 +74,15 @@ function text(n: DocNode | undefined, bold = true): string {
   if (!n) return "";
   if (n.type === "text") {
     const t = n.text ?? "";
-    return bold && n.marks?.some((m) => m.type === "bold") && t.trim() ? `**${t}**` : t;
+    const b = bold && n.marks?.some((m) => m.type === "bold") && t.trim() ? `**${t}**` : t;
+    const href = n.marks?.find((m) => m.type === "link")?.attrs?.href;
+    return typeof href === "string" && href && t.trim() ? `[${b}](${href})` : b;
   }
-  if (n.type === "hardBreak") return " ";
+  if (n.type === "hardBreak") return "\n";
   return (n.content ?? []).map((c) => text(c, bold)).join(n.type === "listItem" || n.type === "blockquote" || n.type === "tableCell" || n.type === "tableHeader" ? " " : "");
 }
-const clean = (s: string) => s.replace(/\*\*\*\*/g, "").replace(/\s+/g, " ").trim();
+// two line breaks in a row keep a paragraph break; any other run of spaces or breaks is one space
+const clean = (s: string) => s.replace(/\*\*\*\*/g, "").replace(/\s*\n\s*\n\s*/g, "\u0000").replace(/\s+/g, " ").replace(/\u0000/g, "\n\n").trim();
 
 export function docToBlocks(doc: DocNode): Block[] {
   const blocks: Block[] = [];

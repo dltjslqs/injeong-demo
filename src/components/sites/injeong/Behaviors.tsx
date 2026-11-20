@@ -216,6 +216,14 @@ export function Behaviors() {
     const askedCat = new URLSearchParams(location.search).get("cat");
     if (askedCat) tabs.forEach((b) => b.dataset.f === askedCat && b.click());
 
+    // /projects#pj-p10 (from a column): photos above the card load late and push it away, so land on it again once they have
+    const spot = location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    if (spot) {
+      const land = () => spot.scrollIntoView({ block: "start" });
+      if (document.readyState === "complete") window.setTimeout(land, 60);
+      else window.addEventListener("load", () => window.setTimeout(land, 60), { once: true });
+    }
+
     // project map: a region on the map, its label or its button shows that region's list
     const pm = root.querySelector<HTMLElement>(".pm");
     if (pm) {

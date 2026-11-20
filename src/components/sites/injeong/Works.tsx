@@ -37,7 +37,7 @@ export async function Works({ summary = false }: { summary?: boolean }) {
         </div>
         <div className="pf">
           {list.map((w) => (
-            <article className="rv" data-cat={w.cat} key={w.id}>
+            <article className="rv" data-cat={w.cat} key={w.id} id={summary ? undefined : `pj-${w.id}`}>
               <div className="im">
                 {projectImg(w) && <Photo src={projectImg(w)} alt={projectAlt(w)} width={1800} height={1344} loading="lazy" decoding="async" />}
               </div>
@@ -67,7 +67,7 @@ export async function Works({ summary = false }: { summary?: boolean }) {
                 </thead>
                 <tbody>
                   {done.map((p) => (
-                    <tr key={p.id} data-cat={p.cat}>
+                    <tr key={p.id} data-cat={p.cat} id={`row-${p.id}`}>
                       <td className="num">{p.done}</td>
                       <th scope="row">{p.name}</th>
                       <td>{p.client}</td>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { BASE } from "./base";
 import type { Block, Column } from "./columns";
-import { company, type Project, projectImg, projectAlt } from "./data";
+import { company, type Project, projectImg } from "./data";
 import type { Author } from "@/lib/injeong/content";
 import { CopyLink } from "./CopyLink";
 import { Photo } from "./Photo";
@@ -24,16 +24,28 @@ function Pic({ id, projects }: { id: string; projects: Project[] }) {
   return (
     <figure className="art-pic">
       <Photo src={projectImg(p)} alt={p.name} width={1800} height={1018} loading="lazy" />
-      <figcaption>{p.name}, {p.done.slice(0, 4)}년 준공</figcaption>
+      <figcaption><a className="art-a" href={`/projects#pj-${p.id}`}>{p.name}</a>, {p.done.slice(0, 4)}년 준공</figcaption>
     </figure>
   );
 }
 
-/** Text with **bold** runs from the editor. */
+/** Text with **bold** runs and [links](/path) from the editor. A link to this site opens in place. */
 function Rich({ x }: { x: string }) {
-  const parts = x.split(/(\*\*[^*]+\*\*)/);
-  return <>{parts.map((t, i) => (/^\*\*[^*]+\*\*$/.test(t) ? <strong key={i}>{t.slice(2, -2)}</strong> : t))}</>;
+  const parts = x.split(/(\[[^\]]+\]\([^)\s]+\)|\*\*[^*]+\*\*)/);
+  return (
+    <>
+      {parts.map((t, i) => {
+        const a = t.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/);
+        // a link to a spot on a page (/projects#pj-p10) loads the page so the browser marks that card
+        if (a) return a[2].startsWith("/") ? (a[2].includes("#") ? <a key={i} className="art-a" href={a[2]}><Rich x={a[1]} /></a> : <Link key={i} className="art-a" href={a[2]}><Rich x={a[1]} /></Link>) : <a key={i} className="art-a" href={a[2]} target="_blank" rel="noopener"><Rich x={a[1]} /></a>;
+        return /^\*\*[^*]+\*\*$/.test(t) ? <strong key={i}>{t.slice(2, -2)}</strong> : t;
+      })}
+    </>
+  );
 }
+
+/** Words only: markup taken out (reading time, search text). */
+export const plain = (x: string) => x.replace(/\[([^\]]+)\]\([^)\s]+\)/g, "$1").replace(/\*\*/g, "");
 
 function Ask({ lead }: { lead: string }) {
   return (
@@ -61,7 +73,10 @@ function Table({ head, rows }: { head: string[]; rows: string[][] }) {
 function Part({ b, k, last, projects, title }: { b: Block; k: number; last: boolean; projects: Project[]; title: string }) {
   switch (b.t) {
     // the closing may run to more than one paragraph (blank line between them)
-    case "p": return last ? <div className="art-end">{b.x.split(/\n\s*\n/).map((x, i) => <p key={i}><Rich x={x} /></p>)}</div> : <p><Rich x={b.x} /></p>;
+    case "p": {
+      const paras = b.x.split(/\n\s*\n/).map((x, i) => <p key={i}><Rich x={x} /></p>);
+      return last ? <div className="art-end">{paras}</div> : <>{paras}</>;
+    }
     case "q": return <p className="art-q"><Rich x={b.x} /></p>;
     case "h2": return <h2 id={`s${k}`}>{b.x}</h2>;
     case "ask": return <Ask lead={b.x} />;
@@ -77,31 +92,18 @@ function Part({ b, k, last, projects, title }: { b: Block; k: number; last: bool
 
 /** Minutes to read: Korean prose at about 500 characters a minute. */
 export function readMinutes(c: Column) {
-  const text = c.blocks.map((b) => ("x" in b ? b.x : "items" in b ? b.items.join(" ") : "rows" in b ? b.rows.flat().join(" ") : "")).join(" ");
+  const text = plain(c.blocks.map((b) => ("x" in b ? b.x : "items" in b ? b.items.join(" ") : "rows" in b ? b.rows.flat().join(" ") : "")).join(" "));
   return Math.max(1, Math.round(text.replace(/\s+/g, "").length / 500));
 }
 
-// which projects show under a column, by the column's category
-const PROJECT_CATS: Record<string, string[]> = {
-  "공장 신축": ["산업"],
-  "공장 증축": ["산업"],
-  "오피스텔·사무용 건물": ["공공", "민간"],
-  "시공사 고르기": ["산업", "공공", "교육"],
-};
 
 export function ColumnArticle({ c, columns, projects, author }: { c: Column; columns: Column[]; projects: Project[]; author: Author }) {
-  const i = columns.findIndex((x) => x.slug === c.slug);
-  const prev = columns[i - 1];
-  const next = columns[i + 1];
   // the closing line is the last paragraph before the final call-to-action
   const lastP = c.blocks.map((b) => b.t).lastIndexOf("p");
   const toc = c.blocks.map((b, k) => (b.t === "h2" ? { k, x: b.x } : null)).filter((x) => x !== null);
   // more to read: the same category first, then the newest of the rest
   const others = columns.filter((x) => x.slug !== c.slug);
   const related = [...others.filter((x) => x.cat === c.cat), ...others.filter((x) => x.cat !== c.cat)].slice(0, 3);
-  // projects of the kind the column is about, newest first, ones with a picture
-  const cats = PROJECT_CATS[c.cat] ?? ["산업", "공공"];
-  const built = projects.filter((p) => !p.ongoing && cats.includes(p.cat) && projectImg(p)).slice(0, 3);
   return (
     <article className="art">
       <header className="art-hd">
@@ -142,25 +144,6 @@ export function ColumnArticle({ c, columns, projects, author }: { c: Column; col
             {author.history && author.history.length > 0 && <ul>{author.history.map((h) => <li key={h}>{h}</li>)}</ul>}
           </div>
         </aside>
-        {built.length > 0 && (
-          <section className="art-built" aria-labelledby="art-built-h">
-            <h2 id="art-built-h">인정건설이 지은 현장</h2>
-            <ul>
-              {built.map((p) => (
-                <li key={p.id}>
-                  <span className="art-built-pic"><Photo src={projectImg(p)} alt={projectAlt(p)} width={600} height={450} loading="lazy" /></span>
-                  <b>{p.name}</b>
-                  <span className="num">{p.done.slice(0, 4)}년 준공{p.area ? `, 연면적 ${p.area}` : ""}</span>
-                </li>
-              ))}
-            </ul>
-            <Link className="link" href="/projects">시공 실적 전체 보기</Link>
-          </section>
-        )}
-        <nav className="art-nav" aria-label="다른 칼럼">
-          {prev ? <Link href={`/notes/${prev.slug}`}><span>이전 칼럼</span><b>{prev.title}</b></Link> : <span />}
-          {next ? <Link href={`/notes/${next.slug}`} className="nx"><span>다음 칼럼</span><b>{next.title}</b></Link> : <span />}
-        </nav>
         <section className="art-more" aria-labelledby="art-more-h">
           <h2 id="art-more-h">함께 읽으면 좋은 칼럼</h2>
           <ul>

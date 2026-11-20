@@ -75,7 +75,7 @@ export function RichEditor({ initial }: { initial: DocNode }) {
         strike: false,
         italic: false,
         underline: false,
-        link: false,
+        link: { openOnClick: false, autolink: false, linkOnPaste: true },
         horizontalRule: false,
       }),
       Table.configure({ resizable: false }),
