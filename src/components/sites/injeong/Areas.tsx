@@ -24,7 +24,7 @@ export async function Areas() {
         <div className="areas-head">
           <div>
             <h2>사업 분야</h2>
-            <p className="lede">공장부터 학교까지, 직접 짓습니다.<br className="br-pc" /> 공장·창고, 교회·상가, 공공·군 시설, 학교까지 분야별 실적을 확인해 보세요.</p>
+            <p className="lede">공장·창고부터 교회·상가, 공공·군 시설, 학교까지 인정건설이 직접 짓는 분야입니다.</p>
           </div>
           <Link className="link" href="/business">사업 분야 자세히 보기</Link>
         </div>

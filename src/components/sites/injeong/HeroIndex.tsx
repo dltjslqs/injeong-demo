@@ -50,7 +50,7 @@ export async function RecentList() {
         <div className="head">
           <div>
             <h2 className="rv">포트폴리오</h2>
-            <p className="lede">충남 전역에서 {done}곳을 준공했습니다.<br className="br-pc" /> 홍성 본사에서 천안·아산·예산·금산까지, 지금 짓는 현장과 최근 준공한 건물입니다.</p>
+            <p className="lede">홍성 본사에서 천안·아산·예산·금산까지, 충남에서 준공한 {done}곳과 지금 짓는 현장입니다.</p>
           </div>
           <Link className="link" href="/projects">시공 실적 전체 보기</Link>
         </div>

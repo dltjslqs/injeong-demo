@@ -33,7 +33,7 @@ export async function NotesSummary() {
         <div className="hn-top">
           <div className="hn-head">
             <h2 className="h2 rv">기술 칼럼</h2>
-            <p className="lede rv">아는 만큼 아끼고, 보는 만큼 믿습니다.<br className="br-pc" /> 계약 전 반드시 짚어야 할 건축 실무를, 현장 기술진이 칼럼으로 정리했습니다.</p>
+            <p className="lede rv">계약 전 반드시 짚어야 할 건축 실무를 현장 기술진이 칼럼으로 정리했습니다.</p>
           </div>
           <Link className="link rv" href="/notes">기술 칼럼 {columns.length}편 모두 보기</Link>
         </div>
@@ -73,7 +73,7 @@ export async function StoriesHome() {
         <div className="hs-top">
           <div className="hs-head">
             <h2 className="h2 rv">회사 이야기</h2>
-            <p className="lede rv">인정건설이 일하는 방식, 직접 확인해 보세요.<br className="br-pc" /> 현장 기록과 영상으로 공사가 실제로 어떻게 진행되는지 보여 드립니다.</p>
+            <p className="lede rv">인정건설이 현장에서 실제로 어떻게 일하는지, 기록과 영상으로 보여 드립니다.</p>
           </div>
           <Link className="link rv" href="/about/stories">회사 이야기 모두 보기</Link>
         </div>
