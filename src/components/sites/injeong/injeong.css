@@ -1166,7 +1166,6 @@
 .ij .ft-admin:hover { color: var(--color-field-ink) !important; text-decoration: underline; }
 
 /* home story: the hero number, the 동신포리마 facts, and the four ways of working on their own */
-.ij .hv h1 .hv-n { color: inherit; font-weight: inherit; text-decoration: underline; text-decoration-color: var(--color-sky); text-decoration-thickness: 0.08em; text-underline-offset: 0.14em; text-decoration-skip-ink: none; }
 .ij .cs-facts { justify-content: center; gap: var(--space-xl); }
 .ij .cs-facts dl { display: grid; gap: var(--space-lg); margin: 0; }
 .ij .cs-facts dl div { display: grid; gap: var(--space-2xs); padding-bottom: var(--space-lg); border-bottom: 1px solid var(--color-rule); }
