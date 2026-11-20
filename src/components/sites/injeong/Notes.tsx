@@ -5,6 +5,7 @@ import { getColumns, getStories } from "@/lib/injeong/content";
 import { NotesFeed, type FeedItem } from "./NotesFeed";
 import type { Column } from "./columns";
 import { Photo } from "./Photo";
+import { VideoPlayer } from "./VideoPlayer";
 
 
 // 기초자료 작성표 5번 「건축 칼럼 주제」에서 인정건설이 고른 주제, 아직 쓰지 않은 글
@@ -20,64 +21,95 @@ const HOME_PICKS = ["factory-site", "extension-live", "extension-cost", "builder
 const pic = (src: string) => (src.startsWith("/sites/") ? `${BASE}${src}` : src);
 const dot = (d: string) => d.replaceAll("-", ".");
 
-/** Home: 기술 칼럼 (one featured, four as a list) beside the two newest 회사 이야기. */
+/** Home: 기술 칼럼, one featured and four as a list. */
 export async function NotesSummary() {
   const columns = await getColumns();
-  const stories = (await getStories()).slice(0, 2);
   const lead = columns.find((c) => c.slug === FEATURED) ?? columns[0];
   const picks = HOME_PICKS.map((s) => columns.find((c) => c.slug === s)).filter((c): c is Column => c !== undefined && c.slug !== lead.slug);
   const leadCover = coverOf(lead);
   return (
     <section className="notes hn">
       <div className="container">
-        <div className="hn-head">
-          <h2 className="h2 rv">아는 만큼 아끼고,<br />보는 만큼 믿습니다</h2>
-          <p className="lede rv">계약 전 반드시 짚어야 할 건축 실무는 칼럼으로, 거짓 없는 시공 과정은 현장 기록으로 공개합니다.</p>
-        </div>
-        <div className="hn-grid">
-          <div className="hn-cols">
-            <div className="hn-sub rv">
-              <h3>기술 칼럼</h3>
-              <Link className="link" href="/notes">칼럼 {columns.length}편 모두 보기</Link>
-            </div>
-            <Link href={`/notes/${lead.slug}`} className="hn-lead rv">
-              <span className="hn-lead-pic"><Photo src={leadCover} alt={`${lead.title} 대표 이미지`} width={1800} height={1344} loading="lazy" sizes="(max-width: 900px) 100vw, 420px" /></span>
-              <span className="hn-lead-bd">
-                <span className="hn-cat">{lead.cat}</span>
-                <b className="hn-lead-t">{lead.title}</b>
-                <span className="hn-lead-s">{lead.summary ?? lead.sub}</span>
-                <span className="hn-more">읽어 보기</span>
-              </span>
-            </Link>
-            <ul className="hn-list rv">
-              {picks.map((c) => (
-                <li key={c.slug}>
-                  <Link href={`/notes/${c.slug}`}>
-                    <span className="hn-cat">{c.cat}</span>
-                    <b>{c.title}</b>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+        <div className="hn-top">
+          <div className="hn-head">
+            <h2 className="h2 rv">아는 만큼 아끼고,<br />보는 만큼 믿습니다</h2>
+            <p className="lede rv">계약 전 반드시 짚어야 할 건축 실무를, 현장 기술진이 칼럼으로 정리했습니다.</p>
           </div>
-          <div className="hn-stories">
-            <div className="hn-sub rv">
-              <h3>회사 이야기</h3>
-              <Link className="link" href="/about/stories">모두 보기</Link>
+          <Link className="link rv" href="/notes">기술 칼럼 {columns.length}편 모두 보기</Link>
+        </div>
+        <div className="hn-cols">
+          <Link href={`/notes/${lead.slug}`} className="hn-lead rv">
+            <span className="hn-lead-pic"><Photo src={leadCover} alt={`${lead.title} 대표 이미지`} width={1800} height={1344} loading="lazy" sizes="(max-width: 640px) 100vw, 560px" /></span>
+            <span className="hn-lead-bd">
+              <span className="hn-cat">{lead.cat}</span>
+              <b className="hn-lead-t">{lead.title}</b>
+              <span className="hn-lead-s">{lead.summary ?? lead.sub}</span>
+              <span className="hn-more">읽어 보기</span>
+            </span>
+          </Link>
+          <ul className="hn-list rv">
+            {picks.map((c) => (
+              <li key={c.slug}>
+                <Link href={`/notes/${c.slug}`}>
+                  <span className="hn-cat">{c.cat}</span>
+                  <b>{c.title}</b>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/** Home: 회사 이야기. The newest post with a video leads and plays in place; the next posts follow as cards. */
+export async function StoriesHome() {
+  const all = await getStories();
+  if (!all.length) return null;
+  const lead = all.find((x) => x.youtube) ?? all[0];
+  const rest = all.filter((x) => x.id !== lead.id).slice(0, 3);
+  return (
+    <section className="sec hs">
+      <div className="container">
+        <div className="hs-top">
+          <div className="hs-head">
+            <h2 className="h2 rv">현장에서 직접 설명합니다</h2>
+            <p className="lede rv">인정건설 기술진이 유튜브 「빈팀장」 채널에 출연해, 학교 하나가 지어지는 과정을 공정마다 공개합니다.</p>
+          </div>
+          <Link className="link rv" href="/about/stories">회사 이야기 모두 보기</Link>
+        </div>
+        <div className="hs-lead">
+          <div className="hs-media">
+            {lead.youtube ? (
+              <div className="vd-media"><VideoPlayer id={lead.youtube} title={lead.title} /></div>
+            ) : (
+              <span className="hs-pic"><Photo src={pic(lead.cover)} alt={lead.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 900px) 100vw, 720px" /></span>
+            )}
+          </div>
+          <div className="hs-bd">
+            <span className="hs-meta"><span>{lead.cat}</span><span className="num">{dot(lead.date)}</span></span>
+            <h3 className="hs-t">{lead.title}</h3>
+            {lead.sub && <p className="hs-s">{lead.sub}</p>}
+            <div className="hs-acts">
+              <Link className="hs-more" href={`/about/stories/${lead.id}`}>이야기 읽기</Link>
+              {lead.youtube && <a className="hs-yt" href={`https://youtu.be/${lead.youtube}`} target="_blank" rel="noopener">유튜브에서 보기</a>}
             </div>
-            <ul className="hn-st">
-              {stories.map((x) => (
-                <li key={x.id} className="rv">
-                  <Link href={`/about/stories/${x.id}`}>
-                    <span className="hn-st-pic"><Photo src={pic(x.cover)} alt={x.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 900px) 100vw, 380px" /></span>
-                    <span className="hn-st-meta"><span className="hn-cat">{x.cat}</span><span className="num">{dot(x.date)}</span></span>
-                    <b>{x.title}</b>
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
+        {rest.length > 0 && (
+          <ul className="hs-list">
+            {rest.map((x) => (
+              <li key={x.id} className="rv">
+                <Link href={`/about/stories/${x.id}`}>
+                  <span className="hs-pic"><Photo src={pic(x.cover)} alt={x.title} width={1800} height={1200} loading="lazy" sizes="(max-width: 640px) 100vw, 360px" /></span>
+                  <span className="hs-meta"><span>{x.cat}</span><span className="num">{dot(x.date)}</span></span>
+                  <b>{x.title}</b>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

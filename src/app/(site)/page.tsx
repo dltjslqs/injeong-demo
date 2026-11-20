@@ -2,9 +2,8 @@ import { Areas } from "@/components/sites/injeong/Areas";
 import { Case } from "@/components/sites/injeong/Case";
 import { Close } from "@/components/sites/injeong/Close";
 import { HeroIndex, RecentList } from "@/components/sites/injeong/HeroIndex";
-import { NotesSummary } from "@/components/sites/injeong/Notes";
+import { NotesSummary, StoriesHome } from "@/components/sites/injeong/Notes";
 import { Team } from "@/components/sites/injeong/Team";
-import { Trust } from "@/components/sites/injeong/Trust";
 import { PopupModal } from "@/components/sites/injeong/PopupModal";
 import type { Metadata } from "next";
 import { company } from "@/components/sites/injeong/data";
@@ -62,7 +61,7 @@ export default async function Home() {
       <Areas />
       <RecentList />
       <Case />
-      <Trust />
+      <StoriesHome />
       <Team />
       <NotesSummary />
       <Close />
