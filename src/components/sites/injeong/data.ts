@@ -24,7 +24,7 @@ export const company = {
   hours: { days: "월~금", open: "09:00", close: "18:00" },
   tel: "041-633-9942",
   fax: "041-633-9945",
-  email: "injeong89@naver.com",
+  email: "info@injeongcon.co.kr",
   licenses: [
     { name: "건축공사업", no: "10-1210호" },
     { name: "실내건축공사업", no: "충남홍성 2024-나-03" },
