@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import "@/components/sites/injeong/injeong.css";
 import { Behaviors } from "@/components/sites/injeong/Behaviors";
 import { archivo } from "@/components/sites/injeong/fonts";
@@ -11,6 +12,8 @@ export default function SiteLayout({ children }: Readonly<{ children: React.Reac
       <main>{children}</main>
       <SiteFooter />
       <Behaviors />
+      {/* Vercel Web Analytics: visitor counts on the public pages only (not /admin) */}
+      <Analytics />
     </div>
   );
 }
